@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>AgriCare Login</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Noto+Sans:wght@400;500;600;700&family=Noto+Sans+Sinhala:wght@400;600;700&family=Noto+Sans+Tamil:wght@400;600;700&display=swap">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <main class="login-page">
+        <div class="login-card">
+            <select id="language-switcher" class="lang-switcher login-lang" aria-label="Language" onchange="setLanguage(this.value)">
+                <option value="en">English</option>
+                <option value="si">සිංහල</option>
+                <option value="ta">தமிழ்</option>
+            </select>
+
+            <div class="logo">AgriCare <span data-i18n="logo_sub">Intelligent Solutions</span></div>
+
+            <div class="auth-tabs" role="tablist">
+                <button type="button" role="tab" id="tab-login" aria-selected="true" data-i18n="login_btn">Log In</button>
+                <button type="button" role="tab" id="tab-register" aria-selected="false" data-i18n="reg_tab">Create account</button>
+            </div>
+
+            <p class="callout server-note" id="server-note" hidden data-i18n="login_offline">No server found. You can try AgriCare in offline mode: any name and password will work and data stays on this device.</p>
+            <p class="success-note" id="expired-note" hidden data-i18n="session_expired">Please log in again.</p>
+
+            <!-- Log in -->
+            <form id="login-form" class="auth-form" novalidate>
+                <div>
+                    <h1 data-i18n="login_title">Welcome back</h1>
+                    <p class="lead" style="font-size:15px; margin-top:6px;" data-i18n="login_sub">Log in to scan leaves and save your results.</p>
+                </div>
+                <div class="field">
+                    <label for="login-phone" data-i18n="reg_phone">Mobile number</label>
+                    <input id="login-phone" type="tel" inputmode="tel" autocomplete="username" placeholder="07X XXX XXXX" required>
+                </div>
+                <div class="field">
+                    <label for="login-pass" data-i18n="login_pass">Password</label>
+                    <input id="login-pass" type="password" autocomplete="current-password" required>
+                </div>
+                <p class="form-error" id="login-error" role="alert"></p>
+                <button type="submit" class="btn btn-primary" id="login-submit" data-i18n="login_btn">Log In</button>
+            </form>
+
+            <!-- Register -->
+            <form id="register-form" class="auth-form" novalidate hidden>
+                <div>
+                    <h1 data-i18n="reg_title">Create your account</h1>
+                    <p class="lead" style="font-size:15px; margin-top:6px;" data-i18n="reg_sub">Your scans and treatment plans are saved, and you get SMS reminders for each step.</p>
+                </div>
+                <div class="field">
+                    <label for="reg-name" data-i18n="login_name">Name</label>
+                    <input id="reg-name" type="text" autocomplete="name" required>
+                </div>
+                <div class="field">
+                    <label for="reg-phone" data-i18n="reg_phone">Mobile number</label>
+                    <input id="reg-phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="07X XXX XXXX" required>
+                </div>
+                <div class="field">
+                    <label for="reg-district" data-i18n="reg_district">District</label>
+                    <select id="reg-district" class="lang-switcher" style="margin:0; padding:12px;">
+                        <option value="" data-i18n="shop_district_ph">Select district</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label for="reg-pass" data-i18n="reg_pass">Password (at least 6 characters)</label>
+                    <input id="reg-pass" type="password" autocomplete="new-password" minlength="6" required>
+                </div>
+                <label class="check-row" for="reg-sms">
+                    <input id="reg-sms" type="checkbox" checked>
+                    <span data-i18n="reg_sms">Send me SMS reminders for treatment steps</span>
+                </label>
+                <p class="form-error" id="reg-error" role="alert"></p>
+                <button type="submit" class="btn btn-primary" id="reg-submit" data-i18n="reg_btn">Create account</button>
+            </form>
+
+            <p class="login-note" id="mode-note"></p>
+        </div>
+    </main>
+
+    <script src="translations.js"></script>
+    <script>
+        Object.assign(translations.en, {
+            reg_tab: "Create account", reg_title: "Create your account",
+            reg_sub: "Your scans and treatment plans are saved, and you get SMS reminders for each step.",
+            reg_phone: "Mobile number", reg_district: "District", reg_pass: "Password (at least 6 characters)",
+            reg_sms: "Send me SMS reminders for treatment steps", reg_btn: "Create account",
+            login_offline: "No server found. AgriCare will keep your account and data only on this device.",
+            login_wait: "Please wait...", mode_online: "Connected to the AgriCare server."
+        });
+        Object.assign(translations.si, {
+            reg_tab: "ගිණුමක් සාදන්න", reg_title: "ඔබේ ගිණුම සාදන්න",
+            reg_sub: "ඔබේ ස්කෑන් සහ ප්‍රතිකාර සැලසුම් සුරැකෙන අතර සෑම පියවරකටම SMS මතක් කිරීම් ලැබේ.",
+            reg_phone: "ජංගම දුරකථන අංකය", reg_district: "දිස්ත්‍රික්කය", reg_pass: "මුරපදය (අවම අකුරු 6)",
+            reg_sms: "ප්‍රතිකාර පියවර සඳහා SMS මතක් කිරීම් එවන්න", reg_btn: "ගිණුම සාදන්න",
+            login_offline: "සේවාදායකයක් හමු නොවීය. AgriCare ඔබේ ගිණුම සහ දත්ත මෙම උපාංගයේ පමණක් තබා ගනී.",
+            login_wait: "මොහොතක් රැඳී සිටින්න...", mode_online: "AgriCare සේවාදායකයට සම්බන්ධයි."
+        });
+        Object.assign(translations.ta, {
+            reg_tab: "கணக்கை உருவாக்கு", reg_title: "உங்கள் கணக்கை உருவாக்குங்கள்",
+            reg_sub: "உங்கள் ஸ்கேன்களும் சிகிச்சைத் திட்டங்களும் சேமிக்கப்படும், ஒவ்வொரு படிக்கும் SMS நினைவூட்டல் கிடைக்கும்.",
+            reg_phone: "கைபேசி இலக்கம்", reg_district: "மாவட்டம்", reg_pass: "கடவுச்சொல் (குறைந்தது 6 எழுத்துகள்)",
+            reg_sms: "சிகிச்சைப் படிகளுக்கு SMS நினைவூட்டல் அனுப்பு", reg_btn: "கணக்கை உருவாக்கு",
+            login_offline: "சேவையகம் கிடைக்கவில்லை. AgriCare உங்கள் கணக்கையும் தரவையும் இந்தச் சாதனத்தில் மட்டுமே வைத்திருக்கும்.",
+            login_wait: "காத்திருங்கள்...", mode_online: "AgriCare சேவையகத்துடன் இணைக்கப்பட்டுள்ளது."
+        });
+    </script>
+    <script src="local-server.js"></script>
+    <script src="api.js"></script>
+    <script>
+        const DISTRICT_NAMES = ["Ampara", "Anuradhapura", "Badulla", "Batticaloa", "Colombo", "Galle", "Gampaha", "Hambantota",
+            "Jaffna", "Kalutara", "Kandy", "Kegalle", "Kilinochchi", "Kurunegala", "Mannar", "Matale", "Matara",
+            "Monaragala", "Mullaitivu", "Nuwara Eliya", "Polonnaruwa", "Puttalam", "Ratnapura", "Trincomalee", "Vavuniya"];
+        const sel = document.getElementById("reg-district");
+        DISTRICT_NAMES.forEach(d => { const o = document.createElement("option"); o.value = d; o.textContent = d; sel.appendChild(o); });
+
+        const tabs = { login: document.getElementById("tab-login"), register: document.getElementById("tab-register") };
+        const forms = { login: document.getElementById("login-form"), register: document.getElementById("register-form") };
+        let serverOnline = false;
+
+        function showTab(name) {
+            Object.keys(tabs).forEach(k => {
+                tabs[k].setAttribute("aria-selected", String(k === name));
+                forms[k].hidden = k !== name;
+            });
+        }
+        tabs.login.addEventListener("click", () => showTab("login"));
+        tabs.register.addEventListener("click", () => showTab("register"));
+        if (new URLSearchParams(location.search).get("expired")) document.getElementById("expired-note").hidden = false;
+
+        function goHome(user) {
+            location.href = user && user.role === "officer" ? "admin.html" : "../index.html";
+        }
+
+        function busy(btn, on, key) {
+            btn.disabled = on;
+            btn.textContent = on ? t("login_wait") : t(key);
+        }
+
+        AgriAPI.detect().then(mode => {
+            serverOnline = mode !== "none";
+            const note = document.getElementById("mode-note");
+            if (mode === "server") {
+                note.textContent = "✓ " + t("mode_online");
+            } else if (mode === "local") {
+                note.innerHTML = "";
+                note.appendChild(document.createTextNode(t("api_local") + " "));
+                const b = document.createElement("strong");
+                b.textContent = "Officer demo login: " + LocalServer.OFFICER.phone + " / " + LocalServer.OFFICER.password;
+                note.appendChild(b);
+            }
+        });
+
+        forms.login.addEventListener("submit", async e => {
+            e.preventDefault();
+            const phone = document.getElementById("login-phone").value.trim();
+            const pass = document.getElementById("login-pass").value;
+            const err = document.getElementById("login-error");
+            err.textContent = "";
+            if (!phone || !pass) { err.textContent = t("login_err"); return; }
+
+            if (!serverOnline) {      // offline prototype login
+                AgriStore.set("isLoggedIn", "true");
+                AgriStore.set("agricare_user", phone);
+                goHome(null);
+                return;
+            }
+            const btn = document.getElementById("login-submit");
+            busy(btn, true, "login_btn");
+            try {
+                const res = await AgriAPI.post("/api/auth/login", { phone, password: pass });
+                AgriAPI.saveSession(res.token, res.user);
+                goHome(res.user);
+            } catch (ex) {
+                err.textContent = ex.message;
+                busy(btn, false, "login_btn");
+            }
+        });
+
+        forms.register.addEventListener("submit", async e => {
+            e.preventDefault();
+            const err = document.getElementById("reg-error");
+            err.textContent = "";
+            const btn = document.getElementById("reg-submit");
+            busy(btn, true, "reg_btn");
+            try {
+                const res = await AgriAPI.post("/api/auth/register", {
+                    name: document.getElementById("reg-name").value.trim(),
+                    phone: document.getElementById("reg-phone").value.trim(),
+                    password: document.getElementById("reg-pass").value,
+                    district: sel.value || null,
+                    language: getLanguage(),
+                    smsReminders: document.getElementById("reg-sms").checked
+                });
+                AgriAPI.saveSession(res.token, res.user);
+                goHome(res.user);
+            } catch (ex) {
+                err.textContent = ex.message;
+                const field = ex.data && ex.data.field;
+                const input = field && document.getElementById(field === "password" ? "reg-pass" : "reg-" + field);
+                if (input) input.focus();
+                busy(btn, false, "reg_btn");
+            }
+        });
+    </script>
+</body>
+</html>

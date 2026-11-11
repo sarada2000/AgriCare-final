@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Privacy and Your Data</title>
+    <script>
+        // Security Check (safe even when the browser blocks storage)
+        (function () {
+            try { if (localStorage.getItem("isLoggedIn") !== "true") window.location.href = "login.html"; }
+            catch (e) { /* storage blocked: let the visitor in */ }
+        })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Noto+Sans:wght@400;500;600;700&family=Noto+Sans+Sinhala:wght@400;600;700&family=Noto+Sans+Tamil:wght@400;600;700&display=swap">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+    <header>
+        <a class="logo" href="../index.html">
+            AgriCare
+            <span data-i18n="logo_sub">Intelligent Solutions</span>
+        </a>
+        <div class="header-tools">
+            <select id="language-switcher" class="lang-switcher" aria-label="Language" onchange="setLanguage(this.value)">
+                <option value="en">English</option>
+                <option value="si">සිංහල</option>
+                <option value="ta">தமிழ்</option>
+            </select>
+            <button type="button" class="menu-btn" aria-expanded="false" onclick="toggleMenu()">☰ <span data-i18n="menu">Menu</span></button>
+        </div>
+        <nav>
+            <a href="../index.html" data-i18n="nav_home">Home</a>
+            <a href="upload-image.html" data-i18n="nav_scan">Scan</a>
+            <a href="disease-library.html" data-i18n="nav_diseases">Diseases</a>
+            <a href="pests.html" data-i18n="nav_pests">Pests</a>
+            <a href="weeds.html" data-i18n="nav_weeds">Weeds</a>
+            <a href="weather.html" data-i18n="nav_weather">Weather</a>
+            <a href="varieties.html" data-i18n="nav_varieties">Varieties</a>
+            <a href="my-crop.html" data-i18n="nav_crop">My Crop</a>
+            <a href="monitor.html" data-i18n="nav_monitor">Monitor</a>
+            <a href="shops.html" data-i18n="nav_shops">Shops</a>
+            <a href="learning-hub.html" data-i18n="nav_solutions">Solutions</a>
+            <a href="#" class="logout-link" onclick="handleLogout('login.html'); return false;" data-i18n="nav_logout">Log Out</a>
+        </nav>
+    </header>
+    <main>
+        <section class="page-hero">
+            <div class="container">
+                <span class="eyebrow">AgriCare</span>
+                <h1 id="pv-title"></h1>
+                <p class="lead" id="pv-lead"></p>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <div class="pv-list" id="pv-list"></div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <div class="result-card pv-delete">
+                    <h2 id="pv-del-t"></h2>
+                    <p id="pv-del-p"></p>
+                    <form id="pv-del-form" class="plan-form">
+                        <div class="field"><label for="pv-pass" id="pv-pass-l"></label><input id="pv-pass" type="password" autocomplete="current-password" required></div>
+                        <button type="submit" class="btn btn-danger" id="pv-del-btn"></button>
+                    </form>
+                    <p class="form-error" id="pv-msg" role="alert"></p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <span data-i18n="footer_text">AgriCare · Final Year Project</span>
+            <span class="foot-links"><a href="about.html" data-i18n="nav_about">About</a> · <a href="privacy.html" data-i18n="nav_privacy">Privacy</a> · <a href="#" onclick="AgriChat.contact(); return false;" data-i18n="nav_contact">Contact us</a></span>
+            <strong data-i18n="footer_hotline">Your digital agriculture officer</strong>
+        </div>
+    </footer>
+
+    <script src="translations.js"></script>
+    <script src="content-i18n.js"></script>
+    <script src="diseases.js"></script>
+    <script src="treatment.js"></script>
+    <script src="pests.js"></script>
+    <script src="farm-data.js"></script>
+    <script src="weedicides.js"></script>
+    <script src="local-server.js"></script>
+    <script src="api.js"></script>
+    <script src="contacts.js"></script>
+    <script src="chat-kb.js"></script>
+    <script src="chat.js"></script>
+    <script>
+        /* Privacy page: what AgriCare stores, why, and how a farmer deletes their own account */
+        Object.assign(translations.en, {
+            pv_title: "Privacy and your data",
+            pv_lead: "What AgriCare stores about you, why, and how it is protected.",
+            pv_1t: "What we store", pv_1: "Your name, mobile number, district and language; the leaf photos you scan and their results; your treatment plans and progress; and call-back requests you send.",
+            pv_2t: "Why we store it", pv_2: "To show your scan history and treatment plans, remind you of each treatment step, and let agriculture officers see disease reports by district so they can help farmers.",
+            pv_3t: "Who can see it", pv_3: "Only you and AgriCare agriculture officers. We do not sell your data or share it with companies.",
+            pv_4t: "How it is protected", pv_4: "Passwords are stored only as a secure hash, never as plain text. Login uses signed tokens that expire. Officer pages need an officer account, and repeated wrong passwords are blocked.",
+            pv_5t: "Location", pv_5: "Your location is used only when you allow it in your browser, for weather, nearby shops and district reports.",
+            pv_6t: "Your rights", pv_6: "You can change your details at any time, and you can delete your account with all your scans, photos and plans below.",
+            pv_7t: "Browser demo mode", pv_7: "When the AgriCare server is not running, data is kept only in this browser and is never sent anywhere.",
+            pv_del_t: "Delete my account",
+            pv_del_p: "This permanently deletes your account, scans, photos and treatment plans. Enter your password to confirm.",
+            pv_pass: "Password", pv_del_btn: "Delete my account permanently",
+            pv_del_done: "Your account and data have been deleted.", pv_del_login: "Log in first to delete your account."
+        });
+        Object.assign(translations.si, {
+            pv_title: "පෞද්ගලිකත්වය සහ ඔබගේ දත්ත",
+            pv_lead: "AgriCare ඔබ ගැන ගබඩා කරන දේ, ඒ ඇයි, සහ එය ආරක්ෂා කරන ආකාරය.",
+            pv_1t: "අප ගබඩා කරන දේ", pv_1: "ඔබගේ නම, ජංගම දුරකථන අංකය, දිස්ත්‍රික්කය සහ භාෂාව; ඔබ ස්කෑන් කරන කොළ ඡායාරූප සහ ප්‍රතිඵල; ඔබගේ ප්‍රතිකාර සැලසුම් සහ ප්‍රගතිය; සහ ඔබ එවන ආපසු ඇමතුම් ඉල්ලීම්.",
+            pv_2t: "අප එය ගබඩා කරන්නේ ඇයි", pv_2: "ඔබගේ ස්කෑන් ඉතිහාසය සහ ප්‍රතිකාර සැලසුම් පෙන්වීමට, එක් එක් ප්‍රතිකාර පියවර මතක් කිරීමට, සහ ගොවීන්ට උදව් කිරීම සඳහා කෘෂිකර්ම නිලධාරීන්ට දිස්ත්‍රික්ක අනුව රෝග වාර්තා බැලීමට.",
+            pv_3t: "එය බැලිය හැක්කේ කාටද", pv_3: "ඔබට සහ AgriCare කෘෂිකර්ම නිලධාරීන්ට පමණි. අපි ඔබගේ දත්ත විකුණන්නේ හෝ සමාගම් සමඟ බෙදාගන්නේ නැත.",
+            pv_4t: "එය ආරක්ෂා කරන ආකාරය", pv_4: "මුරපද ගබඩා කරන්නේ ආරක්ෂිත hash එකක් ලෙස පමණි, කිසිවිටෙක සරල පෙළ ලෙස නොවේ. පිවිසීම සඳහා කල් ඉකුත් වන අත්සන් කළ token භාවිත කරයි. නිලධාරී පිටු සඳහා නිලධාරී ගිණුමක් අවශ්‍ය වන අතර, නැවත නැවත වැරදි මුරපද ඇතුළත් කිරීම අවහිර කෙරේ.",
+            pv_5t: "ස්ථානය", pv_5: "ඔබගේ ස්ථානය භාවිත කරන්නේ ඔබ බ්‍රව්සරයේ අවසර දුන් විට පමණි – කාලගුණය, ළඟම කඩ සහ දිස්ත්‍රික් වාර්තා සඳහා.",
+            pv_6t: "ඔබගේ අයිතිවාසිකම්", pv_6: "ඔබට ඕනෑම වේලාවක ඔබගේ විස්තර වෙනස් කළ හැකි අතර, පහතින් ඔබගේ සියලු ස්කෑන්, ඡායාරූප සහ සැලසුම් සමඟ ගිණුම මකා දැමිය හැක.",
+            pv_7t: "බ්‍රව්සර් ප්‍රදර්ශන ප්‍රකාරය", pv_7: "AgriCare සේවාදායකය ක්‍රියාත්මක නොවන විට දත්ත මෙම බ්‍රව්සරයේ පමණක් තබා ගන්නා අතර කොහේවත් යවනු නොලැබේ.",
+            pv_del_t: "මගේ ගිණුම මකන්න",
+            pv_del_p: "මෙය ඔබගේ ගිණුම, ස්කෑන්, ඡායාරූප සහ ප්‍රතිකාර සැලසුම් ස්ථිරවම මකා දමයි. තහවුරු කිරීමට ඔබගේ මුරපදය ඇතුළත් කරන්න.",
+            pv_pass: "මුරපදය", pv_del_btn: "මගේ ගිණුම ස්ථිරවම මකන්න",
+            pv_del_done: "ඔබගේ ගිණුම සහ දත්ත මකා දමන ලදී.", pv_del_login: "ගිණුම මකා දැමීමට පළමුව පිවිසෙන්න."
+        });
+        Object.assign(translations.ta, {
+            pv_title: "தனியுரிமையும் உங்கள் தரவும்",
+            pv_lead: "AgriCare உங்களைப் பற்றி எதைச் சேமிக்கிறது, ஏன், அது எப்படிப் பாதுகாக்கப்படுகிறது.",
+            pv_1t: "நாங்கள் சேமிப்பவை", pv_1: "உங்கள் பெயர், கைபேசி இலக்கம், மாவட்டம், மொழி; நீங்கள் ஸ்கேன் செய்யும் இலைப் படங்களும் முடிவுகளும்; உங்கள் சிகிச்சைத் திட்டங்களும் முன்னேற்றமும்; நீங்கள் அனுப்பும் திரும்ப அழைப்புக் கோரிக்கைகள்.",
+            pv_2t: "ஏன் சேமிக்கிறோம்", pv_2: "உங்கள் ஸ்கேன் வரலாற்றையும் சிகிச்சைத் திட்டங்களையும் காட்ட, ஒவ்வொரு சிகிச்சைப் படியையும் நினைவூட்ட, விவசாயிகளுக்கு உதவ விவசாய அலுவலர்கள் மாவட்ட வாரியான நோய் அறிக்கைகளைப் பார்க்க.",
+            pv_3t: "யார் பார்க்கலாம்", pv_3: "நீங்களும் AgriCare விவசாய அலுவலர்களும் மட்டுமே. உங்கள் தரவை விற்பதோ நிறுவனங்களுடன் பகிர்வதோ இல்லை.",
+            pv_4t: "எப்படிப் பாதுகாக்கப்படுகிறது", pv_4: "கடவுச்சொற்கள் பாதுகாப்பான hash ஆக மட்டுமே சேமிக்கப்படுகின்றன, ஒருபோதும் சாதாரண உரையாக அல்ல. உள்நுழைவு காலாவதியாகும் கையொப்பமிட்ட token களைப் பயன்படுத்துகிறது. அலுவலர் பக்கங்களுக்கு அலுவலர் கணக்கு தேவை; மீண்டும் மீண்டும் தவறான கடவுச்சொற்கள் தடுக்கப்படும்.",
+            pv_5t: "இருப்பிடம்", pv_5: "உலாவியில் நீங்கள் அனுமதித்தால் மட்டுமே உங்கள் இருப்பிடம் பயன்படுத்தப்படும் – வானிலை, அருகிலுள்ள கடைகள், மாவட்ட அறிக்கைகளுக்கு.",
+            pv_6t: "உங்கள் உரிமைகள்", pv_6: "எப்போது வேண்டுமானாலும் உங்கள் விவரங்களை மாற்றலாம்; கீழே உங்கள் எல்லா ஸ்கேன்கள், படங்கள், திட்டங்களுடன் கணக்கை நீக்கலாம்.",
+            pv_7t: "உலாவி மாதிரி முறை", pv_7: "AgriCare சேவையகம் இயங்காதபோது தரவு இந்த உலாவியில் மட்டுமே வைக்கப்படும், எங்கும் அனுப்பப்படாது.",
+            pv_del_t: "என் கணக்கை நீக்கு",
+            pv_del_p: "இது உங்கள் கணக்கு, ஸ்கேன்கள், படங்கள், சிகிச்சைத் திட்டங்களை நிரந்தரமாக நீக்கும். உறுதிப்படுத்த உங்கள் கடவுச்சொல்லை உள்ளிடுங்கள்.",
+            pv_pass: "கடவுச்சொல்", pv_del_btn: "என் கணக்கை நிரந்தரமாக நீக்கு",
+            pv_del_done: "உங்கள் கணக்கும் தரவும் நீக்கப்பட்டன.", pv_del_login: "கணக்கை நீக்க முதலில் உள்நுழையுங்கள்."
+        });
+
+        function renderPrivacy() {
+            const set = (id, key) => { document.getElementById(id).textContent = t(key); };
+            set("pv-title", "pv_title"); set("pv-lead", "pv_lead");
+            set("pv-del-t", "pv_del_t"); set("pv-del-p", "pv_del_p");
+            set("pv-pass-l", "pv_pass"); set("pv-del-btn", "pv_del_btn");
+            const list = document.getElementById("pv-list");
+            list.innerHTML = "";
+            for (let i = 1; i <= 7; i++) {
+                const card = document.createElement("div");
+                card.className = "pv-item";
+                const h = document.createElement("h3"); h.textContent = t("pv_" + i + "t");
+                const p = document.createElement("p"); p.textContent = t("pv_" + i);
+                card.appendChild(h); card.appendChild(p);
+                list.appendChild(card);
+            }
+        }
+        document.addEventListener("agricare:lang", renderPrivacy);
+        renderPrivacy();
+
+        document.getElementById("pv-del-form").addEventListener("submit", async e => {
+            e.preventDefault();
+            const msg = document.getElementById("pv-msg");
+            msg.textContent = "";
+            if (!AgriAPI.token) { msg.textContent = t("pv_del_login"); return; }
+            try {
+                await AgriAPI.request("DELETE", "/api/auth/me", { password: document.getElementById("pv-pass").value });
+                AgriAPI.logoutLocal();
+                msg.style.color = "var(--accent)";
+                msg.textContent = t("pv_del_done");
+                setTimeout(() => { location.href = "login.html"; }, 1800);
+            } catch (err) {
+                msg.textContent = err.message;
+            }
+        });
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>AgriCare Learning Hub</title>
+    <script>
+        // Security Check (safe even when the browser blocks storage)
+        (function () {
+            try { if (localStorage.getItem("isLoggedIn") !== "true") window.location.href = "login.html"; }
+            catch (e) { /* storage blocked: let the visitor in */ }
+        })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Noto+Sans:wght@400;500;600;700&family=Noto+Sans+Sinhala:wght@400;600;700&family=Noto+Sans+Tamil:wght@400;600;700&display=swap">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+    <header>
+        <a class="logo" href="../index.html">
+            AgriCare
+            <span data-i18n="logo_sub">Intelligent Solutions</span>
+        </a>
+        <div class="header-tools">
+            <select id="language-switcher" class="lang-switcher" aria-label="Language" onchange="setLanguage(this.value)">
+                <option value="en">English</option>
+                <option value="si">සිංහල</option>
+                <option value="ta">தமிழ்</option>
+            </select>
+            <button type="button" class="menu-btn" aria-expanded="false" onclick="toggleMenu()">☰ <span data-i18n="menu">Menu</span></button>
+        </div>
+        <nav>
+            <a href="../index.html" data-i18n="nav_home">Home</a>
+            <a href="upload-image.html" data-i18n="nav_scan">Scan</a>
+            <a href="disease-library.html" data-i18n="nav_diseases">Diseases</a>
+            <a href="pests.html" data-i18n="nav_pests">Pests</a>
+            <a href="weeds.html" data-i18n="nav_weeds">Weeds</a>
+            <a href="weather.html" data-i18n="nav_weather">Weather</a>
+            <a href="varieties.html" data-i18n="nav_varieties">Varieties</a>
+            <a href="my-crop.html" data-i18n="nav_crop">My Crop</a>
+            <a href="monitor.html" data-i18n="nav_monitor">Monitor</a>
+            <a href="shops.html" data-i18n="nav_shops">Shops</a>
+            <a href="learning-hub.html" class="active" data-i18n="nav_solutions">Solutions</a>
+            <a href="#" class="logout-link" onclick="handleLogout('login.html'); return false;" data-i18n="nav_logout">Log Out</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="page-hero">
+            <div class="container">
+                <span class="eyebrow" data-i18n="nav_solutions">Solutions</span>
+                <h1 data-i18n="hub_title">Solutions &amp; Learning Hub</h1>
+                <p class="lead" data-i18n="hub_lead">Good field practice prevents most disease. These guides cover the basics every season.</p>
+                <nav class="hub-nav" aria-label="Topics">
+                    <a href="#seed" data-i18n="hub_nav_seed">Seed &amp; planting</a>
+                    <a href="#fertilizer" data-i18n="hub_nav_fert">Fertilizer</a>
+                    <a href="#water" data-i18n="hub_nav_water">Water</a>
+                    <a href="#spraying" data-i18n="hub_nav_spray">Safe spraying</a>
+                    <a href="#harvest" data-i18n="hub_nav_harvest">Harvest &amp; storage</a>
+                    <a href="#help" data-i18n="hub_nav_help">Getting help</a>
+                </nav>
+            </div>
+        </section>
+
+        <div class="container">
+            <section class="hub-topic" id="seed">
+                <div><h2 data-i18n="hub_nav_seed">Seed &amp; planting</h2><p class="topic-note" data-i18n="hub_seed_note"></p></div>
+                <div class="content"><ul class="checklist">
+                    <li data-i18n-html="hub_seed_1"></li>
+                    <li data-i18n-html="hub_seed_2"></li>
+                    <li data-i18n-html="hub_seed_3"></li>
+                    <li data-i18n-html="hub_seed_4"></li>
+                    <li data-i18n-html="hub_seed_5"></li>
+                </ul></div>
+            </section>
+
+            <section class="hub-topic" id="fertilizer">
+                <div><h2 data-i18n="hub_nav_fert">Fertilizer</h2><p class="topic-note" data-i18n="hub_fert_note"></p></div>
+                <div class="content">
+                    <p data-i18n-html="hub_fert_p"></p>
+                    <ul class="checklist">
+                    <li data-i18n-html="hub_fert_1"></li>
+                    <li data-i18n-html="hub_fert_2"></li>
+                    <li data-i18n-html="hub_fert_3"></li>
+                    <li data-i18n-html="hub_fert_4"></li>
+                    <li data-i18n-html="hub_fert_5"></li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="hub-topic" id="water">
+                <div><h2 data-i18n="hub_nav_water">Water</h2><p class="topic-note" data-i18n="hub_water_note"></p></div>
+                <div class="content">
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr><th data-i18n="hub_w_stage">Crop stage</th><th data-i18n="hub_w_level">Water level</th><th data-i18n="hub_w_why">Why</th></tr></thead>
+                            <tbody>
+                                <tr><td data-i18n="hub_w1_s"></td><td data-i18n="hub_w1_l"></td><td data-i18n="hub_w1_w"></td></tr>
+                                <tr><td data-i18n="hub_w2_s"></td><td data-i18n="hub_w2_l"></td><td data-i18n="hub_w2_w"></td></tr>
+                                <tr><td data-i18n="hub_w3_s"></td><td data-i18n="hub_w3_l"></td><td data-i18n="hub_w3_w"></td></tr>
+                                <tr><td data-i18n="hub_w4_s"></td><td data-i18n="hub_w4_l"></td><td data-i18n="hub_w4_w"></td></tr>
+                                <tr><td data-i18n="hub_w5_s"></td><td data-i18n="hub_w5_l"></td><td data-i18n="hub_w5_w"></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p data-i18n="hub_water_p"></p>
+                </div>
+            </section>
+
+            <section class="hub-topic" id="spraying">
+                <div><h2 data-i18n="hub_nav_spray">Safe spraying</h2><p class="topic-note" data-i18n="hub_spray_note"></p></div>
+                <div class="content"><ul class="checklist">
+                    <li data-i18n-html="hub_spray_1"></li>
+                    <li data-i18n-html="hub_spray_2"></li>
+                    <li data-i18n-html="hub_spray_3"></li>
+                    <li data-i18n-html="hub_spray_4"></li>
+                    <li data-i18n-html="hub_spray_5"></li>
+                    <li data-i18n-html="hub_spray_6"></li>
+                </ul></div>
+            </section>
+
+            <section class="hub-topic" id="harvest">
+                <div><h2 data-i18n="hub_nav_harvest">Harvest &amp; storage</h2><p class="topic-note" data-i18n="hub_harvest_note"></p></div>
+                <div class="content"><ul class="checklist">
+                    <li data-i18n-html="hub_harv_1"></li>
+                    <li data-i18n-html="hub_harv_2"></li>
+                    <li data-i18n-html="hub_harv_3"></li>
+                    <li data-i18n-html="hub_harv_4"></li>
+                </ul></div>
+            </section>
+
+            <section class="hub-topic" id="help">
+                <div><h2 data-i18n="hub_nav_help">Getting help</h2><p class="topic-note" data-i18n="hub_help_note"></p></div>
+                <div class="content">
+                    <p class="callout" data-i18n-html="hub_help_p1"></p>
+                    <p data-i18n="hub_help_p2"></p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <span data-i18n="footer_text">AgriCare · Final Year Project</span>
+            <span class="foot-links"><a href="about.html" data-i18n="nav_about">About</a> · <a href="privacy.html" data-i18n="nav_privacy">Privacy</a> · <a href="#" onclick="AgriChat.contact(); return false;" data-i18n="nav_contact">Contact us</a></span>
+            <strong data-i18n="footer_hotline">Your digital agriculture officer</strong>
+        </div>
+    </footer>
+
+    <script src="translations.js"></script>
+    <script src="content-i18n.js"></script>
+    <script src="diseases.js"></script>
+    <script src="treatment.js"></script>
+    <script src="pests.js"></script>
+    <script src="farm-data.js"></script>
+    <script src="weedicides.js"></script>
+    <script src="local-server.js"></script>
+    <script src="api.js"></script>
+    <script src="contacts.js"></script>
+    <script src="chat-kb.js"></script>
+    <script src="chat.js"></script>
+
+</body>
+</html>

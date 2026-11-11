@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>My Paddy Crop</title>
+    <script>
+        // Security Check (safe even when the browser blocks storage)
+        (function () {
+            try { if (localStorage.getItem("isLoggedIn") !== "true") window.location.href = "login.html"; }
+            catch (e) { /* storage blocked: let the visitor in */ }
+        })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Noto+Sans:wght@400;500;600;700&family=Noto+Sans+Sinhala:wght@400;600;700&family=Noto+Sans+Tamil:wght@400;600;700&display=swap">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+    <header>
+        <a class="logo" href="../index.html">
+            AgriCare
+            <span data-i18n="logo_sub">Intelligent Solutions</span>
+        </a>
+        <div class="header-tools">
+            <select id="language-switcher" class="lang-switcher" aria-label="Language" onchange="setLanguage(this.value)">
+                <option value="en">English</option>
+                <option value="si">සිංහල</option>
+                <option value="ta">தமிழ்</option>
+            </select>
+            <button type="button" class="menu-btn" aria-expanded="false" onclick="toggleMenu()">☰ <span data-i18n="menu">Menu</span></button>
+        </div>
+        <nav>
+            <a href="../index.html" data-i18n="nav_home">Home</a>
+            <a href="upload-image.html" data-i18n="nav_scan">Scan</a>
+            <a href="disease-library.html" data-i18n="nav_diseases">Diseases</a>
+            <a href="pests.html" data-i18n="nav_pests">Pests</a>
+            <a href="weeds.html" data-i18n="nav_weeds">Weeds</a>
+            <a href="weather.html" data-i18n="nav_weather">Weather</a>
+            <a href="varieties.html" data-i18n="nav_varieties">Varieties</a>
+            <a href="my-crop.html" class="active" data-i18n="nav_crop">My Crop</a>
+            <a href="monitor.html" data-i18n="nav_monitor">Monitor</a>
+            <a href="shops.html" data-i18n="nav_shops">Shops</a>
+            <a href="learning-hub.html" data-i18n="nav_solutions">Solutions</a>
+            <a href="#" class="logout-link" onclick="handleLogout('login.html'); return false;" data-i18n="nav_logout">Log Out</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="page-hero">
+            <div class="container">
+                <span class="eyebrow" data-i18n="nav_crop">My Crop</span>
+                <h1 data-i18n="c_title">My Crop</h1>
+                <p class="lead" data-i18n="c_lead">Tell AgriCare when you sowed. It shows your crop's stage and exactly what to do this week.</p>
+                <form class="crop-form panel" id="c-form" novalidate>
+                    <div class="field"><label for="c-variety" data-i18n="c_variety">Variety</label><select id="c-variety" class="lang-switcher" style="margin:0; padding:11px;"></select></div>
+                    <div class="field"><label for="c-date" data-i18n="c_sowed">Sowing date</label><input id="c-date" type="date" required></div>
+                    <div class="field"><label for="c-field" data-i18n="c_field">Field name</label><input id="c-field" type="text" maxlength="60"></div>
+                    <button type="submit" class="btn btn-primary" data-i18n="c_save">Show my crop calendar</button>
+                </form>
+            </div>
+        </section>
+
+        <section class="section" id="c-out" hidden>
+            <div class="container" style="display:flex; flex-direction:column; gap:28px;">
+                <div class="crop-head panel">
+                    <div class="crop-head-top">
+                        <div>
+                            <span class="result-label" data-i18n="c_stage_now">Stage now</span>
+                            <h2 id="c-stage"></h2>
+                            <p class="plan-meta" id="c-meta"></p>
+                        </div>
+                        <div class="crop-day"><b id="c-day"></b><span id="c-dayof"></span></div>
+                    </div>
+                    <div class="stage-bar" id="c-bar"></div>
+                    <div class="stage-labels" id="c-bar-labels"></div>
+                </div>
+                <div class="two-col">
+                    <div>
+                        <h2 class="section-title" style="font-size:24px;" data-i18n="c_this_week">This week</h2>
+                        <ul class="advice-list" id="c-week"></ul>
+                        <div class="result-actions" style="margin-top:14px;">
+                            <a class="btn btn-ghost btn-sm" href="weather.html">🌦 <span data-i18n="nav_weather">Weather</span></a>
+                            <a class="btn btn-ghost btn-sm" href="upload-image.html">📸 <span data-i18n="nav_scan">Scan</span></a>
+                            <a class="btn btn-ghost btn-sm" href="pests.html">🐛 <span data-i18n="nav_pests">Pests</span></a>
+                        </div>
+                    </div>
+                    <div>
+                        <h2 class="section-title" style="font-size:24px;" data-i18n="c_calendar">Crop calendar</h2>
+                        <ol class="timeline" id="c-cal" style="padding-left:0;"></ol>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <span data-i18n="footer_text">AgriCare · Final Year Project</span>
+            <span class="foot-links"><a href="about.html" data-i18n="nav_about">About</a> · <a href="privacy.html" data-i18n="nav_privacy">Privacy</a> · <a href="#" onclick="AgriChat.contact(); return false;" data-i18n="nav_contact">Contact us</a></span>
+            <strong data-i18n="footer_hotline">Your digital agriculture officer</strong>
+        </div>
+    </footer>
+
+    <script src="translations.js"></script>
+    <script src="content-i18n.js"></script>
+    <script src="diseases.js"></script>
+    <script src="treatment.js"></script>
+    <script src="pests.js"></script>
+    <script src="farm-data.js"></script>
+    <script src="weedicides.js"></script>
+    <script src="local-server.js"></script>
+    <script src="api.js"></script>
+    <script src="contacts.js"></script>
+    <script src="chat-kb.js"></script>
+    <script src="chat.js"></script>
+    <script>
+        const $ = id => document.getElementById(id);
+        function el(tag, cls, text) {
+            const e = document.createElement(tag);
+            if (cls) e.className = cls;
+            if (text != null) e.textContent = text;
+            return e;
+        }
+        const DAY = 86400000;
+        const locale = () => ({ si: "si-LK", ta: "ta-LK" })[getLanguage()] || "en-GB";
+        const fmt = d => d.toLocaleDateString(locale(), { weekday: "short", day: "numeric", month: "short" });
+        function parseDate(s) { const [y, m, d] = s.split("-").map(Number); return new Date(y, m - 1, d); }
+        function today() { const n = new Date(); return new Date(n.getFullYear(), n.getMonth(), n.getDate()); }
+
+        let crop = null;
+        try { crop = JSON.parse(AgriStore.get("agricare_crop") || "null"); } catch (e) {}
+
+        function fillVarieties(selected) {
+            const sel = $("c-variety");
+            sel.innerHTML = "";
+            VARIETIES.forEach(v => {
+                const o = el("option", null, v.id + " · " + varietyAge(v) + " " + t("v_days") + (v.red ? " · " + t("v_red") : ""));
+                o.value = v.id;
+                if (v.id === selected) o.selected = true;
+                sel.appendChild(o);
+            });
+        }
+
+        function gcalUrl(title, date) {
+            const pad = n => String(n).padStart(2, "0");
+            const d = date.getFullYear() + pad(date.getMonth() + 1) + pad(date.getDate());
+            const n = new Date(date.getTime() + DAY);
+            const e = n.getFullYear() + pad(n.getMonth() + 1) + pad(n.getDate());
+            return "https://calendar.google.com/calendar/render?" + new URLSearchParams({ action: "TEMPLATE", text: "AgriCare – " + title, dates: d + "/" + e }).toString();
+        }
+
+        function render() {
+            if (!crop) { $("c-out").hidden = true; return; }
+            const v = VARIETIES.find(x => x.id === crop.variety) || VARIETIES.find(x => x.id === "Bg 352");
+            const age = varietyAge(v);
+            const sown = parseDate(crop.sowed);
+            const day = Math.round((today() - sown) / DAY);
+            const stages = cropStages(age);
+            const harvest = new Date(sown.getTime() + age * DAY);
+            $("c-out").hidden = false;
+
+            const cur = day < 0 ? null : stages.find(s => day >= s.from && day <= s.to) || stages[stages.length - 1];
+            $("c-stage").textContent = day < 0 ? t("c_not_sown") : t("st_" + cur.id);
+            $("c-meta").textContent = v.id + (crop.field ? " · " + crop.field : "") + " · " + t("c_harvest_on") + ": " + fmt(harvest) +
+                (day >= 0 && day < age ? " · " + (age - day) + " " + t("c_days_left") : "");
+            $("c-day").textContent = day < 0 ? "–" : String(day);
+            $("c-dayof").textContent = t("c_dayof").replace("{n}", age);
+
+            // stage bar
+            const bar = $("c-bar"), labels = $("c-bar-labels");
+            bar.innerHTML = ""; labels.innerHTML = "";
+            const total = age + 7;
+            stages.forEach(s => {
+                const seg = el("div", "seg " + s.id + (cur && cur.id === s.id ? " now" : ""));
+                seg.style.flex = String(s.to - s.from + 1);
+                bar.appendChild(seg);
+                const lab = el("span", cur && cur.id === s.id ? "now" : null, t("st_" + s.id));
+                lab.style.flex = String(s.to - s.from + 1);
+                labels.appendChild(lab);
+            });
+            if (day >= 0) {
+                const mark = el("div", "seg-mark");
+                mark.style.left = Math.min(100, day / total * 100) + "%";
+                bar.appendChild(mark);
+            }
+
+            // this week: dated jobs (last 3 days → next 7 days) + stage tasks
+            const week = $("c-week");
+            week.innerHTML = "";
+            const jobs = cropJobs(age);
+            jobs.filter(j => j.day >= day - 3 && j.day <= day + 7).forEach(j => {
+                const when = new Date(sown.getTime() + j.day * DAY);
+                week.appendChild(el("li", "advice " + (j.day < day ? "warn" : "good"), "📅 " + fmt(when) + " – " + t(j.key)));
+            });
+            if (cur) tList("do_" + cur.id).forEach(x => week.appendChild(el("li", "advice info", x)));
+
+            // calendar
+            const cal = $("c-cal");
+            cal.innerHTML = "";
+            jobs.forEach(j => {
+                const when = new Date(sown.getTime() + j.day * DAY);
+                const state = j.day < day ? "done" : j.day <= day + 7 ? "today" : "upcoming";
+                const li = el("li", "tl-item " + state);
+                li.appendChild(el("span", "tl-dot", state === "done" ? "✓" : ""));
+                const body = el("div", "tl-body");
+                const top = el("div", "tl-top");
+                top.append(el("b", null, t("c_day") + " " + j.day), el("span", null, fmt(when)));
+                body.appendChild(top);
+                body.appendChild(el("p", "tl-text", t(j.key)));
+                if (j.day >= day) {
+                    const a = el("a", "btn btn-ghost btn-sm", "📅 " + t("c_gcal"));
+                    a.href = gcalUrl(t(j.key) + (crop.field ? " (" + crop.field + ")" : ""), when);
+                    a.target = "_blank"; a.rel = "noopener";
+                    body.appendChild(a);
+                }
+                li.appendChild(body);
+                cal.appendChild(li);
+            });
+        }
+
+        $("c-form").addEventListener("submit", e => {
+            e.preventDefault();
+            crop = { variety: $("c-variety").value, sowed: $("c-date").value || todayISO(), field: $("c-field").value.trim() };
+            AgriStore.set("agricare_crop", JSON.stringify(crop));
+            render();
+            $("c-out").scrollIntoView({ behavior: "smooth" });
+        });
+
+        document.addEventListener("agricare:lang", () => {
+            const fromLink = new URLSearchParams(location.search).get("v");
+            fillVarieties(fromLink || (crop && crop.variety) || "Bg 352");
+            if (!$("c-date").value) $("c-date").value = crop ? crop.sowed : todayISO();
+            if (crop && !$("c-field").value) $("c-field").value = crop.field || "";
+            render();
+        });
+    </script>
+
+</body>
+</html>

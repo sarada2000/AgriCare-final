@@ -1,0 +1,1295 @@
+{
+ "blast": {
+  "name": {
+   "en": "Rice Blast",
+   "si": "කොළ පාළුව (බ්ලාස්ට්)",
+   "ta": "குலை நோய் (பிளாஸ்ட்)"
+  },
+  "type": "fungal",
+  "steps": [
+   {
+    "day": 0,
+    "check": false,
+    "text": {
+     "en": "Stop all urea top-dressing. Walk the field and note how many plants have spots.",
+     "si": "යූරියා යෙදීම නවත්වන්න. කුඹුර පුරා ඇවිද පුල්ලි ඇති පැළ ප්‍රමාණය සටහන් කරන්න.",
+     "ta": "யூரியா இடுவதை நிறுத்துங்கள். வயலில் நடந்து புள்ளிகள் உள்ள பயிர்களின் அளவைக் குறித்துக்கொள்ளுங்கள்."
+    }
+   },
+   {
+    "day": 1,
+    "check": false,
+    "text": {
+     "en": "Spray the recommended fungicide, such as tricyclazole, in the morning. Use the label dose and wear gloves and a mask.",
+     "si": "උදෑසන ට්‍රයිසයික්ලසෝල් වැනි නිර්දේශිත දිලීර නාශකය ඉසින්න. ලේබලයේ මාත්‍රාව යොදා අත්වැසුම් හා මුහුණු ආවරණ පළඳින්න.",
+     "ta": "காலையில் ட்ரைசைக்ளசோல் போன்ற பரிந்துரைக்கப்பட்ட பூஞ்சைக்கொல்லியைத் தெளியுங்கள். லேபிள் அளவைப் பயன்படுத்தி, கையுறை, முகக்கவசம் அணியுங்கள்."
+    }
+   },
+   {
+    "day": 4,
+    "check": true,
+    "text": {
+     "en": "Check the field for new spots and scan a leaf again.",
+     "si": "අලුත් පුල්ලි ඇත්දැයි කුඹුර පරීක්ෂා කර නැවත කොළයක් ස්කෑන් කරන්න.",
+     "ta": "புதிய புள்ளிகள் உள்ளனவா என வயலைச் சோதித்து மீண்டும் ஒரு இலையை ஸ்கேன் செய்யுங்கள்."
+    }
+   },
+   {
+    "day": 11,
+    "check": false,
+    "text": {
+     "en": "If new spots are still appearing, spray tricyclazole a second time at the label dose.",
+     "si": "තවමත් අලුත් පුල්ලි ඇති වේ නම්, ලේබලයේ මාත්‍රාවෙන් ට්‍රයිසයික්ලසෝල් (tricyclazole) දෙවන වරට ඉසින්න.",
+     "ta": "இன்னும் புதிய புள்ளிகள் தோன்றினால், லேபிள் அளவில் ட்ரைசைக்ளசோல் (tricyclazole) ஐ இரண்டாவது முறை தெளியுங்கள்."
+    }
+   },
+   {
+    "day": 14,
+    "check": true,
+    "text": {
+     "en": "Final check. If the disease is still spreading, spray once more with a different fungicide, isoprothiolane, and keep urea stopped.",
+     "si": "අවසාන පරීක්ෂාව. රෝගය තවමත් පැතිරේ නම්, වෙනත් දිලීර නාශකයක් වන අයිසොප්‍රොතයොලේන් (isoprothiolane) එක් වරක් ඉස, යූරියා නවත්වා තබන්න.",
+     "ta": "இறுதிச் சோதனை. நோய் இன்னும் பரவினால், வேறொரு பூஞ்சைக்கொல்லியான ஐசோப்ரோதியோலேன் (isoprothiolane) ஐ ஒருமுறை தெளித்து, யூரியாவை நிறுத்தியே வையுங்கள்."
+    }
+   }
+  ]
+ },
+ "bacterial_leaf_blight": {
+  "name": {
+   "en": "Bacterial Leaf Blight",
+   "si": "බැක්ටීරියා කොළ අංගමාරය",
+   "ta": "பாக்டீரியா இலைக் கருகல் நோய்"
+  },
+  "type": "bacterial",
+  "steps": [
+   {
+    "day": 0,
+    "check": false,
+    "text": {
+     "en": "Drain the field and keep it drained for 3 to 4 days. Do not apply urea.",
+     "si": "කුඹුරේ ජලය බැස යවා දින 3–4ක් එසේ තබන්න. යූරියා නොයොදන්න.",
+     "ta": "வயலிலிருந்து நீரை வடித்து 3 முதல் 4 நாட்கள் அப்படியே வையுங்கள். யூரியா இட வேண்டாம்."
+    }
+   },
+   {
+    "day": 1,
+    "check": false,
+    "text": {
+     "en": "Remove weeds from the bunds and stop water from this field flowing into other fields.",
+     "si": "නියරවල වල් පැළ ඉවත් කර මෙම කුඹුරේ ජලය වෙනත් කුඹුරුවලට ගලා යාම නවත්වන්න.",
+     "ta": "வரம்புகளிலுள்ள களைகளை அகற்றி, இந்த வயலின் நீர் மற்ற வயல்களுக்குப் பாய்வதைத் தடுங்கள்."
+    }
+   },
+   {
+    "day": 4,
+    "check": true,
+    "text": {
+     "en": "Bring back a shallow water level. Check if the yellow streaks are spreading and scan a leaf again.",
+     "si": "නොගැඹුරු ජල මට්ටමක් නැවත ලබාදෙන්න. කහ ඉරි පැතිරේදැයි බලා නැවත ස්කෑන් කරන්න.",
+     "ta": "குறைந்த நீர் மட்டத்தை மீண்டும் கொடுங்கள். மஞ்சள் கோடுகள் பரவுகின்றனவா எனப் பார்த்து மீண்டும் ஸ்கேன் செய்யுங்கள்."
+    }
+   },
+   {
+    "day": 7,
+    "check": false,
+    "text": {
+     "en": "Look at the new leaves. Keep holding back extra nitrogen.",
+     "si": "අලුත් කොළ පරීක්ෂා කරන්න. අමතර නයිට්‍රජන් නොයොදා සිටින්න.",
+     "ta": "புதிய இலைகளைப் பாருங்கள். கூடுதல் நைதரசன் இடாமல் இருங்கள்."
+    }
+   },
+   {
+    "day": 14,
+    "check": true,
+    "text": {
+     "en": "Final check. If many plants are still affected, drain the field for 3 more days and remove the worst plants. Next season, use clean seed of a resistant variety.",
+     "si": "අවසාන පරීක්ෂාව. තවමත් පැළ රැසකට බලපා ඇත්නම්, තවත් දින 3ක් කුඹුරේ ජලය බැස යවා දරුණුම පැළ ඉවත් කරන්න. ඊළඟ කන්නයේ ප්‍රතිරෝධී ප්‍රභේදයක පිරිසිදු බීජ භාවිත කරන්න.",
+     "ta": "இறுதிச் சோதனை. இன்னும் பல பயிர்கள் பாதிக்கப்பட்டிருந்தால், மேலும் 3 நாட்கள் வயல் நீரை வடித்து, மோசமான பயிர்களை அகற்றுங்கள். அடுத்த போகத்தில் எதிர்ப்புத் திறன் கொண்ட இனத்தின் சுத்தமான விதையைப் பயன்படுத்துங்கள்."
+    }
+   }
+  ]
+ },
+ "brown_spot": {
+  "name": {
+   "en": "Brown Spot",
+   "si": "දුඹුරු පුල්ලි රෝගය",
+   "ta": "பழுப்புப் புள்ளி நோய்"
+  },
+  "type": "fungal",
+  "steps": [
+   {
+    "day": 0,
+    "check": false,
+    "text": {
+     "en": "Apply potassium fertilizer (MOP) as the Department of Agriculture recommends for your soil.",
+     "si": "ඔබේ පසට කෘෂිකර්ම දෙපාර්තමේන්තුව නිර්දේශ කරන පරිදි පොටෑසියම් පොහොර (MOP) යොදන්න.",
+     "ta": "உங்கள் மண்ணுக்கு விவசாயத் திணைக்களம் பரிந்துரைக்கும்படி பொட்டாசியம் உரத்தை (MOP) இடுங்கள்."
+    }
+   },
+   {
+    "day": 1,
+    "check": false,
+    "text": {
+     "en": "Make sure the field has water. Do not let the crop suffer drought.",
+     "si": "කුඹුරේ ජලය ඇති බව තහවුරු කරන්න. බෝගයට නියඟයක් ඇති නොවිය යුතුය.",
+     "ta": "வயலில் நீர் இருப்பதை உறுதிசெய்யுங்கள். பயிர் வறட்சியால் பாதிக்கக்கூடாது."
+    }
+   },
+   {
+    "day": 7,
+    "check": true,
+    "text": {
+     "en": "Check the new leaves for spots and scan a leaf again.",
+     "si": "අලුත් කොළවල පුල්ලි ඇත්දැයි බලා නැවත ස්කෑන් කරන්න.",
+     "ta": "புதிய இலைகளில் புள்ளிகள் உள்ளனவா எனப் பார்த்து மீண்டும் ஸ்கேன் செய்யுங்கள்."
+    }
+   },
+   {
+    "day": 10,
+    "check": false,
+    "text": {
+     "en": "If spots are still spreading on the new leaves, spray propiconazole at the label dose.",
+     "si": "අලුත් කොළවලද පුල්ලි පැතිරේ නම්, ලේබලයේ මාත්‍රාවෙන් ප්‍රොපිකොනසෝල් (propiconazole) ඉසින්න.",
+     "ta": "புதிய இலைகளிலும் புள்ளிகள் பரவினால், லேபிள் அளவில் ப்ரோபிகொனசோல் (propiconazole) ஐத் தெளியுங்கள்."
+    }
+   },
+   {
+    "day": 21,
+    "check": true,
+    "text": {
+     "en": "Final check. Plan to use certified, treated seed next season.",
+     "si": "අවසාන පරීක්ෂාව. ඊළඟ කන්නයට සහතික කළ, පිරියම් කළ බීජ භාවිතයට සැලසුම් කරන්න.",
+     "ta": "இறுதிச் சோதனை. அடுத்த போகத்தில் சான்றளிக்கப்பட்ட, பதப்படுத்திய விதையைப் பயன்படுத்தத் திட்டமிடுங்கள்."
+    }
+   }
+  ]
+ },
+ "sheath_blight": {
+  "name": {
+   "en": "Sheath Blight",
+   "si": "කොපු අංගමාරය",
+   "ta": "இலையுறைக் கருகல் நோய்"
+  },
+  "type": "fungal",
+  "steps": [
+   {
+    "day": 0,
+    "check": false,
+    "text": {
+     "en": "Stop extra nitrogen. Check the lower part of the plants near the water for grey patches.",
+     "si": "අමතර නයිට්‍රජන් නවත්වන්න. ජලය අසල පැළයේ පහළ කොටසේ අළු පැල්ලම් ඇත්දැයි බලන්න.",
+     "ta": "கூடுதல் நைதரசனை நிறுத்துங்கள். நீருக்கு அருகில் பயிரின் கீழ்ப்பகுதியில் சாம்பல் திட்டுகள் உள்ளனவா எனப் பாருங்கள்."
+    }
+   },
+   {
+    "day": 1,
+    "check": false,
+    "text": {
+     "en": "Spray the recommended fungicide, such as hexaconazole, aimed at the base of the plants.",
+     "si": "හෙක්සකොනසෝල් වැනි නිර්දේශිත දිලීර නාශකය පැළයේ පාමුලට යොමු කර ඉසින්න.",
+     "ta": "ஹெக்சகொனசோல் போன்ற பரிந்துரைக்கப்பட்ட பூஞ்சைக்கொல்லியைப் பயிரின் அடிப்பகுதியை நோக்கித் தெளியுங்கள்."
+    }
+   },
+   {
+    "day": 5,
+    "check": true,
+    "text": {
+     "en": "Check whether the patches are climbing higher and scan a leaf again.",
+     "si": "පැල්ලම් ඉහළට පැතිරේදැයි බලා නැවත ස්කෑන් කරන්න.",
+     "ta": "திட்டுகள் மேலே பரவுகின்றனவா எனப் பார்த்து மீண்டும் ஸ்கேன் செய்யுங்கள்."
+    }
+   },
+   {
+    "day": 12,
+    "check": false,
+    "text": {
+     "en": "If patches are still spreading, spray hexaconazole a second time at the label dose.",
+     "si": "පැල්ලම් තවමත් පැතිරේ නම්, ලේබලයේ මාත්‍රාවෙන් හෙක්සකොනසෝල් දෙවන වරට ඉසින්න.",
+     "ta": "திட்டுகள் இன்னும் பரவினால், லேபிள் அளவில் ஹெக்சகொனசோலை இரண்டாவது முறை தெளியுங்கள்."
+    }
+   },
+   {
+    "day": 18,
+    "check": true,
+    "text": {
+     "en": "Final check. Note the spacing to use next season.",
+     "si": "අවසාන පරීක්ෂාව. ඊළඟ කන්නයට භාවිත කළ යුතු පරතරය සටහන් කරන්න.",
+     "ta": "இறுதிச் சோதனை. அடுத்த போகத்துக்கான இடைவெளியைக் குறித்துக்கொள்ளுங்கள்."
+    }
+   }
+  ]
+ },
+ "tungro": {
+  "name": {
+   "en": "Rice Tungro",
+   "si": "ටුන්ග්‍රෝ රෝගය",
+   "ta": "துங்ரோ நோய்"
+  },
+  "type": "viral",
+  "steps": [
+   {
+    "day": 0,
+    "check": false,
+    "text": {
+     "en": "Pull out the yellow, stunted plants and destroy them away from the field.",
+     "si": "කහ වූ, කුරු පැළ ගලවා කුඹුරෙන් ඈතට ගෙන ගොස් විනාශ කරන්න.",
+     "ta": "மஞ்சளான, குட்டையான பயிர்களைப் பிடுங்கி வயலுக்கு அப்பால் அழித்துவிடுங்கள்."
+    }
+   },
+   {
+    "day": 1,
+    "check": false,
+    "text": {
+     "en": "Look for green leafhoppers. If many jump from the plants, spray imidacloprid or thiamethoxam at the label dose.",
+     "si": "කොළ පැල කීඩෑවන් සොයා බලන්න. පැළවලින් බොහෝ දෙනෙක් පනිනවා නම්, ලේබලයේ මාත්‍රාවෙන් ඉමිඩාක්ලෝප්‍රිඩ් (imidacloprid) හෝ තයමිතොක්සම් (thiamethoxam) ඉසින්න.",
+     "ta": "பச்சைத் தத்துப்பூச்சிகளைத் தேடுங்கள். பயிர்களிலிருந்து பல தாவினால், லேபிள் அளவில் இமிடாகுளோப்ரிட் (imidacloprid) அல்லது தயமீதாக்சம் (thiamethoxam) ஐத் தெளியுங்கள்."
+    }
+   },
+   {
+    "day": 3,
+    "check": false,
+    "text": {
+     "en": "Tell your neighbouring farmers, so everyone removes infected plants and controls leafhoppers in the same week.",
+     "si": "සියලු දෙනා එකම සතියේ රෝගී පැළ ඉවත් කර කීඩෑවන් පාලනය කරන සේ අසල්වැසි ගොවීන්ට දන්වන්න.",
+     "ta": "அனைவரும் ஒரே வாரத்தில் நோயுற்ற பயிர்களை அகற்றித் தத்துப்பூச்சிகளைக் கட்டுப்படுத்த அயல் விவசாயிகளுக்குத் தெரிவியுங்கள்."
+    }
+   },
+   {
+    "day": 7,
+    "check": true,
+    "text": {
+     "en": "Check the remaining plants and remove any new infected ones.",
+     "si": "ඉතිරි පැළ පරීක්ෂා කර අලුතින් රෝගී වූ පැළ ඉවත් කරන්න.",
+     "ta": "மீதமுள்ள பயிர்களைச் சோதித்துப் புதிதாகப் பாதிக்கப்பட்டவற்றை அகற்றுங்கள்."
+    }
+   },
+   {
+    "day": 14,
+    "check": true,
+    "text": {
+     "en": "Final check. Plan to plant at the same time as your neighbours next season.",
+     "si": "අවසාන පරීක්ෂාව. ඊළඟ කන්නයේ අසල්වැසි ගොවීන් සමඟ එකවර වගා කිරීමට සැලසුම් කරන්න.",
+     "ta": "இறுதிச் சோதனை. அடுத்த போகத்தில் அயலவர்களுடன் ஒரே நேரத்தில் பயிரிடத் திட்டமிடுங்கள்."
+    }
+   }
+  ]
+ },
+ "red_stripe": {
+  "name": {
+   "en": "Red Stripe",
+   "si": "රතු ඉරි රෝගය",
+   "ta": "சிவப்புக் கோடு நோய்"
+  },
+  "type": "fungal",
+  "steps": [
+   {
+    "day": 0,
+    "check": false,
+    "text": {
+     "en": "Stop extra urea. Drain the field for 2–3 days, then keep only a shallow water level.",
+     "si": "අමතර යූරියා නවත්වන්න. දින 2–3ක් කුඹුරේ ජලය බැස යවා, පසුව නොගැඹුරු ජල මට්ටමක් පමණක් තබාගන්න.",
+     "ta": "மேலதிக யூரியாவை நிறுத்துங்கள். 2–3 நாட்கள் வயல் நீரை வடித்துப் பின் ஆழமற்ற நீர் மட்டத்தை மட்டும் பேணுங்கள்."
+    }
+   },
+   {
+    "day": 1,
+    "check": false,
+    "text": {
+     "en": "Spray thiophanate-methyl at the label dose in the early morning or evening, covering the upper leaves well.",
+     "si": "උදෑසන හෝ සවස ලේබලයේ මාත්‍රාවෙන් තයෝෆැනේට්-මෙතිල් (thiophanate-methyl) ඉහළ කොළ හොඳින් තෙමෙන සේ ඉසින්න.",
+     "ta": "அதிகாலை அல்லது மாலையில் லேபிள் அளவில் தயோஃபனேட்-மெதில் (thiophanate-methyl) ஐ மேல் இலைகள் நன்கு நனையும்படி தெளியுங்கள்."
+    }
+   },
+   {
+    "day": 7,
+    "check": true,
+    "text": {
+     "en": "Check the top leaves. Are new red stripes appearing?",
+     "si": "ඉහළ කොළ පරීක්ෂා කරන්න. අලුත් රතු ඉරි ඇති වෙනවාද?",
+     "ta": "மேல் இலைகளைச் சோதியுங்கள். புதிய சிவப்புக் கோடுகள் தோன்றுகின்றனவா?"
+    }
+   },
+   {
+    "day": 12,
+    "check": false,
+    "text": {
+     "en": "If new stripes are still appearing, spray thiophanate-methyl a second time at the label dose.",
+     "si": "අලුත් ඉරි තවමත් ඇති වේ නම්, ලේබලයේ මාත්‍රාවෙන් තයෝෆැනේට්-මෙතිල් දෙවන වරට ඉසින්න.",
+     "ta": "புதிய கோடுகள் இன்னும் தோன்றினால், லேபிள் அளவில் தயோஃபனேட்-மெதிலை இரண்டாவது முறை தெளியுங்கள்."
+    }
+   },
+   {
+    "day": 18,
+    "check": true,
+    "text": {
+     "en": "Final check. Next season give urea in split doses and do not over-fertilize.",
+     "si": "අවසාන පරීක්ෂාව. ඊළඟ කන්නයේ යූරියා කොටස් වශයෙන් දී වැඩිපුර පොහොර නොදමන්න.",
+     "ta": "இறுதிச் சோதனை. அடுத்த போகத்தில் யூரியாவைப் பிரித்து இடுங்கள், அதிகமாக உரம் இட வேண்டாம்."
+    }
+   }
+  ]
+ },
+ "healthy": {
+  "name": {
+   "en": "Healthy leaf",
+   "si": "නිරෝගී කොළය",
+   "ta": "ஆரோக்கியமான இலை"
+  },
+  "type": null,
+  "steps": [
+   {
+    "day": 7,
+    "check": true,
+    "text": {
+     "en": "Weekly field check. Look at the leaves and scan one if you see spots.",
+     "si": "සතිපතා කුඹුරු පරීක්ෂාව. කොළ බලා පුල්ලි දුටුවහොත් එකක් ස්කෑන් කරන්න.",
+     "ta": "வாராந்திர வயல் சோதனை. இலைகளைப் பார்த்து, புள்ளிகள் தெரிந்தால் ஒன்றை ஸ்கேன் செய்யுங்கள்."
+    }
+   },
+   {
+    "day": 14,
+    "check": true,
+    "text": {
+     "en": "Weekly field check, especially after rain.",
+     "si": "සතිපතා කුඹුරු පරීක්ෂාව, විශේෂයෙන් වැසි වලින් පසු.",
+     "ta": "வாராந்திர வயல் சோதனை, குறிப்பாக மழைக்குப் பின்."
+    }
+   }
+  ]
+ },
+ "brown_planthopper": {
+  "name": {
+   "en": "Brown Planthopper (BPH)",
+   "si": "දුඹුරු පැල කීඩෑවා",
+   "ta": "பழுப்புத் தத்துப்பூச்சி"
+  },
+  "type": "pest:insect",
+  "steps": [
+   {
+    "day": 0,
+    "check": false,
+    "text": {
+     "en": "Drain the field and keep it drained for 3–4 days. Stop all urea.",
+     "si": "කුඹුරේ ජලය බැස යවා දින 3–4ක් එසේ තබන්න. සියලු යූරියා යෙදීම නවත්වන්න.",
+     "ta": "வயல் நீரை வடித்து 3–4 நாட்கள் அப்படியே வையுங்கள். யூரியா இடுவதை முற்றாக நிறுத்துங்கள்."
+    }
+   },
+   {
+    "day": 1,
+    "check": false,
+    "text": {
+     "en": "Tap the base of 10 plants in different places. If you count about 10 or more hoppers per clump, spray buprofezin or pymetrozine at the label dose, only at the base of the plants.",
+     "si": "විවිධ ස්ථානවල පැළ 10ක පාමුලට තට්ටු කරන්න. පඳුරකට කීඩෑවන් 10ක් හෝ ඊට වැඩි ගණනක් ගණන් කළහොත්, ලේබලයේ මාත්‍රාවෙන් බියුප්‍රොෆෙසින් (buprofezin) හෝ පයිමෙට්‍රොසීන් (pymetrozine) පැළ පාමුලට පමණක් ඉසින්න.",
+     "ta": "வெவ்வேறு இடங்களில் 10 பயிர்களின் அடிப்பகுதியைத் தட்டுங்கள். ஒரு குத்துக்கு சுமார் 10 அல்லது அதற்கு மேற்பட்ட தத்துப்பூச்சிகள் இருந்தால், லேபிள் அளவில் புப்ரோஃபெசின் (buprofezin) அல்லது பைமெட்ரோசின் (pymetrozine) ஐப் பயிரின் அடிப்பகுதியில் மட்டும் தெளியுங்கள்."
+    }
+   },
+   {
+    "day": 3,
+    "check": true,
+    "text": {
+     "en": "Check the dried patches. Are they getting bigger? Tap the plants again and count the hoppers.",
+     "si": "වියළුණු පැල්ලම් පරීක්ෂා කරන්න. ඒවා විශාල වෙනවාද? නැවත පැළවලට තට්ටු කර කීඩෑවන් ගණන් කරන්න.",
+     "ta": "காய்ந்த திட்டுகளைச் சோதியுங்கள். அவை பெரிதாகின்றனவா? மீண்டும் பயிர்களைத் தட்டித் தத்துப்பூச்சிகளை எண்ணுங்கள்."
+    }
+   },
+   {
+    "day": 4,
+    "check": false,
+    "text": {
+     "en": "Bring back a shallow water level (2–3 cm). Keep holding back extra nitrogen.",
+     "si": "නොගැඹුරු ජල මට්ටමක් (සෙ.මී. 2–3) නැවත ලබාදෙන්න. අමතර නයිට්‍රජන් නොයොදා සිටින්න.",
+     "ta": "குறைந்த நீர் மட்டத்தை (2–3 செ.மீ.) மீண்டும் கொடுங்கள். கூடுதல் நைதரசன் இடாமல் இருங்கள்."
+    }
+   },
+   {
+    "day": 7,
+    "check": true,
+    "text": {
+     "en": "Check the base of the plants again. If hoppers are still many, spray once more using the other product (pymetrozine if you used buprofezin, or buprofezin if you used pymetrozine).",
+     "si": "නැවත පැළ පාමුල පරීක්ෂා කරන්න. කීඩෑවන් තවමත් බොහෝ නම්, අනෙක් භාණ්ඩය යොදා තවත් වරක් ඉසින්න (බියුප්‍රොෆෙසින් යෙදුවේ නම් පයිමෙට්‍රොසීන්, පයිමෙට්‍රොසීන් යෙදුවේ නම් බියුප්‍රොෆෙසින්).",
+     "ta": "மீண்டும் பயிரின் அடிப்பகுதியைச் சோதியுங்கள். தத்துப்பூச்சிகள் இன்னும் அதிகமானால், மற்றப் பொருளைப் பயன்படுத்தி மீண்டும் ஒருமுறை தெளியுங்கள் (புப்ரோஃபெசின் பயன்படுத்தியிருந்தால் பைமெட்ரோசின், பைமெட்ரோசின் பயன்படுத்தியிருந்தால் புப்ரோஃபெசின்)."
+    }
+   },
+   {
+    "day": 14,
+    "check": true,
+    "text": {
+     "en": "Final check. If patches are still spreading, drain the field again for 3–4 days and repeat the spray at the base of the plants. Next season, grow a BPH-resistant variety.",
+     "si": "අවසාන පරීක්ෂාව. පැල්ලම් තවමත් පැතිරේ නම්, නැවත දින 3–4ක් කුඹුරේ ජලය බැස යවා පැළ පාමුලට නැවත ඉසින්න. ඊළඟ කන්නයේ දුඹුරු පැල කීඩෑවාට ඔරොත්තු දෙන ප්‍රභේදයක් වගා කරන්න.",
+     "ta": "இறுதிச் சோதனை. திட்டுகள் இன்னும் பரவினால், மீண்டும் 3–4 நாட்கள் வயல் நீரை வடித்து, பயிரின் அடிப்பகுதியில் மீண்டும் தெளியுங்கள். அடுத்த போகத்தில் பழுப்புத் தத்துப்பூச்சி எதிர்ப்பு இனத்தைப் பயிரிடுங்கள்."
+    }
+   }
+  ]
+ },
+ "gall_midge": {
+  "name": {
+   "en": "Rice Gall Midge",
+   "si": "ගොබ මැස්සා",
+   "ta": "ஆனைக்கொம்பன் ஈ"
+  },
+  "type": "pest:insect",
+  "steps": [
+   {
+    "day": 0,
+    "check": false,
+    "text": {
+     "en": "Walk the field. Pull out the pale tube-like shoots (silver shoots) and destroy them away from the field.",
+     "si": "කුඹුර පුරා ඇවිදින්න. සුදුමැලි නළ වැනි දළු (රිදී දළු) ගලවා කුඹුරෙන් ඈතට ගෙන ගොස් විනාශ කරන්න.",
+     "ta": "வயல் முழுவதும் நடந்து செல்லுங்கள். வெளிறிய குழாய் போன்ற தூர்களை (வெள்ளித் தூர்) பிடுங்கி வயலுக்கு அப்பால் அழியுங்கள்."
+    }
+   },
+   {
+    "day": 1,
+    "check": false,
+    "text": {
+     "en": "Remove wild grasses and volunteer rice on the bunds and around the field, where the flies breed.",
+     "si": "මැස්සන් බෝ වන නියරවල සහ කුඹුර වටා ඇති වල් තෘණ සහ ඉබේ හටගත් වී පැළ ඉවත් කරන්න.",
+     "ta": "ஈக்கள் பெருகும் வரப்புகளிலும் வயலைச் சுற்றியும் உள்ள காட்டுப் புற்களையும் தானாக முளைத்த நெல்லையும் அகற்றுங்கள்."
+    }
+   },
+   {
+    "day": 3,
+    "check": false,
+    "text": {
+     "en": "Do not spray – spraying after the tubes have formed does not help. Keep removing silver shoots and keep the bunds free of grasses.",
+     "si": "නොඉසින්න – නළ හටගත් පසු ඉසීමෙන් ප්‍රයෝජනයක් නැත. දිගටම රිදී දළු ඉවත් කර නියර තෘණවලින් තොරව තබාගන්න.",
+     "ta": "தெளிக்க வேண்டாம் – குழாய்கள் உருவான பின் தெளிப்பது பயனில்லை. தொடர்ந்து வெள்ளித் தூர்களை அகற்றி, வரப்புகளைப் புல் இல்லாமல் வையுங்கள்."
+    }
+   },
+   {
+    "day": 7,
+    "check": true,
+    "text": {
+     "en": "Check the new tillers for silver shoots and remove any you find.",
+     "si": "අලුත් පඳුරුවල රිදී දළු ඇත්දැයි බලා හමු වූ ඒවා ඉවත් කරන්න.",
+     "ta": "புதிய தூர்களில் வெள்ளித் தூர்கள் உள்ளனவா எனப் பார்த்து, கண்டவற்றை அகற்றுங்கள்."
+    }
+   },
+   {
+    "day": 14,
+    "check": true,
+    "text": {
+     "en": "Final check. Next season, plant on time with your neighbours and use a gall midge-resistant variety.",
+     "si": "අවසාන පරීක්ෂාව. ඊළඟ කන්නයේ අසල්වැසියන් සමඟ නියමිත වේලාවට වගා කර ගොබ මැස්සාට ඔරොත්තු දෙන ප්‍රභේදයක් භාවිත කරන්න.",
+     "ta": "இறுதிச் சோதனை. அடுத்த போகத்தில் அயலவர்களுடன் உரிய நேரத்தில் பயிரிட்டு, ஆனைக்கொம்பன் ஈ எதிர்ப்பு இனத்தைப் பயன்படுத்துங்கள்."
+    }
+   }
+  ]
+ },
+ "paddy_bug": {
+  "name": {
+   "en": "Rice Bug (Paddy Bug)",
+   "si": "වී මකුණා",
+   "ta": "கதிர் நாவாய்ப் பூச்சி"
+  },
+  "type": "pest:insect",
+  "steps": [
+   {
+    "day": 0,
+    "check": false,
+    "text": {
+     "en": "In the early morning or evening, check 10 panicles in different places and count the bugs.",
+     "si": "උදෑසන හෝ සවස, විවිධ ස්ථානවල කරල් 10ක් පරීක්ෂා කර මකුණන් ගණන් කරන්න.",
+     "ta": "அதிகாலை அல்லது மாலையில், வெவ்வேறு இடங்களில் 10 கதிர்களைச் சோதித்துப் பூச்சிகளை எண்ணுங்கள்."
+    }
+   },
+   {
+    "day": 1,
+    "check": false,
+    "text": {
+     "en": "Clear grassy weeds on the bunds and field edges where the bugs hide.",
+     "si": "මකුණන් සැඟවෙන නියරවල සහ කුඹුරු දාරවල තෘණ වල් පැළ ඉවත් කරන්න.",
+     "ta": "பூச்சிகள் ஒளிந்திருக்கும் வரப்புகளிலும் வயல் ஓரங்களிலும் உள்ள புல் களைகளை அகற்றுங்கள்."
+    }
+   },
+   {
+    "day": 2,
+    "check": false,
+    "text": {
+     "en": "If bugs are many, spray an insecticide whose label says 'paddy bug', in the early morning or late evening, at the label dose. Wear gloves and a mask.",
+     "si": "මකුණන් වැඩි නම්, ලේබලයේ 'වී මකුණා (paddy bug)' සඳහන් කෘමිනාශකයක් උදෑසන හෝ සවස ලේබලයේ මාත්‍රාවෙන් ඉසින්න. අත්වැසුම් සහ මුහුණු ආවරණයක් පළඳින්න.",
+     "ta": "பூச்சிகள் அதிகமானால், லேபிளில் 'கதிர் நாவாய்ப் பூச்சி (paddy bug)' எனக் குறிப்பிட்ட பூச்சிக்கொல்லியை அதிகாலை அல்லது மாலையில் லேபிள் அளவில் தெளியுங்கள். கையுறை, முகக்கவசம் அணியுங்கள்."
+    }
+   },
+   {
+    "day": 5,
+    "check": true,
+    "text": {
+     "en": "Check the panicles again. Are there still many bugs or new empty grains?",
+     "si": "නැවත කරල් පරීක්ෂා කරන්න. තවමත් මකුණන් බොහෝද, නැතහොත් අලුත් හිස් ඇට තිබේද?",
+     "ta": "மீண்டும் கதிர்களைச் சோதியுங்கள். இன்னும் பல பூச்சிகள் அல்லது புதிய பதர் மணிகள் உள்ளனவா?"
+    }
+   },
+   {
+    "day": 10,
+    "check": true,
+    "text": {
+     "en": "Final check until the grains become hard. Respect the waiting period before harvest if you sprayed.",
+     "si": "ඇට තද වන තුරු අවසාන පරීක්ෂාව. ඔබ ඉස්සා නම් අස්වනු නෙළීමට පෙර පොරොත්තු කාලය රකින්න.",
+     "ta": "மணிகள் கடினமாகும் வரை இறுதிச் சோதனை. தெளித்திருந்தால் அறுவடைக்கு முன் காத்திருப்புக் காலத்தைப் பின்பற்றுங்கள்."
+    }
+   }
+  ]
+ },
+ "leaf_folder": {
+  "name": {
+   "en": "Rice Leaf Folder",
+   "si": "කොළ හකුළන දළඹුවා",
+   "ta": "இலை சுருட்டுப் புழு"
+  },
+  "type": "pest:insect",
+  "steps": [
+   {
+    "day": 0,
+    "check": false,
+    "text": {
+     "en": "Count folded leaves on 10 plants. A few damaged leaves do not reduce the harvest – do not spray yet.",
+     "si": "පැළ 10ක නැවුණු කොළ ගණන් කරන්න. හානි වූ කොළ කිහිපයකින් අස්වැන්න අඩු නොවේ – තවම නොඉසින්න.",
+     "ta": "10 பயிர்களில் மடிந்த இலைகளை எண்ணுங்கள். சில சேதமடைந்த இலைகள் அறுவடையைக் குறைக்காது – இப்போதே தெளிக்க வேண்டாம்."
+    }
+   },
+   {
+    "day": 1,
+    "check": false,
+    "text": {
+     "en": "Stop extra nitrogen fertilizer.",
+     "si": "අමතර නයිට්‍රජන් පොහොර නවත්වන්න.",
+     "ta": "கூடுதல் நைதரசன் உரத்தை நிறுத்துங்கள்."
+    }
+   },
+   {
+    "day": 3,
+    "check": false,
+    "text": {
+     "en": "If many of the top leaves are damaged before flowering, spray chlorantraniliprole (or another insecticide labelled for leaf folder) at the label dose.",
+     "si": "මල් පිපීමට පෙර ඉහළ කොළ බොහොමයක් හානි වී ඇත්නම්, ලේබලයේ මාත්‍රාවෙන් ක්ලෝරන්ට්‍රනිලිප්‍රෝල් (chlorantraniliprole) (නැතහොත් කොළ හකුළන දළඹුවාට ලේබල් කළ වෙනත් කෘමිනාශකයක්) ඉසින්න.",
+     "ta": "பூக்கும் முன் பல மேல் இலைகள் சேதமடைந்திருந்தால், லேபிள் அளவில் குளோரான்ட்ரானிலிப்ரோல் (chlorantraniliprole) (அல்லது இலை சுருட்டுப் புழுவுக்கு லேபிளிடப்பட்ட வேறு பூச்சிக்கொல்லி) ஐத் தெளியுங்கள்."
+    }
+   },
+   {
+    "day": 7,
+    "check": true,
+    "text": {
+     "en": "Check the new leaves. Are new folded leaves still appearing?",
+     "si": "අලුත් කොළ පරීක්ෂා කරන්න. තවමත් අලුතින් නැවුණු කොළ ඇති වෙනවාද?",
+     "ta": "புதிய இலைகளைச் சோதியுங்கள். இன்னும் புதிதாக மடிந்த இலைகள் தோன்றுகின்றனவா?"
+    }
+   },
+   {
+    "day": 14,
+    "check": true,
+    "text": {
+     "en": "Final check. Protect spiders and dragonflies – they eat leaf folders.",
+     "si": "අවසාන පරීක්ෂාව. මකුළුවන් සහ බත්කූරන් ආරක්ෂා කරන්න – ඔවුන් කොළ හකුළන දළඹුවන් කති.",
+     "ta": "இறுதிச் சோதனை. சிலந்திகளையும் தும்பிகளையும் பாதுகாருங்கள் – அவை இலை சுருட்டுப் புழுக்களை உண்கின்றன."
+    }
+   }
+  ]
+ },
+ "stem_borer": {
+  "name": {
+   "en": "Yellow Stem Borer",
+   "si": "කහ කඳ පණුවා",
+   "ta": "மஞ்சள் தண்டுத் துளைப்பான்"
+  },
+  "type": "pest:insect",
+  "steps": [
+   {
+    "day": 0,
+    "check": false,
+    "text": {
+     "en": "Collect egg masses (small brown hairy patches) from the leaf tips and destroy them.",
+     "si": "කොළ අගින් බිත්තර කැටි (කුඩා දුඹුරු රෝම සහිත පැල්ලම්) එකතු කර විනාශ කරන්න.",
+     "ta": "இலை நுனிகளிலிருந்து முட்டைக் குவியல்களை (சிறிய பழுப்பு மயிருள்ள திட்டுகள்) சேகரித்து அழியுங்கள்."
+    }
+   },
+   {
+    "day": 1,
+    "check": false,
+    "text": {
+     "en": "Pull out dead centre shoots (deadhearts) and destroy them, with the caterpillar inside.",
+     "si": "මිය ගිය මැද දළු (මළ දළු) ඇතුළත දළඹුවා සමඟම ගලවා විනාශ කරන්න.",
+     "ta": "இறந்த நடுத்தூர்களை (டெட்ஹார்ட்) உள்ளே இருக்கும் புழுவுடன் பிடுங்கி அழியுங்கள்."
+    }
+   },
+   {
+    "day": 2,
+    "check": false,
+    "text": {
+     "en": "If many tillers are damaged, apply chlorantraniliprole (or another insecticide labelled for stem borer) at the label dose.",
+     "si": "පඳුරු බොහොමයක් හානි වී ඇත්නම්, ලේබලයේ මාත්‍රාවෙන් ක්ලෝරන්ට්‍රනිලිප්‍රෝල් (chlorantraniliprole) (නැතහොත් කඳ පණුවාට ලේබල් කළ වෙනත් කෘමිනාශකයක්) යොදන්න.",
+     "ta": "பல தூர்கள் சேதமடைந்திருந்தால், லேபிள் அளவில் குளோரான்ட்ரானிலிப்ரோல் (chlorantraniliprole) (அல்லது தண்டுத் துளைப்பானுக்கு லேபிளிடப்பட்ட வேறு பூச்சிக்கொல்லி) ஐப் பயன்படுத்துங்கள்."
+    }
+   },
+   {
+    "day": 7,
+    "check": true,
+    "text": {
+     "en": "Check for new deadhearts or white empty panicles, and new egg masses.",
+     "si": "අලුත් මළ දළු හෝ සුදු හිස් කරල් සහ අලුත් බිත්තර කැටි ඇත්දැයි බලන්න.",
+     "ta": "புதிய டெட்ஹார்ட் அல்லது வெள்ளை வெற்றுக் கதிர்கள், புதிய முட்டைக் குவியல்கள் உள்ளனவா எனப் பாருங்கள்."
+    }
+   },
+   {
+    "day": 14,
+    "check": true,
+    "text": {
+     "en": "Final check. After harvest, cut the stubble close to the ground and plough it in.",
+     "si": "අවසාන පරීක්ෂාව. අස්වනු නෙළීමෙන් පසු ඉපනැලි පොළොවට ළඟින් කපා සීසා පසට යොදන්න.",
+     "ta": "இறுதிச் சோதனை. அறுவடைக்குப் பின் அடிக்கட்டைகளை நிலத்துக்கு அருகில் வெட்டி உழுது சேருங்கள்."
+    }
+   }
+  ]
+ },
+ "thrips": {
+  "name": {
+   "en": "Rice Thrips",
+   "si": "වී තිරිප්ස්",
+   "ta": "நெல் இலைப்பேன்"
+  },
+  "type": "pest:insect",
+  "steps": [
+   {
+    "day": 0,
+    "check": false,
+    "text": {
+     "en": "Flood the field or nursery for 1–2 days. This usually controls thrips.",
+     "si": "දින 1–2ක් කුඹුරට හෝ තවානට ජලය බඳින්න. සාමාන්‍යයෙන් මෙයින් තිරිප්ස් පාලනය වේ.",
+     "ta": "1–2 நாட்கள் வயலில் அல்லது நாற்றுமேடையில் நீர் கட்டுங்கள். இது பொதுவாக இலைப்பேன்களைக் கட்டுப்படுத்தும்."
+    }
+   },
+   {
+    "day": 2,
+    "check": false,
+    "text": {
+     "en": "Keep a steady water level. Do not let the field dry out.",
+     "si": "ස්ථාවර ජල මට්ටමක් තබාගන්න. කුඹුර වියළී යාමට ඉඩ නොදෙන්න.",
+     "ta": "நிலையான நீர் மட்டத்தைப் பேணுங்கள். வயல் உலர விட வேண்டாம்."
+    }
+   },
+   {
+    "day": 4,
+    "check": true,
+    "text": {
+     "en": "Check the new leaves. Are they coming out green and open?",
+     "si": "අලුත් කොළ පරීක්ෂා කරන්න. ඒවා කොළ පැහැයෙන් හා දිගහැරී එනවාද?",
+     "ta": "புதிய இலைகளைச் சோதியுங்கள். அவை பச்சையாகவும் விரிந்தும் வருகின்றனவா?"
+    }
+   },
+   {
+    "day": 7,
+    "check": true,
+    "text": {
+     "en": "Final check. If leaves are still rolling after flooding, spray an insecticide labelled for thrips at the label dose.",
+     "si": "අවසාන පරීක්ෂාව. ජලය බැඳීමෙන් පසුවත් කොළ රෝල් වේ නම්, ලේබලයේ මාත්‍රාවෙන් තිරිප්ස් සඳහා ලේබල් කළ කෘමිනාශකයක් ඉසින්න.",
+     "ta": "இறுதிச் சோதனை. நீர் கட்டிய பின்னும் இலைகள் சுருண்டால், லேபிள் அளவில் இலைப்பேனுக்கு லேபிளிடப்பட்ட பூச்சிக்கொல்லியைத் தெளியுங்கள்."
+    }
+   }
+  ]
+ },
+ "green_leafhopper": {
+  "name": {
+   "en": "Green Leafhopper",
+   "si": "කොළ පැල කීඩෑවා",
+   "ta": "பச்சைத் தத்துப்பூச்சி"
+  },
+  "type": "pest:insect",
+  "steps": [
+   {
+    "day": 0,
+    "check": false,
+    "text": {
+     "en": "Pull out yellow-orange stunted plants (tungro) and destroy them away from the field.",
+     "si": "කහ-තැඹිලි, කුරු පැළ (ටුන්ග්‍රෝ) ගලවා කුඹුරෙන් ඈතට ගෙන ගොස් විනාශ කරන්න.",
+     "ta": "மஞ்சள்-செம்மஞ்சள் குட்டையான பயிர்களை (துங்ரோ) பிடுங்கி வயலுக்கு அப்பால் அழியுங்கள்."
+    }
+   },
+   {
+    "day": 1,
+    "check": false,
+    "text": {
+     "en": "Check how many leafhoppers jump from the plants. If many, spray imidacloprid or thiamethoxam at the label dose.",
+     "si": "පැළවලින් කොළ පැල කීඩෑවන් කීදෙනෙක් පනිනවාදැයි බලන්න. බොහෝ නම්, ලේබලයේ මාත්‍රාවෙන් ඉමිඩාක්ලෝප්‍රිඩ් (imidacloprid) හෝ තයමිතොක්සම් (thiamethoxam) ඉසින්න.",
+     "ta": "பயிர்களிலிருந்து எத்தனை தத்துப்பூச்சிகள் தாவுகின்றன எனப் பாருங்கள். அதிகமானால், லேபிள் அளவில் இமிடாகுளோப்ரிட் (imidacloprid) அல்லது தயமீதாக்சம் (thiamethoxam) ஐத் தெளியுங்கள்."
+    }
+   },
+   {
+    "day": 3,
+    "check": false,
+    "text": {
+     "en": "If tungro is spreading, tell your neighbours so everyone removes infected plants and sprays in the same week.",
+     "si": "ටුන්ග්‍රෝ පැතිරේ නම්, සියලු දෙනා එකම සතියේ රෝගී පැළ ඉවත් කර ඉසින සේ අසල්වැසියන්ට දන්වන්න.",
+     "ta": "துங்ரோ பரவினால், அனைவரும் ஒரே வாரத்தில் நோயுற்ற பயிர்களை அகற்றித் தெளிக்க அயலவர்களுக்குத் தெரிவியுங்கள்."
+    }
+   },
+   {
+    "day": 7,
+    "check": true,
+    "text": {
+     "en": "Check for new yellow plants and remove them.",
+     "si": "අලුත් කහ පැළ ඇත්දැයි බලා ඒවා ඉවත් කරන්න.",
+     "ta": "புதிய மஞ்சள் பயிர்கள் உள்ளனவா எனப் பார்த்து அவற்றை அகற்றுங்கள்."
+    }
+   },
+   {
+    "day": 14,
+    "check": true,
+    "text": {
+     "en": "Final check. Next season, plant at the same time as your neighbours.",
+     "si": "අවසාන පරීක්ෂාව. ඊළඟ කන්නයේ අසල්වැසියන් සමඟ එකවර වගා කරන්න.",
+     "ta": "இறுதிச் சோதனை. அடுத்த போகத்தில் அயலவர்களுடன் ஒரே நேரத்தில் பயிரிடுங்கள்."
+    }
+   }
+  ]
+ },
+ "rats": {
+  "name": {
+   "en": "Rats",
+   "si": "මීයන්",
+   "ta": "எலிகள்"
+  },
+  "type": "pest:animal",
+  "steps": [
+   {
+    "day": 0,
+    "check": false,
+    "text": {
+     "en": "Walk the bunds and mark every fresh burrow and rat runway.",
+     "si": "නියර දිගේ ඇවිද සෑම අලුත් ගුලක්ම සහ මීයන් යන මාර්ගයක්ම සලකුණු කරන්න.",
+     "ta": "வரப்புகள் வழியே நடந்து ஒவ்வொரு புதிய வளையையும் எலிப் பாதையையும் குறியிடுங்கள்."
+    }
+   },
+   {
+    "day": 1,
+    "check": false,
+    "text": {
+     "en": "Dig out or block the burrows and set traps along the runways.",
+     "si": "ගුල හාරා දමන්න හෝ වසා දමා, මීයන් යන මාර්ග දිගේ උගුල් තබන්න.",
+     "ta": "வளைகளைத் தோண்டி அல்லது அடைத்து, எலிப் பாதைகளில் பொறிகளை வையுங்கள்."
+    }
+   },
+   {
+    "day": 2,
+    "check": false,
+    "text": {
+     "en": "Talk with your neighbours and the farmer organisation about a joint rat campaign – rats move from field to field.",
+     "si": "ඒකාබද්ධ මී මර්දන ව්‍යාපාරයක් ගැන අසල්වැසියන් සහ ගොවි සංවිධානය සමඟ කතා කරන්න – මීයන් කුඹුරෙන් කුඹුරට යති.",
+     "ta": "கூட்டு எலிக் கட்டுப்பாட்டு இயக்கம் பற்றி அயலவர்களுடனும் விவசாயிகள் அமைப்புடனும் பேசுங்கள் – எலிகள் வயலுக்கு வயல் செல்கின்றன."
+    }
+   },
+   {
+    "day": 4,
+    "check": true,
+    "text": {
+     "en": "Check the traps and look for new cut stems.",
+     "si": "උගුල් පරීක්ෂා කර අලුතින් කැපූ කඳන් ඇත්දැයි බලන්න.",
+     "ta": "பொறிகளைச் சோதித்து, புதிதாக வெட்டப்பட்ட தண்டுகள் உள்ளனவா எனப் பாருங்கள்."
+    }
+   },
+   {
+    "day": 7,
+    "check": false,
+    "text": {
+     "en": "If damage continues, use rat bait only as the label directs, in covered bait stations, away from children, pets and farm animals.",
+     "si": "හානිය දිගටම පවතී නම්, මී විෂ ඇම නිර්දේශිත ආකාරයට පමණක්, වසා ඇති ඇම පෙට්ටිවල, ළමුන්ගෙන්, සුරතල් සතුන්ගෙන් සහ ගොවිපල සතුන්ගෙන් ඈතින් භාවිත කරන්න.",
+     "ta": "சேதம் தொடர்ந்தால், எலி நச்சு இரையைப் பரிந்துரைக்கப்பட்டபடி மட்டும், மூடிய இரைப் பெட்டிகளில், குழந்தைகள், செல்லப்பிராணிகள், பண்ணை விலங்குகளிடமிருந்து தூரத்தில் பயன்படுத்துங்கள்."
+    }
+   },
+   {
+    "day": 14,
+    "check": true,
+    "text": {
+     "en": "Final check. Keep bunds narrow and free of weeds, and store harvested paddy in rat-proof containers.",
+     "si": "අවසාන පරීක්ෂාව. නියර පටු හා වල් පැළවලින් තොරව තබා, අස්වනු වී මීයන්ට ඇතුළු විය නොහැකි බඳුන්වල ගබඩා කරන්න.",
+     "ta": "இறுதிச் சோதனை. வரப்புகளைக் குறுகியதாகவும் களையின்றியும் வைத்து, அறுவடை நெல்லை எலி புக முடியாத கொள்கலன்களில் சேமியுங்கள்."
+    }
+   }
+  ]
+ },
+ "birds": {
+  "name": {
+   "en": "Paddy Birds",
+   "si": "වී කුරුල්ලන්",
+   "ta": "நெல் பறவைகள்"
+  },
+  "type": "pest:animal",
+  "steps": [
+   {
+    "day": 0,
+    "check": false,
+    "text": {
+     "en": "Put up shiny reflective ribbons and scarecrows across the field.",
+     "si": "කුඹුර පුරා දිලිසෙන පීලි සහ පඹයන් සවි කරන්න.",
+     "ta": "வயல் முழுவதும் மின்னும் நாடாக்களையும் வெருளிகளையும் அமையுங்கள்."
+    }
+   },
+   {
+    "day": 1,
+    "check": false,
+    "text": {
+     "en": "Guard the field every early morning and late afternoon until harvest.",
+     "si": "අස්වනු නෙළන තුරු සෑම උදෑසනකම සහ සවසකම කුඹුර රකින්න.",
+     "ta": "அறுவடை வரை ஒவ்வொரு அதிகாலையிலும் மாலையிலும் வயலைக் காவல் செய்யுங்கள்."
+    }
+   },
+   {
+    "day": 3,
+    "check": false,
+    "text": {
+     "en": "Move the scarecrows and ribbons to new places so the birds don't get used to them.",
+     "si": "කුරුල්ලන් හුරු නොවන සේ පඹයන් සහ පීලි අලුත් ස්ථානවලට මාරු කරන්න.",
+     "ta": "பறவைகள் பழகாதிருக்க வெருளிகளையும் நாடாக்களையும் புதிய இடங்களுக்கு மாற்றுங்கள்."
+    }
+   },
+   {
+    "day": 7,
+    "check": true,
+    "text": {
+     "en": "Check the panicles for new damage and change the scaring methods again.",
+     "si": "අලුත් හානි ඇත්දැයි කරල් පරීක්ෂා කර නැවත බිය ගැන්වීමේ ක්‍රම වෙනස් කරන්න.",
+     "ta": "புதிய சேதம் உள்ளதா எனக் கதிர்களைச் சோதித்து, விரட்டும் முறைகளை மீண்டும் மாற்றுங்கள்."
+    }
+   },
+   {
+    "day": 10,
+    "check": true,
+    "text": {
+     "en": "Check the grains. Harvest as soon as about 80–85% of the grains are golden.",
+     "si": "ඇට පරීක්ෂා කරන්න. ඇටවලින් 80–85%ක් පමණ රන්වන් වූ විගස අස්වනු නෙළන්න.",
+     "ta": "மணிகளைச் சோதியுங்கள். சுமார் 80–85% மணிகள் பொன்னிறமானதும் அறுவடை செய்யுங்கள்."
+    }
+   }
+  ]
+ },
+ "peafowl": {
+  "name": {
+   "en": "Peafowl",
+   "si": "මොනරා",
+   "ta": "மயில்"
+  },
+  "type": "pest:animal",
+  "steps": [
+   {
+    "day": 0,
+    "check": false,
+    "text": {
+     "en": "Guard the field at dawn and dusk and scare the birds away with noise. Never harm them – peafowl are protected by law.",
+     "si": "උදෑසන සහ සන්ධ්‍යාවේ කුඹුර රකිමින් ශබ්දයෙන් කුරුල්ලන් පලවා හරින්න. ඔවුන්ට කිසි විටෙක හානි නොකරන්න – මොනරුන් නීතියෙන් ආරක්ෂිතය.",
+     "ta": "விடியலிலும் அந்தியிலும் வயலைக் காவல் செய்து சத்தத்தால் பறவைகளை விரட்டுங்கள். அவற்றுக்கு ஒருபோதும் தீங்கு செய்ய வேண்டாம் – மயில்கள் சட்டத்தால் பாதுகாக்கப்படுகின்றன."
+    }
+   },
+   {
+    "day": 1,
+    "check": false,
+    "text": {
+     "en": "Re-sow or fill in the bare patches where seed or seedlings were eaten. Cover nursery beds with nets.",
+     "si": "බීජ හෝ පැළ කා දැමූ හිස් පැල්ලම් නැවත වපුරන්න හෝ පුරවන්න. තවාන් දැල්වලින් වසන්න.",
+     "ta": "விதைகள் அல்லது நாற்றுகள் உண்ணப்பட்ட வெற்றுத் திட்டுகளை மீண்டும் விதையுங்கள் அல்லது நிரப்புங்கள். நாற்றுமேடைகளை வலைகளால் மூடுங்கள்."
+    }
+   },
+   {
+    "day": 3,
+    "check": false,
+    "text": {
+     "en": "Change the scaring method (scarecrows, reflective tape, noise) so the birds don't get used to it.",
+     "si": "කුරුල්ලන් හුරු නොවන සේ බිය ගැන්වීමේ ක්‍රමය (පඹයන්, දිලිසෙන පීලි, ශබ්ද) වෙනස් කරන්න.",
+     "ta": "பறவைகள் பழகாதிருக்க விரட்டும் முறையை (வெருளிகள், மின்னும் நாடா, சத்தம்) மாற்றுங்கள்."
+    }
+   },
+   {
+    "day": 7,
+    "check": true,
+    "text": {
+     "en": "Check for new bare patches. Take turns with neighbouring farmers to guard the fields at dawn and dusk.",
+     "si": "අලුත් හිස් පැල්ලම් ඇත්දැයි බලන්න. අසල්වැසි ගොවීන් සමඟ මාරුවෙන් මාරුවට උදෑසන සහ සන්ධ්‍යාවේ කුඹුරු රකින්න.",
+     "ta": "புதிய வெற்றுத் திட்டுகள் உள்ளனவா எனப் பாருங்கள். அயல் விவசாயிகளுடன் முறைவைத்து விடியலிலும் அந்தியிலும் வயல்களைக் காவல் செய்யுங்கள்."
+    }
+   }
+  ]
+ },
+ "wild_boar": {
+  "name": {
+   "en": "Wild Boar",
+   "si": "වල් ඌරා",
+   "ta": "காட்டுப் பன்றி"
+  },
+  "type": "pest:animal",
+  "steps": [
+   {
+    "day": 0,
+    "check": false,
+    "text": {
+     "en": "Repair broken bunds so the field keeps its water, and replant uprooted areas if the crop is still young.",
+     "si": "කුඹුරේ ජලය රැඳෙන සේ කැඩුණු නියර අලුත්වැඩියා කර, බෝගය තවම ළපටි නම් උදුරා දැමූ ස්ථාන නැවත සිටුවන්න.",
+     "ta": "வயலில் நீர் தங்க உடைந்த வரப்புகளைச் சரிசெய்து, பயிர் இன்னும் இளமையாக இருந்தால் பிடுங்கப்பட்ட இடங்களில் மீண்டும் நடுங்கள்."
+    }
+   },
+   {
+    "day": 1,
+    "check": false,
+    "text": {
+     "en": "Guard the field at night from a watch hut with lights and noise. Do not go near the boar.",
+     "si": "ආලෝකය සහ ශබ්ද සමඟ පැල් පැලක සිට රාත්‍රියේ කුඹුර රකින්න. වල් ඌරන් ළඟට යන්න එපා.",
+     "ta": "வெளிச்சமும் சத்தமும் கொண்டு காவல் குடிசையிலிருந்து இரவில் வயலைக் காவல் செய்யுங்கள். பன்றிகளுக்கு அருகில் செல்ல வேண்டாம்."
+    }
+   },
+   {
+    "day": 2,
+    "check": false,
+    "text": {
+     "en": "Meet neighbouring farmers to plan a shared fence or trench around the fields.",
+     "si": "කුඹුරු වටා පොදු වැටක් හෝ අගලක් සැලසුම් කිරීමට අසල්වැසි ගොවීන් හමුවන්න.",
+     "ta": "வயல்களைச் சுற்றிப் பொது வேலி அல்லது அகழி அமைக்கத் திட்டமிட அயல் விவசாயிகளைச் சந்தியுங்கள்."
+    }
+   },
+   {
+    "day": 5,
+    "check": false,
+    "text": {
+     "en": "Clear the scrub along the field edge where the boar hide during the day.",
+     "si": "දිවා කාලයේ වල් ඌරන් සැඟවෙන කුඹුරු දාරයේ පඳුරු ඉවත් කරන්න.",
+     "ta": "பகலில் பன்றிகள் ஒளிந்திருக்கும் வயல் ஓரப் புதர்களை அகற்றுங்கள்."
+    }
+   },
+   {
+    "day": 7,
+    "check": true,
+    "text": {
+     "en": "Check for new digging or flattened crop. Electric fences only if installed safely and approved by the authorities.",
+     "si": "අලුතින් හාරා දැමූ හෝ පොළොවට තද වූ බෝග ඇත්දැයි බලන්න. විදුලි වැට බලධාරීන්ගේ අනුමැතිය ඇතිව ආරක්ෂිතව සවි කළ ඒවා පමණි.",
+     "ta": "புதிதாகத் தோண்டப்பட்ட அல்லது அழுந்திய பயிர் உள்ளதா எனப் பாருங்கள். மின்வேலி அதிகாரிகளின் அனுமதியுடன் பாதுகாப்பாக அமைக்கப்பட்டால் மட்டும்."
+    }
+   }
+  ]
+ },
+ "elephant": {
+  "name": {
+   "en": "Wild Elephant",
+   "si": "වල් අලියා",
+   "ta": "காட்டு யானை"
+  },
+  "type": "pest:animal",
+  "steps": [
+   {
+    "day": 0,
+    "check": false,
+    "text": {
+     "en": "Stay safe – do not go near the elephants. Report the raid to your local Department of Wildlife Conservation office.",
+     "si": "ආරක්ෂිතව සිටින්න – අලින් ළඟට යන්න එපා. ප්‍රහාරය ඔබේ ප්‍රදේශයේ වනජීවී සංරක්ෂණ දෙපාර්තමේන්තු කාර්යාලයට දන්වන්න.",
+     "ta": "பாதுகாப்பாக இருங்கள் – யானைகளுக்கு அருகில் செல்ல வேண்டாம். தாக்குதலை உங்கள் பகுதி வனஜீவராசிகள் பாதுகாப்புத் திணைக்கள அலுவலகத்துக்குத் தெரிவியுங்கள்."
+    }
+   },
+   {
+    "day": 1,
+    "check": false,
+    "text": {
+     "en": "In daylight, take photos of the damage and the footprints. Use them to claim compensation at your local wildlife office, and to claim crop insurance if your crop is insured.",
+     "si": "දිවා කාලයේ හානියේ සහ පා සටහන්වල ඡායාරූප ගන්න. ප්‍රදේශයේ වනජීවී කාර්යාලයෙන් වන්දි ඉල්ලීමට සහ ඔබේ බෝගය රක්ෂණය කර ඇත්නම් රක්ෂණ හිමිකම් ඉල්ලීමට ඒවා භාවිත කරන්න.",
+     "ta": "பகலில் சேதத்தையும் கால்தடங்களையும் படம் எடுங்கள். உங்கள் பகுதி வனஜீவராசிகள் அலுவலகத்தில் இழப்பீடு கோரவும், பயிர் காப்புறுதி செய்யப்பட்டிருந்தால் காப்புறுதி கோரவும் அவற்றைப் பயன்படுத்துங்கள்."
+    }
+   },
+   {
+    "day": 2,
+    "check": false,
+    "text": {
+     "en": "With neighbours, check the community electric fence and report any breaks to the authorities. Never repair or connect it yourself.",
+     "si": "අසල්වැසියන් සමඟ ප්‍රජා විදුලි වැට පරීක්ෂා කර කැඩීම් බලධාරීන්ට දන්වන්න. කිසි විටෙක එය ඔබම අලුත්වැඩියා කරන්න හෝ සම්බන්ධ කරන්න එපා.",
+     "ta": "அயலவர்களுடன் சமூக மின்வேலியைச் சோதித்து, உடைவுகளை அதிகாரிகளுக்குத் தெரிவியுங்கள். நீங்களே அதைச் சரிசெய்யவோ இணைக்கவோ வேண்டாம்."
+    }
+   },
+   {
+    "day": 3,
+    "check": false,
+    "text": {
+     "en": "Plan to harvest the rest of the crop as soon as it is ready. Do not store paddy inside your house.",
+     "si": "ඉතිරි බෝගය සූදානම් වූ විගස අස්වනු නෙළීමට සැලසුම් කරන්න. වී නිවස ඇතුළේ ගබඩා නොකරන්න.",
+     "ta": "மீதமுள்ள பயிர் தயாரானதும் அறுவடை செய்யத் திட்டமிடுங்கள். நெல்லை வீட்டுக்குள் சேமிக்க வேண்டாம்."
+    }
+   },
+   {
+    "day": 7,
+    "check": true,
+    "text": {
+     "en": "Check the field and fence. Keep watching from a safe hut with lights, never alone.",
+     "si": "කුඹුර සහ වැට පරීක්ෂා කරන්න. ආලෝකය සහිත ආරක්ෂිත පැලක සිට, කිසි විටෙක තනිව නොව, දිගටම බලාසිටින්න.",
+     "ta": "வயலையும் வேலியையும் சோதியுங்கள். வெளிச்சமுள்ள பாதுகாப்பான குடிசையிலிருந்து, ஒருபோதும் தனியாக இல்லாமல், தொடர்ந்து கவனியுங்கள்."
+    }
+   }
+  ]
+ },
+ "bacterial_leaf_streak": {
+  "name": {
+   "en": "Bacterial Leaf Streak",
+   "si": "බැක්ටීරියා කොළ ඉරි රෝගය",
+   "ta": "பாக்டீரியா இலைக் கோடு நோய்"
+  },
+  "type": "bacterial",
+  "steps": [
+   {
+    "day": 0,
+    "check": false,
+    "text": {
+     "en": "Stop all urea. Drain the field and keep it drained for 3-4 days.",
+     "si": "සියලු යූරියා නවත්වන්න. කුඹුරේ ජලය බැස යවා දින 3-4ක් එසේ තබන්න.",
+     "ta": "யூரியா இடுவதை முற்றாக நிறுத்துங்கள். வயல் நீரை வடித்து 3-4 நாட்கள் அப்படியே வையுங்கள்."
+    }
+   },
+   {
+    "day": 1,
+    "check": false,
+    "text": {
+     "en": "Remove badly affected plants and the weeds on the bunds. Do not walk in the field when the leaves are wet.",
+     "si": "දරුණු ලෙස රෝගී වූ පැළ සහ නියරවල වල් පැළ ඉවත් කරන්න. කොළ තෙත්ව ඇති විට කුඹුරේ ඇවිදින්න එපා.",
+     "ta": "கடுமையாகப் பாதிக்கப்பட்ட பயிர்களையும் வரப்புகளிலுள்ள களைகளையும் அகற்றுங்கள். இலைகள் ஈரமாக இருக்கும்போது வயலில் நடக்க வேண்டாம்."
+    }
+   },
+   {
+    "day": 4,
+    "check": true,
+    "text": {
+     "en": "Bring back a shallow water level (2-3 cm). Are new streaks appearing? Scan a leaf again.",
+     "si": "නොගැඹුරු ජල මට්ටමක් (සෙ.මී. 2-3) නැවත ලබාදෙන්න. අලුත් ඉරි ඇති වෙනවාද? නැවත කොළයක් ස්කෑන් කරන්න.",
+     "ta": "குறைந்த நீர் மட்டத்தை (2-3 செ.மீ.) மீண்டும் கொடுங்கள். புதிய கோடுகள் தோன்றுகின்றனவா? மீண்டும் ஒரு இலையை ஸ்கேன் செய்யுங்கள்."
+    }
+   },
+   {
+    "day": 7,
+    "check": false,
+    "text": {
+     "en": "If the disease keeps spreading, ask your agriculture instructor before using any spray.",
+     "si": "රෝගය දිගටම පැතිරේ නම්, කිසිදු ඉසීමක් භාවිත කිරීමට පෙර ඔබේ කෘෂිකර්ම උපදේශකගෙන් විමසන්න.",
+     "ta": "நோய் தொடர்ந்து பரவினால், எந்தத் தெளிப்பையும் பயன்படுத்தும் முன் உங்கள் விவசாயப் போதனாசிரியரிடம் கேளுங்கள்."
+    }
+   },
+   {
+    "day": 14,
+    "check": true,
+    "text": {
+     "en": "Weekly field check, especially after rain and wind.",
+     "si": "සතිපතා කුඹුරු පරීක්ෂාව, විශේෂයෙන් වැසි සහ සුළඟින් පසු.",
+     "ta": "வாராந்திர வயல் சோதனை, குறிப்பாக மழை மற்றும் காற்றுக்குப் பின்."
+    }
+   }
+  ]
+ },
+ "bacterial_panicle_blight": {
+  "name": {
+   "en": "Bacterial Panicle Blight",
+   "si": "බැක්ටීරියා කරල් අංගමාරය",
+   "ta": "பாக்டீரியா கதிர் கருகல் நோய்"
+  },
+  "type": "bacterial",
+  "steps": [
+   {
+    "day": 0,
+    "check": false,
+    "text": {
+     "en": "Stop all urea. Walk the field and mark the patches where panicles are pale or brown.",
+     "si": "සියලු යූරියා නවත්වන්න. කුඹුර පුරා ඇවිද කරල් ලා හෝ දුඹුරු පැහැ වූ පැල්ලම් සලකුණු කරන්න.",
+     "ta": "யூரியா இடுவதை முற்றாக நிறுத்துங்கள். வயலில் நடந்து கதிர்கள் வெளிறிய அல்லது பழுப்பான திட்டுகளைக் குறியிடுங்கள்."
+    }
+   },
+   {
+    "day": 1,
+    "check": false,
+    "text": {
+     "en": "Keep a steady 2-5 cm water level. Do not let the field dry out while the crop is flowering.",
+     "si": "සෙ.මී. 2-5 ස්ථාවර ජල මට්ටමක් තබන්න. බෝගය මල් පිපෙන අතරතුර කුඹුර වියළීමට ඉඩ නොදෙන්න.",
+     "ta": "2-5 செ.மீ. நிலையான நீர் மட்டத்தை வையுங்கள். பயிர் பூக்கும்போது வயல் காய விடாதீர்கள்."
+    }
+   },
+   {
+    "day": 4,
+    "check": true,
+    "text": {
+     "en": "Are more panicles turning pale or brown? Check the marked patches and scan again.",
+     "si": "තවත් කරල් ලා හෝ දුඹුරු පැහැයට හැරෙනවාද? සලකුණු කළ පැල්ලම් පරීක්ෂා කර නැවත ස්කෑන් කරන්න.",
+     "ta": "மேலும் கதிர்கள் வெளிறி அல்லது பழுப்பாக மாறுகின்றனவா? குறியிட்ட திட்டுகளைச் சோதித்து மீண்டும் ஸ்கேன் செய்யுங்கள்."
+    }
+   },
+   {
+    "day": 10,
+    "check": false,
+    "text": {
+     "en": "Plan the harvest: cut the affected patches separately and do not keep this grain as seed.",
+     "si": "අස්වැන්න සැලසුම් කරන්න: රෝගී පැල්ලම් වෙනම කපා, මෙම ඇට බීජ ලෙස තබා නොගන්න.",
+     "ta": "அறுவடையைத் திட்டமிடுங்கள்: பாதிக்கப்பட்ட திட்டுகளைத் தனியாக அறுத்து, இந்த நெல்லை விதையாக வைக்காதீர்கள்."
+    }
+   },
+   {
+    "day": 14,
+    "check": true,
+    "text": {
+     "en": "Weekly check until harvest. After harvest, destroy the infected straw.",
+     "si": "අස්වැන්න තෙක් සතිපතා පරීක්ෂාව. අස්වැන්නෙන් පසු රෝගී පිදුරු විනාශ කරන්න.",
+     "ta": "அறுவடை வரை வாராந்திர சோதனை. அறுவடைக்குப் பின் நோயுற்ற வைக்கோலை அழியுங்கள்."
+    }
+   }
+  ]
+ },
+ "downy_mildew": {
+  "name": {
+   "en": "Downy Mildew",
+   "si": "මෘදු පුස් රෝගය",
+   "ta": "அடிச்சாம்பல் நோய்"
+  },
+  "type": "fungal",
+  "steps": [
+   {
+    "day": 0,
+    "check": false,
+    "text": {
+     "en": "Drain the standing water from the field. Mark the plants with twisted, streaked leaves.",
+     "si": "කුඹුරේ රැඳී ඇති ජලය බැස යවන්න. ඇඹරුණු, ඉරි සහිත කොළ ඇති පැළ සලකුණු කරන්න.",
+     "ta": "வயலில் தேங்கியுள்ள நீரை வடியுங்கள். முறுக்கிய, கோடுகள் உள்ள இலைகளுடைய பயிர்களைக் குறியிடுங்கள்."
+    }
+   },
+   {
+    "day": 1,
+    "check": false,
+    "text": {
+     "en": "Pull out and destroy the badly affected plants. Clear grass weeds on the bunds and channels.",
+     "si": "දරුණු ලෙස රෝගී පැළ ගලවා විනාශ කරන්න. නියර සහ ඇළ මාර්ගවල තෘණ වල් පැළ ඉවත් කරන්න.",
+     "ta": "கடுமையாகப் பாதிக்கப்பட்ட பயிர்களைப் பிடுங்கி அழியுங்கள். வரப்புகளிலும் வாய்க்கால்களிலும் உள்ள புல் களைகளை அகற்றுங்கள்."
+    }
+   },
+   {
+    "day": 4,
+    "check": true,
+    "text": {
+     "en": "Are new plants showing twisted leaves? Check the field and scan a leaf again.",
+     "si": "අලුත් පැළවල ඇඹරුණු කොළ පෙනෙනවාද? කුඹුර පරීක්ෂා කර නැවත කොළයක් ස්කෑන් කරන්න.",
+     "ta": "புதிய பயிர்களில் முறுக்கிய இலைகள் தெரிகின்றனவா? வயலைச் சோதித்து மீண்டும் ஒரு இலையை ஸ்கேன் செய்யுங்கள்."
+    }
+   },
+   {
+    "day": 7,
+    "check": false,
+    "text": {
+     "en": "Bring back a shallow water level (2-3 cm) and keep the drains clear.",
+     "si": "නොගැඹුරු ජල මට්ටමක් (සෙ.මී. 2-3) නැවත ලබා දී කාණු පිරිසිදුව තබන්න.",
+     "ta": "குறைந்த நீர் மட்டத்தை (2-3 செ.மீ.) மீண்டும் கொடுத்து வடிகால்களைச் சுத்தமாக வையுங்கள்."
+    }
+   },
+   {
+    "day": 14,
+    "check": true,
+    "text": {
+     "en": "Weekly check, especially after heavy rain or flooding.",
+     "si": "සතිපතා පරීක්ෂාව, විශේෂයෙන් තද වැසි හෝ ගංවතුරෙන් පසු.",
+     "ta": "வாராந்திர சோதனை, குறிப்பாக கனமழை அல்லது வெள்ளத்திற்குப் பின்."
+    }
+   }
+  ]
+ },
+ "hispa": {
+  "name": {
+   "en": "Rice Hispa",
+   "si": "හිස්පා (කොළ කූරුමිණියා)",
+   "ta": "நெல் ஹிஸ்பா வண்டு"
+  },
+  "type": "insect",
+  "steps": [
+   {
+    "day": 0,
+    "check": false,
+    "text": {
+     "en": "Stop extra urea. Look for small dark spiny beetles and white streaks on the leaves.",
+     "si": "අමතර යූරියා නවත්වන්න. කොළ මත කුඩා තද පැහැති කටු කුරුමිණියන් සහ සුදු ඉරි සොයන්න.",
+     "ta": "கூடுதல் யூரியாவை நிறுத்துங்கள். இலைகளில் சிறிய கருமையான முள் வண்டுகளையும் வெள்ளைக் கோடுகளையும் தேடுங்கள்."
+    }
+   },
+   {
+    "day": 1,
+    "check": false,
+    "text": {
+     "en": "Cut and destroy the tips of attacked leaves. In the morning, catch adult beetles with a sweep net.",
+     "si": "පහර කෑ කොළවල අග කපා විනාශ කරන්න. උදෑසන දැලක් මගින් වැඩිහිටි කුරුමිණියන් අල්ලන්න.",
+     "ta": "தாக்கப்பட்ட இலைகளின் நுனிகளை வெட்டி அழியுங்கள். காலையில் வலை மூலம் முதிர்ந்த வண்டுகளைப் பிடியுங்கள்."
+    }
+   },
+   {
+    "day": 3,
+    "check": true,
+    "text": {
+     "en": "Count damaged leaves in 10 places in the field. Are there still many beetles?",
+     "si": "කුඹුරේ ස්ථාන 10ක හානි වූ කොළ ගණන් කරන්න. තවමත් කුරුමිණියන් බොහෝ සිටිනවාද?",
+     "ta": "வயலில் 10 இடங்களில் சேதமடைந்த இலைகளை எண்ணுங்கள். இன்னும் பல வண்டுகள் உள்ளனவா?"
+    }
+   },
+   {
+    "day": 4,
+    "check": false,
+    "text": {
+     "en": "If many leaves are still being damaged, spray an insecticide recommended for hispa at the label dose. Wear gloves and a mask.",
+     "si": "තවමත් කොළ බොහොමයක් හානි වේ නම්, හිස්පා සඳහා නිර්දේශිත කෘමිනාශකයක් ලේබලයේ මාත්‍රාවෙන් ඉසින්න. අත්වැසුම් සහ මුහුණු ආවරණ පළඳින්න.",
+     "ta": "இன்னும் பல இலைகள் சேதமடைந்தால், ஹிஸ்பாவுக்குப் பரிந்துரைக்கப்பட்ட பூச்சிக்கொல்லியை லேபிள் அளவில் தெளியுங்கள். கையுறை, முகக்கவசம் அணியுங்கள்."
+    }
+   },
+   {
+    "day": 10,
+    "check": true,
+    "text": {
+     "en": "Check again and scan a leaf. Remove grass weeds on the bunds.",
+     "si": "නැවත පරීක්ෂා කර කොළයක් ස්කෑන් කරන්න. නියරවල තෘණ වල් පැළ ඉවත් කරන්න.",
+     "ta": "மீண்டும் சோதித்து ஒரு இலையை ஸ்கேன் செய்யுங்கள். வரப்புகளிலுள்ள புல் களைகளை அகற்றுங்கள்."
+    }
+   }
+  ]
+ },
+ "rice_panicle_blast": {
+  "name": {
+   "en": "Panicle (Neck) Blast",
+   "si": "කරල් පාළුව",
+   "ta": "கதிர்க் கழுத்து குலை நோய்"
+  },
+  "type": "fungal",
+  "steps": [
+   {
+    "day": 0,
+    "check": false,
+    "text": {
+     "en": "Stop all urea. Check the necks of the panicles for grey or black rot.",
+     "si": "සියලු යූරියා නවත්වන්න. කරල්වල බෙල්ලේ අළු හෝ කළු කුණු වීම් ඇත්දැයි පරීක්ෂා කරන්න.",
+     "ta": "யூரியா இடுவதை முற்றாக நிறுத்துங்கள். கதிர்களின் கழுத்தில் சாம்பல் அல்லது கருப்பு அழுகல் உள்ளதா எனச் சோதியுங்கள்."
+    }
+   },
+   {
+    "day": 1,
+    "check": false,
+    "text": {
+     "en": "Spray the recommended fungicide, such as tricyclazole, in the morning at the label dose. Wear gloves and a mask.",
+     "si": "උදෑසන ට්‍රයිසයික්ලසෝල් වැනි නිර්දේශිත දිලීර නාශකය ලේබලයේ මාත්‍රාවෙන් ඉසින්න. අත්වැසුම් සහ මුහුණු ආවරණ පළඳින්න.",
+     "ta": "காலையில் ட்ரைசைக்ளசோல் போன்ற பரிந்துரைக்கப்பட்ட பூஞ்சைக்கொல்லியை லேபிள் அளவில் தெளியுங்கள். கையுறை, முகக்கவசம் அணியுங்கள்."
+    }
+   },
+   {
+    "day": 4,
+    "check": true,
+    "text": {
+     "en": "Check the new panicles for black necks and scan again.",
+     "si": "අලුත් කරල්වල කළු බෙල්ල ඇත්දැයි පරීක්ෂා කර නැවත ස්කෑන් කරන්න.",
+     "ta": "புதிய கதிர்களில் கருப்புக் கழுத்து உள்ளதா எனச் சோதித்து மீண்டும் ஸ்கேன் செய்யுங்கள்."
+    }
+   },
+   {
+    "day": 10,
+    "check": false,
+    "text": {
+     "en": "If the disease is still spreading, spray a second time at the label dose to protect the late panicles.",
+     "si": "රෝගය තවමත් පැතිරේ නම්, පමා වී එන කරල් ආරක්ෂා කිරීමට ලේබලයේ මාත්‍රාවෙන් දෙවන වරට ඉසින්න.",
+     "ta": "நோய் இன்னும் பரவினால், தாமதமாக வரும் கதிர்களைப் பாதுகாக்க லேபிள் அளவில் இரண்டாவது முறை தெளியுங்கள்."
+    }
+   },
+   {
+    "day": 14,
+    "check": true,
+    "text": {
+     "en": "Weekly check until harvest. After harvest, destroy the infected straw.",
+     "si": "අස්වැන්න තෙක් සතිපතා පරීක්ෂාව. අස්වැන්නෙන් පසු රෝගී පිදුරු විනාශ කරන්න.",
+     "ta": "அறுவடை வரை வாராந்திர சோதனை. அறுவடைக்குப் பின் நோயுற்ற வைக்கோலை அழியுங்கள்."
+    }
+   }
+  ]
+ }
+}

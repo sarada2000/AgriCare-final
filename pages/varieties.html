@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Paddy Varieties</title>
+    <script>
+        // Security Check (safe even when the browser blocks storage)
+        (function () {
+            try { if (localStorage.getItem("isLoggedIn") !== "true") window.location.href = "login.html"; }
+            catch (e) { /* storage blocked: let the visitor in */ }
+        })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Noto+Sans:wght@400;500;600;700&family=Noto+Sans+Sinhala:wght@400;600;700&family=Noto+Sans+Tamil:wght@400;600;700&display=swap">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+    <header>
+        <a class="logo" href="../index.html">
+            AgriCare
+            <span data-i18n="logo_sub">Intelligent Solutions</span>
+        </a>
+        <div class="header-tools">
+            <select id="language-switcher" class="lang-switcher" aria-label="Language" onchange="setLanguage(this.value)">
+                <option value="en">English</option>
+                <option value="si">සිංහල</option>
+                <option value="ta">தமிழ்</option>
+            </select>
+            <button type="button" class="menu-btn" aria-expanded="false" onclick="toggleMenu()">☰ <span data-i18n="menu">Menu</span></button>
+        </div>
+        <nav>
+            <a href="../index.html" data-i18n="nav_home">Home</a>
+            <a href="upload-image.html" data-i18n="nav_scan">Scan</a>
+            <a href="disease-library.html" data-i18n="nav_diseases">Diseases</a>
+            <a href="pests.html" data-i18n="nav_pests">Pests</a>
+            <a href="weeds.html" data-i18n="nav_weeds">Weeds</a>
+            <a href="weather.html" data-i18n="nav_weather">Weather</a>
+            <a href="varieties.html" class="active" data-i18n="nav_varieties">Varieties</a>
+            <a href="my-crop.html" data-i18n="nav_crop">My Crop</a>
+            <a href="monitor.html" data-i18n="nav_monitor">Monitor</a>
+            <a href="shops.html" data-i18n="nav_shops">Shops</a>
+            <a href="learning-hub.html" data-i18n="nav_solutions">Solutions</a>
+            <a href="#" class="logout-link" onclick="handleLogout('login.html'); return false;" data-i18n="nav_logout">Log Out</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="page-hero">
+            <div class="container">
+                <span class="eyebrow" data-i18n="nav_varieties">Varieties</span>
+                <h1 data-i18n="v_title">Paddy Varieties</h1>
+                <p class="lead" data-i18n="v_lead">Department of Agriculture rice varieties, with the best choices for your district.</p>
+                <div class="loc-panel">
+                    <label class="radius" for="v-district"><span data-i18n="w_district">District</span>
+                        <select id="v-district" class="lang-switcher district-select"></select>
+                    </label>
+                    <label class="radius" for="v-age"><span data-i18n="v_filter_age">Age</span>
+                        <select id="v-age" class="lang-switcher">
+                            <option value="" data-i18n="v_any">Any</option>
+                            <option value="2.5">2½</option><option value="3">3</option><option value="3.5">3½</option><option value="4">4–4½</option>
+                        </select>
+                    </label>
+                    <label class="radius" for="v-colour"><span data-i18n="v_filter_colour">Colour</span>
+                        <select id="v-colour" class="lang-switcher">
+                            <option value="" data-i18n="v_any">Any</option>
+                            <option value="white" data-i18n="v_white">White rice</option>
+                            <option value="red" data-i18n="v_red">Red rice</option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container" style="display:flex; flex-direction:column; gap:28px;">
+                <div>
+                    <h2 class="section-title" style="font-size:24px;" id="v-for-title"></h2>
+                    <div class="zone-line" id="v-zone"></div>
+                    <ul class="advice-list" id="v-notes"></ul>
+                    <div class="variety-grid" id="v-best"></div>
+                </div>
+                <div id="v-special-wrap">
+                    <h2 class="section-title" style="font-size:24px;" data-i18n="v_special">For problem fields</h2>
+                    <div class="variety-grid" id="v-special"></div>
+                </div>
+                <div>
+                    <h2 class="section-title" style="font-size:24px;" data-i18n="v_all">All varieties</h2>
+                    <div class="table-wrap">
+                        <table class="variety-table">
+                            <thead><tr>
+                                <th data-i18n="c_variety">Variety</th><th data-i18n="v_age">Age</th><th data-i18n="v_grain">Grain</th>
+                                <th data-i18n="v_yield">Average yield</th><th data-i18n="r_blast">Blast</th><th data-i18n="r_blb">Leaf blight</th>
+                                <th data-i18n="r_gm">Gall midge</th><th data-i18n="r_bph">Brown planthopper</th>
+                            </tr></thead>
+                            <tbody id="v-table"></tbody>
+                        </table>
+                    </div>
+                    <p class="login-note" style="margin-top:12px;" data-i18n="v_source"></p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <span data-i18n="footer_text">AgriCare · Final Year Project</span>
+            <span class="foot-links"><a href="about.html" data-i18n="nav_about">About</a> · <a href="privacy.html" data-i18n="nav_privacy">Privacy</a> · <a href="#" onclick="AgriChat.contact(); return false;" data-i18n="nav_contact">Contact us</a></span>
+            <strong data-i18n="footer_hotline">Your digital agriculture officer</strong>
+        </div>
+    </footer>
+
+    <script src="translations.js"></script>
+    <script src="content-i18n.js"></script>
+    <script src="diseases.js"></script>
+    <script src="treatment.js"></script>
+    <script src="pests.js"></script>
+    <script src="farm-data.js"></script>
+    <script src="weedicides.js"></script>
+    <script src="local-server.js"></script>
+    <script src="api.js"></script>
+    <script src="contacts.js"></script>
+    <script src="chat-kb.js"></script>
+    <script src="chat.js"></script>
+    <script>
+        const $ = id => document.getElementById(id);
+        function el(tag, cls, text) {
+            const e = document.createElement(tag);
+            if (cls) e.className = cls;
+            if (text != null) e.textContent = text;
+            return e;
+        }
+        const resClass = r => !r ? "na" : r.startsWith("R") ? "good" : r.startsWith("MR") ? "ok" : r.startsWith("MS") ? "meh" : "bad";
+        const resText = r => !r ? "–" : r.split("/").map(x => t("rl_" + x)).join(" / ");
+        const ageText = v => (v.days[0] === v.days[1] ? v.days[0] : v.days[0] + "–" + v.days[1]) + " " + t("v_days");
+        const groupText = g => ({ "2.5": "2½", "3": "3", "3.5": "3½", "4": "4–4½" })[g] + " " + t("v_months");
+
+        function passFilters(v) {
+            const age = $("v-age").value, col = $("v-colour").value;
+            if (age && ageGroup(v) !== age) return false;
+            if (col === "red" && !v.red) return false;
+            if (col === "white" && v.red) return false;
+            return true;
+        }
+
+        function card(v, best) {
+            const c = el("article", "variety-card" + (best ? " best" : ""));
+            const head = el("div", "vc-head");
+            head.appendChild(el("h3", null, v.id));
+            if (v.nick) head.appendChild(el("span", "vc-nick", v.nick));
+            head.appendChild(el("span", "pill " + (v.red ? "overdue" : "upcoming"), v.red ? t("v_red") : t("v_white")));
+            c.appendChild(head);
+            const facts = el("div", "vc-facts");
+            [["⏱", groupText(ageGroup(v)) + " · " + ageText(v)], ["🌾", t("g_" + v.grain)], ["📈", v.yield + " " + t("v_tha")]].forEach(([i, txt]) => {
+                facts.appendChild(el("span", null, i + " " + txt));
+            });
+            c.appendChild(facts);
+            const res = el("div", "vc-res");
+            ["blast", "blb", "gm", "bph"].forEach(k => {
+                const r = el("span", "res " + resClass(v.res[k]));
+                r.append(el("b", null, t("r_" + k)), el("span", null, resText(v.res[k])));
+                res.appendChild(r);
+            });
+            c.appendChild(res);
+            const foot = el("div", "vc-foot");
+            foot.appendChild(el("span", null, t("use_" + v.use) + (v.popular ? " · " + v.popular + "% " + t("v_popular") : "")));
+            const use = el("a", "btn btn-ghost btn-sm", "📅 " + t("v_use_crop"));
+            use.href = "my-crop.html?v=" + encodeURIComponent(v.id);
+            foot.appendChild(use);
+            c.appendChild(foot);
+            return c;
+        }
+
+        function render() {
+            const d = findDistrict($("v-district").value);
+            AgriStore.set("agricare_district", d.id);
+            $("v-for-title").textContent = t("v_for") + ": " + districtName(d);
+            $("v-zone").textContent = t("zone_" + d.zone) + (d.hill ? " (" + t("w_hill") + ")" : "");
+
+            const notes = $("v-notes");
+            notes.innerHTML = "";
+            if (d.iron) notes.appendChild(el("li", "advice warn", t("v_iron_note")));
+            if (d.saline) notes.appendChild(el("li", "advice warn", t("v_saline_note")));
+            notes.appendChild(el("li", "advice info", t("v_tip_water")));
+            notes.appendChild(el("li", "advice info", t("v_tip_blast")));
+
+            const rec = recommendVarieties(d);
+            const best = $("v-best"); best.innerHTML = "";
+            rec.main.filter(passFilters).forEach((v, i) => best.appendChild(card(v, i < 3)));
+            if (!best.children.length) best.appendChild(el("p", "empty-note", t("lib_empty")));
+            const sp = $("v-special"); sp.innerHTML = "";
+            rec.special.filter(passFilters).forEach(v => sp.appendChild(card(v, false)));
+            $("v-special-wrap").hidden = !sp.children.length;
+
+            const tb = $("v-table"); tb.innerHTML = "";
+            VARIETIES.filter(passFilters).forEach(v => {
+                const tr = el("tr");
+                const name = el("td"); name.appendChild(el("b", null, v.id));
+                if (v.red) name.appendChild(el("span", "pill overdue", " " + t("v_red")));
+                tr.append(name, el("td", null, ageText(v)), el("td", null, t("g_" + v.grain)), el("td", null, v.yield + " " + t("v_tha")));
+                ["blast", "blb", "gm", "bph"].forEach(k => tr.appendChild(el("td", "res-cell " + resClass(v.res[k]), resText(v.res[k]))));
+                tb.appendChild(tr);
+            });
+        }
+
+        ["v-district", "v-age", "v-colour"].forEach(id => $(id).addEventListener("change", render));
+        document.addEventListener("agricare:lang", () => {
+            fillDistrictSelect($("v-district"), $("v-district").value || myDistrictId());
+            render();
+        });
+    </script>
+
+</body>
+</html>

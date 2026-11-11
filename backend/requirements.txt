@@ -1,0 +1,12 @@
+flask>=3.0
+pyjwt>=2.8
+pillow>=10.0
+numpy>=1.26
+requests>=2.31
+# Install ONE of these to run your trained model (not needed for demo mode):
+# tensorflow>=2.15      # for .keras / .h5 models
+# tflite-runtime        # for .tflite models (smaller than full tensorflow)
+# onnxruntime>=1.17     # for .onnx models
+# For hosting online:
+# gunicorn>=21.2
+tzdata>=2024.1      # time zone data (Windows has none built in)

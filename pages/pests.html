@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Paddy Pests & Animals</title>
+    <script>
+        // Security Check (safe even when the browser blocks storage)
+        (function () {
+            try { if (localStorage.getItem("isLoggedIn") !== "true") window.location.href = "login.html"; }
+            catch (e) { /* storage blocked: let the visitor in */ }
+        })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Noto+Sans:wght@400;500;600;700&family=Noto+Sans+Sinhala:wght@400;600;700&family=Noto+Sans+Tamil:wght@400;600;700&display=swap">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+    <header>
+        <a class="logo" href="../index.html">
+            AgriCare
+            <span data-i18n="logo_sub">Intelligent Solutions</span>
+        </a>
+        <div class="header-tools">
+            <select id="language-switcher" class="lang-switcher" aria-label="Language" onchange="setLanguage(this.value)">
+                <option value="en">English</option>
+                <option value="si">සිංහල</option>
+                <option value="ta">தமிழ்</option>
+            </select>
+            <button type="button" class="menu-btn" aria-expanded="false" onclick="toggleMenu()">☰ <span data-i18n="menu">Menu</span></button>
+        </div>
+        <nav>
+            <a href="../index.html" data-i18n="nav_home">Home</a>
+            <a href="upload-image.html" data-i18n="nav_scan">Scan</a>
+            <a href="disease-library.html" data-i18n="nav_diseases">Diseases</a>
+            <a href="pests.html" class="active" data-i18n="nav_pests">Pests</a>
+            <a href="weeds.html" data-i18n="nav_weeds">Weeds</a>
+            <a href="weather.html" data-i18n="nav_weather">Weather</a>
+            <a href="varieties.html" data-i18n="nav_varieties">Varieties</a>
+            <a href="my-crop.html" data-i18n="nav_crop">My Crop</a>
+            <a href="monitor.html" data-i18n="nav_monitor">Monitor</a>
+            <a href="shops.html" data-i18n="nav_shops">Shops</a>
+            <a href="learning-hub.html" data-i18n="nav_solutions">Solutions</a>
+            <a href="#" class="logout-link" onclick="handleLogout('login.html'); return false;" data-i18n="nav_logout">Log Out</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="page-hero">
+            <div class="container">
+                <span class="eyebrow" data-i18n="nav_pests">Pests</span>
+                <h1 data-i18n="pest_title">Pests &amp; Animals</h1>
+                <p class="lead" data-i18n="pest_lead">Insects and animals that damage paddy fields in Sri Lanka: how they attack, what to look for, and what to do.</p>
+                <div class="lib-tools">
+                    <input id="pest-search" class="search-input" type="search" data-i18n-placeholder="pest_search_ph" placeholder="Search pests or signs..." aria-label="Search">
+                    <button class="chip" type="button" data-group="all" aria-pressed="true" data-i18n="filter_all">All</button>
+                    <button class="chip" type="button" data-group="insect" aria-pressed="false" data-i18n="pest_insects">Insects</button>
+                    <button class="chip" type="button" data-group="animal" aria-pressed="false" data-i18n="pest_animals">Animals &amp; birds</button>
+                </div>
+                <nav class="hub-nav" id="pest-jump" aria-label="Jump to"></nav>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <div class="pest-list" id="pest-list"></div>
+                <p class="empty-note" id="pest-empty" hidden data-i18n="lib_empty">No results match your search.</p>
+                <p class="callout" style="margin-top: 28px;" data-i18n="pest_chem_note"></p>
+                <p class="login-note" style="margin-top: 12px;" data-i18n="pest_pic_note"></p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <span data-i18n="footer_text">AgriCare · Final Year Project</span>
+            <span class="foot-links"><a href="about.html" data-i18n="nav_about">About</a> · <a href="privacy.html" data-i18n="nav_privacy">Privacy</a> · <a href="#" onclick="AgriChat.contact(); return false;" data-i18n="nav_contact">Contact us</a></span>
+            <strong data-i18n="footer_hotline">Your digital agriculture officer</strong>
+        </div>
+    </footer>
+
+    <script src="translations.js"></script>
+    <script src="content-i18n.js"></script>
+    <script src="diseases.js"></script>
+    <script src="treatment.js"></script>
+    <script src="pests.js"></script>
+    <script src="farm-data.js"></script>
+    <script src="weedicides.js"></script>
+    <script src="local-server.js"></script>
+    <script src="api.js"></script>
+    <script src="contacts.js"></script>
+    <script src="chat-kb.js"></script>
+    <script src="chat.js"></script>
+    <script>
+        let pestGroup = "all";
+
+        function el(tag, cls, text) {
+            const e = document.createElement(tag);
+            if (cls) e.className = cls;
+            if (text != null) e.textContent = text;
+            return e;
+        }
+        function block(labelKey, items) {
+            const box = el("div");
+            box.appendChild(el("h4", null, t(labelKey)));
+            const ul = el("ul");
+            items.forEach(i => ul.appendChild(el("li", null, i)));
+            box.appendChild(ul);
+            return box;
+        }
+
+        function pestPicture(p) {
+            const fig = el("figure", "pest-pic");
+            fig.innerHTML = PEST_ART[p.id]();
+            fig.querySelector("svg").setAttribute("aria-label", p.name.en + " attacking paddy");
+            fig.appendChild(el("span", "type-tag", t(p.group === "insect" ? "pest_insects" : "pest_animals")));
+            // a real photo, if you added one at img/pests/<id>.jpg
+            const photo = new Image();
+            photo.onload = () => {
+                photo.className = "pest-photo";
+                photo.alt = p.name.en;
+                fig.insertBefore(photo, fig.firstChild);
+                fig.querySelector("svg").classList.add("pest-art-small");
+            };
+            const tries = ["../img/pests/" + p.id + ".jpg"].concat(typeof diseasePhotoUrls === "function" ? diseasePhotoUrls(p.id) : []);
+            photo.onerror = () => { if (tries.length) photo.src = tries.shift(); };
+            photo.src = tries.shift();
+            return fig;
+        }
+
+        const startedPlans = {};   // pest id -> plan id created on this page
+
+        /* Day-by-day treatment after an attack, with "Start treatment & reminders" */
+        function planBlock(p) {
+            const box = el("div", "pest-plan");
+            const steps = TREATMENT_PLANS[p.id] || [];
+            const h = el("h4", null, "🩺 " + t("pest_plan_title"));
+            box.appendChild(h);
+            const ul = el("ul", "plan-steps");
+            steps.forEach(s => {
+                const li = el("li");
+                li.appendChild(el("b", null, t("plan_day") + " " + (s.day + 1)));
+                li.appendChild(el("span", null, localText(s.text)));
+                ul.appendChild(li);
+            });
+            box.appendChild(ul);
+
+            if (startedPlans[p.id]) {
+                const ok = el("div", "success-note");
+                ok.appendChild(el("span", null, "✓ " + t("plan_created")));
+                const go = el("a", "btn btn-primary btn-sm", t("plan_open_monitor"));
+                go.href = "monitor.html";
+                ok.appendChild(go);
+                box.appendChild(ok);
+                return box;
+            }
+            const form = el("form", "plan-form");
+            const fid = "pf-" + p.id;
+            form.innerHTML =
+                '<div class="field"><label for="' + fid + '-field"></label><input id="' + fid + '-field" type="text" maxlength="60"></div>' +
+                '<div class="row">' +
+                    '<div class="field"><label for="' + fid + '-date"></label><input id="' + fid + '-date" type="date" required></div>' +
+                    '<div class="field"><label for="' + fid + '-time"></label><input id="' + fid + '-time" type="time" value="07:00" required></div>' +
+                '</div>' +
+                '<button type="submit" class="btn btn-primary"></button>';
+            form.querySelector("label[for=" + fid + "-field]").textContent = t("plan_field");
+            form.querySelector("#" + fid + "-field").placeholder = t("plan_field_ph");
+            form.querySelector("label[for=" + fid + "-date]").textContent = t("plan_date");
+            form.querySelector("#" + fid + "-date").value = todayISO();
+            form.querySelector("label[for=" + fid + "-time]").textContent = t("plan_time");
+            form.querySelector("button").textContent = "⏰ " + t("plan_start");
+            form.addEventListener("submit", e => {
+                e.preventDefault();
+                AgriAlarm.enable();
+                const plan = AgriPlans.create({
+                    disease: p.id,
+                    field: form.querySelector("#" + fid + "-field").value.trim(),
+                    startDate: form.querySelector("#" + fid + "-date").value || todayISO(),
+                    alarmTime: form.querySelector("#" + fid + "-time").value || "07:00",
+                    confidence: null
+                });
+                startedPlans[p.id] = plan.id;
+                const fresh = planBlock(p);
+                box.replaceWith(fresh);
+            });
+            box.appendChild(form);
+            return box;
+        }
+
+        function renderPests() {
+            const list = document.getElementById("pest-list");
+            const jump = document.getElementById("pest-jump");
+            const q = document.getElementById("pest-search").value.trim().toLowerCase();
+            list.innerHTML = "";
+            jump.innerHTML = "";
+            let shown = 0;
+            PESTS.forEach(p => {
+                if (pestGroup !== "all" && p.group !== pestGroup) return;
+                const text = [p.name.en, p.name.si, p.name.ta, p.sci, p.summary.en, localText(p.summary), ...p.attack, ...p.signs,
+                              ...localList(p.id, "attack", []), ...localList(p.id, "signs", [])].join(" ").toLowerCase();
+                if (q && !text.includes(q)) return;
+                shown++;
+
+                const a = el("a", null, localText(p.name));
+                a.href = "#" + p.id;
+                jump.appendChild(a);
+
+                const art = el("article", "pest");
+                art.id = p.id;
+                art.appendChild(pestPicture(p));
+                const body = el("div", "disease-body");
+                const head = el("div", "disease-head");
+                const local = localText(p.name);
+                head.appendChild(el("h2", null, local));
+                if (local !== p.name.en) head.appendChild(el("span", "local", p.name.en));
+                if (p.protected) head.appendChild(el("span", "pill today", "⚖ " + t("pest_protected")));
+                head.appendChild(el("span", "sci", p.sci));
+                body.appendChild(head);
+                body.appendChild(el("p", "disease-summary", localText(p.summary)));
+
+                const steps = el("ol", "attack-steps");
+                localList(p.id, "attack", p.attack).forEach(s => steps.appendChild(el("li", null, s)));
+                const attackBox = el("div", "attack-box");
+                attackBox.appendChild(el("h4", null, t("pest_attack")));
+                attackBox.appendChild(steps);
+                body.appendChild(attackBox);
+
+                const facts = el("div", "facts");
+                facts.appendChild(block("pest_signs", localList(p.id, "signs", p.signs)));
+                facts.appendChild(block("lbl_manage", localList(p.id, "manage", p.manage)));
+                facts.appendChild(block("lbl_prevent", localList(p.id, "prevent", p.prevent)));
+                body.appendChild(facts);
+                if (p.note) body.appendChild(el("p", "law-note", "⚠ " + localList(p.id, "note", p.note)));
+                body.appendChild(planBlock(p));
+
+                const acts = el("div", "result-actions");
+                const photos = el("a", "btn btn-ghost btn-sm", "📷 " + t("pest_photos"));
+                photos.href = "https://www.google.com/search?tbm=isch&q=" + encodeURIComponent(p.sci.split(",")[0] + " " + p.name.en + " paddy");
+                photos.target = "_blank"; photos.rel = "noopener";
+                acts.appendChild(photos);
+                const msg = el("span", "voice-msg");
+                acts.appendChild(makeListenButton(() => localText(p.name) + ". " + localText(p.summary), msg));
+                body.appendChild(acts);
+                body.appendChild(msg);
+
+                art.appendChild(body);
+                list.appendChild(art);
+            });
+            document.getElementById("pest-empty").hidden = shown > 0;
+        }
+
+        document.getElementById("pest-search").addEventListener("input", renderPests);
+        document.querySelectorAll("[data-group]").forEach(btn => btn.addEventListener("click", () => {
+            pestGroup = btn.dataset.group;
+            document.querySelectorAll("[data-group]").forEach(b => b.setAttribute("aria-pressed", String(b === btn)));
+            renderPests();
+        }));
+        let firstPestRender = true;
+        document.addEventListener("agricare:lang", () => {
+            renderPests();
+            if (firstPestRender && location.hash) {
+                const target = document.getElementById(location.hash.slice(1));
+                if (target) target.scrollIntoView();
+            }
+            firstPestRender = false;
+        });
+    </script>
+
+</body>
+</html>

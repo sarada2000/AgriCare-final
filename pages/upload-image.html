@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Scan a Paddy Leaf</title>
+    <script>
+        // Security Check (safe even when the browser blocks storage)
+        (function () {
+            try { if (localStorage.getItem("isLoggedIn") !== "true") window.location.href = "login.html"; }
+            catch (e) { /* storage blocked: let the visitor in */ }
+        })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Noto+Sans:wght@400;500;600;700&family=Noto+Sans+Sinhala:wght@400;600;700&family=Noto+Sans+Tamil:wght@400;600;700&display=swap">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+    <header>
+        <a class="logo" href="../index.html">
+            AgriCare
+            <span data-i18n="logo_sub">Intelligent Solutions</span>
+        </a>
+        <div class="header-tools">
+            <select id="language-switcher" class="lang-switcher" aria-label="Language" onchange="setLanguage(this.value)">
+                <option value="en">English</option>
+                <option value="si">සිංහල</option>
+                <option value="ta">தமிழ்</option>
+            </select>
+            <button type="button" class="menu-btn" aria-expanded="false" onclick="toggleMenu()">☰ <span data-i18n="menu">Menu</span></button>
+        </div>
+        <nav>
+            <a href="../index.html" data-i18n="nav_home">Home</a>
+            <a href="upload-image.html" class="active" data-i18n="nav_scan">Scan</a>
+            <a href="disease-library.html" data-i18n="nav_diseases">Diseases</a>
+            <a href="pests.html" data-i18n="nav_pests">Pests</a>
+            <a href="weeds.html" data-i18n="nav_weeds">Weeds</a>
+            <a href="weather.html" data-i18n="nav_weather">Weather</a>
+            <a href="varieties.html" data-i18n="nav_varieties">Varieties</a>
+            <a href="my-crop.html" data-i18n="nav_crop">My Crop</a>
+            <a href="monitor.html" data-i18n="nav_monitor">Monitor</a>
+            <a href="shops.html" data-i18n="nav_shops">Shops</a>
+            <a href="learning-hub.html" data-i18n="nav_solutions">Solutions</a>
+            <a href="#" class="logout-link" onclick="handleLogout('login.html'); return false;" data-i18n="nav_logout">Log Out</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="page-hero">
+            <div class="container">
+                <span class="eyebrow">AgriCare Scan</span>
+                <h1 data-i18n="up_title">Scan a Paddy Leaf</h1>
+                <p class="lead" data-i18n="up_lead">Upload a clear photo of one leaf. AgriCare will suggest the most likely disease and what to do.</p>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container scan-layout">
+                <div>
+                    <div class="camera-wrap" id="camera-wrap" hidden>
+                        <video id="cam-video" playsinline muted autoplay></video>
+                        <div class="cam-frame" aria-hidden="true"></div>
+                        <p class="cam-hint" data-i18n="up_cam_hint">Hold one leaf inside the frame</p>
+                        <div class="cam-controls">
+                            <button class="btn btn-ghost btn-sm" id="cam-close" type="button" data-i18n="up_gallery">🖼️ Gallery</button>
+                            <button class="cam-shutter" id="cam-shot" type="button" data-i18n-title="up_take" title="Take photo" aria-label="Take photo"></button>
+                            <button class="btn btn-ghost btn-sm" id="cam-flip" type="button" data-i18n="up_switch" hidden>Switch camera</button>
+                        </div>
+                    </div>
+
+                    <label class="dropzone" id="dropzone" for="leaf-file">
+                        <span class="drop-icon" aria-hidden="true">+</span>
+                        <strong data-i18n="up_drop">Drag a leaf photo here</strong>
+                        <p data-i18n="up_or">or</p>
+                        <span class="drop-buttons">
+                            <button class="btn btn-primary" id="cam-open" type="button" data-i18n="up_camera">📷 Open camera</button>
+                            <span class="btn btn-ghost" data-i18n="up_choose">Choose photo</span>
+                        </span>
+                    </label>
+                    <input type="file" id="leaf-file" accept="image/*" hidden>
+                    <input type="file" id="leaf-capture" accept="image/*" capture="environment" hidden>
+
+                    <div class="preview-wrap" id="preview-wrap" hidden>
+                        <img id="preview-img" alt="Uploaded paddy leaf">
+                    </div>
+
+                    <p class="form-error" id="file-error" role="alert"></p>
+
+                    <div class="scan-actions">
+                        <button class="btn btn-primary" id="analyze-btn" type="button" disabled data-i18n="up_analyze">Analyse leaf</button>
+                        <button class="btn btn-ghost" id="reset-btn" type="button" hidden data-i18n="up_again">Scan another</button>
+                    </div>
+
+                    <div class="tips">
+                        <h3 data-i18n="up_tips_t">Tips for a good photo</h3>
+                        <ul class="checklist">
+                            <li data-i18n="up_tip_1">Use daylight. Avoid flash and deep shade.</li>
+                            <li data-i18n="up_tip_2">Fill the frame with one leaf, showing the spots clearly.</li>
+                            <li data-i18n="up_tip_3">Hold steady so the photo is sharp.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <aside class="result-card" id="result-card" aria-live="polite">
+                    <span class="result-label" data-i18n="up_result">Diagnosis</span>
+                    <div id="result-content">
+                        <p style="color: var(--muted);" data-i18n="up_waiting">Your result will appear here after you upload a photo.</p>
+                    </div>
+                </aside>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <span data-i18n="footer_text">AgriCare · Final Year Project</span>
+            <span class="foot-links"><a href="about.html" data-i18n="nav_about">About</a> · <a href="privacy.html" data-i18n="nav_privacy">Privacy</a> · <a href="#" onclick="AgriChat.contact(); return false;" data-i18n="nav_contact">Contact us</a></span>
+            <strong data-i18n="footer_hotline">Your digital agriculture officer</strong>
+        </div>
+    </footer>
+
+    <script src="translations.js"></script>
+    <script src="content-i18n.js"></script>
+    <script src="diseases.js"></script>
+    <script src="treatment.js"></script>
+    <script src="pests.js"></script>
+    <script src="farm-data.js"></script>
+    <script src="weedicides.js"></script>
+    <script src="local-server.js"></script>
+    <script src="api.js"></script>
+    <script src="contacts.js"></script>
+    <script src="chat-kb.js"></script>
+    <script src="chat.js"></script>
+    <script>
+        /* Predictions come from the AgriCare server (backend/app.py), which runs your trained model.
+           With no server (opening the file directly / preview) the page shows a DEMO result. */
+
+        let selectedFile = null;
+        let lastResult = null;
+
+        const fileInput = document.getElementById("leaf-file");
+        const dropzone = document.getElementById("dropzone");
+        const previewWrap = document.getElementById("preview-wrap");
+        const previewImg = document.getElementById("preview-img");
+        const analyzeBtn = document.getElementById("analyze-btn");
+        const resetBtn = document.getElementById("reset-btn");
+        const fileError = document.getElementById("file-error");
+        const resultContent = document.getElementById("result-content");
+
+        function handleFile(file) {
+            fileError.textContent = "";
+            if (!file || !file.type.startsWith("image/")) {
+                fileError.textContent = t("up_bad_file");
+                return;
+            }
+            if (camStream) stopCamera();
+            selectedFile = file;
+            lastResult = null;
+            const reader = new FileReader();
+            reader.onload = e => {
+                previewImg.src = e.target.result;
+                previewWrap.hidden = false;
+                dropzone.hidden = true;
+                analyzeBtn.disabled = false;
+                resetBtn.hidden = false;
+                showWaiting();
+            };
+            reader.readAsDataURL(file);
+        }
+
+        fileInput.addEventListener("change", () => handleFile(fileInput.files[0]));
+
+        /* ---------- Camera: opens as soon as the Scan page opens ----------
+           Live camera in the page (phone back camera first). If the browser cannot open it
+           (no camera, permission refused, not https/localhost), phones get their own camera app
+           through the "capture" file input, and everyone can still choose a photo. */
+        const camWrap = document.getElementById("camera-wrap");
+        const camVideo = document.getElementById("cam-video");
+        const camFlip = document.getElementById("cam-flip");
+        const captureInput = document.getElementById("leaf-capture");
+        let camStream = null, camFacing = "environment";
+
+        function stopCamera() {
+            if (camStream) camStream.getTracks().forEach(tr => tr.stop());
+            camStream = null;
+            camVideo.srcObject = null;
+            camWrap.hidden = true;
+        }
+        async function startCamera(fromButton) {
+            fileError.textContent = "";
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                if (isPhone()) { if (fromButton) captureInput.click(); }    // phone camera app
+                else if (fromButton) fileError.textContent = t("up_cam_insecure");
+                return false;
+            }
+            try {
+                stopCamera();
+                camStream = await navigator.mediaDevices.getUserMedia({
+                    video: { facingMode: { ideal: camFacing }, width: { ideal: 1920 }, height: { ideal: 1080 } }, audio: false });
+                camVideo.srcObject = camStream;
+                await camVideo.play().catch(() => {});
+                camWrap.hidden = false;
+                if (window.innerWidth < 700) camWrap.scrollIntoView({ behavior: "smooth", block: "center" });
+                dropzone.hidden = true;
+                previewWrap.hidden = true;
+                analyzeBtn.disabled = true;
+                resetBtn.hidden = true;
+                navigator.mediaDevices.enumerateDevices().then(list => {
+                    camFlip.hidden = list.filter(d => d.kind === "videoinput").length < 2;
+                }).catch(() => {});
+                return true;
+            } catch (e) {
+                stopCamera();
+                dropzone.hidden = !!selectedFile;
+                if (fromButton) {
+                    if (isPhone()) captureInput.click();
+                    else fileError.textContent = camErrorText(e);
+                }
+                return false;
+            }
+        }
+        function isPhone() { return /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent); }
+        function inFrame() { try { return window.self !== window.parent; } catch (e) { return true; } }
+        // Say exactly why the camera did not open, and what to do
+        function camErrorText(e) {
+            const n = (e && e.name) || "";
+            if (n === "NotFoundError" || n === "OverconstrainedError") return t("up_cam_none");
+            if (n === "NotReadableError" || n === "AbortError") return t("up_cam_busy");
+            if (n === "NotAllowedError" || n === "SecurityError") return t(inFrame() ? "up_cam_frame" : "up_cam_blocked");
+            return t("up_cam_denied");
+        }
+
+        function takePhoto() {
+            const w = camVideo.videoWidth, h = camVideo.videoHeight;
+            if (!w || !h) return;
+            const c = document.createElement("canvas");
+            c.width = w; c.height = h;
+            c.getContext("2d").drawImage(camVideo, 0, 0, w, h);
+            c.toBlob(blob => {
+                if (!blob) return;
+                stopCamera();
+                handleFile(new File([blob], "leaf-" + Date.now() + ".jpg", { type: "image/jpeg" }));
+            }, "image/jpeg", 0.92);
+        }
+        document.getElementById("cam-open").addEventListener("click", e => { e.preventDefault(); e.stopPropagation(); startCamera(true); });
+        document.getElementById("cam-shot").addEventListener("click", takePhoto);
+        document.getElementById("cam-close").addEventListener("click", () => { stopCamera(); dropzone.hidden = false; fileInput.click(); });
+        camFlip.addEventListener("click", () => { camFacing = camFacing === "environment" ? "user" : "environment"; startCamera(true); });
+        captureInput.addEventListener("change", () => handleFile(captureInput.files[0]));
+        window.addEventListener("pagehide", stopCamera);
+        document.addEventListener("visibilitychange", () => { if (document.hidden && camStream) { stopCamera(); dropzone.hidden = !!selectedFile; } });
+        startCamera(false);   // open the camera straight away
+        ["dragenter", "dragover"].forEach(ev => dropzone.addEventListener(ev, e => { e.preventDefault(); dropzone.classList.add("drag"); }));
+        ["dragleave", "drop"].forEach(ev => dropzone.addEventListener(ev, e => { e.preventDefault(); dropzone.classList.remove("drag"); }));
+        dropzone.addEventListener("drop", e => handleFile(e.dataTransfer.files[0]));
+
+        resetBtn.addEventListener("click", () => {
+            selectedFile = null;
+            lastResult = null;
+            fileInput.value = "";
+            captureInput.value = "";
+            previewWrap.hidden = true;
+            dropzone.hidden = false;
+            analyzeBtn.disabled = true;
+            resetBtn.hidden = true;
+            showWaiting();
+            startCamera(false);
+        });
+
+        analyzeBtn.addEventListener("click", async () => {
+            if (!selectedFile) return;
+            // Stop photos that are not a paddy leaf (a face, a wall, a document...)
+            if (plantShare(previewImg) < LEAF_MIN_SHARE) { lastResult = null; showNotLeaf(); return; }
+            analyzeBtn.disabled = true;
+            analyzeBtn.textContent = t("up_analyzing");
+            previewWrap.classList.add("scanning");
+            try {
+                if (await AgriSync.enabled()) {
+                    lastResult = await predictWithServer(selectedFile);
+                    AgriScans.add({ at: lastResult.scan.at, label: lastResult.label, confidence: lastResult.confidence,
+                                    demo: lastResult.demo, thumb: AgriAPI.asset(lastResult.scan.thumb), serverId: lastResult.scan.id });
+                } else {
+                    lastResult = await predictDemo(selectedFile);
+                    AgriScans.add({ at: new Date().toISOString(), label: lastResult.label, confidence: lastResult.confidence,
+                                    demo: true, thumb: makeThumb(previewImg) });
+                }
+                renderResult();
+                // Read the result aloud straight away, in the chosen language
+                const btn = resultContent.querySelector(".result-actions button");
+                if (btn) btn.click();
+            } catch (err) {
+                if (err.field === "not_leaf" || (err.data && err.data.field === "not_leaf")) showNotLeaf();
+                else if (err.data && err.data.field === "no_model") fileError.textContent = t("up_no_model");
+                else fileError.textContent = err.message;
+            } finally {
+                previewWrap.classList.remove("scanning");
+                analyzeBtn.disabled = false;
+                analyzeBtn.textContent = t("up_analyze");
+            }
+        });
+
+        async function predictWithServer(file) {
+            const form = new FormData();
+            form.append("file", file);
+            const data = await AgriAPI.post("/api/predict", form);
+            return { label: data.label, confidence: Number(data.confidence) || 0, demo: !!data.demo,
+                     uncertain: !!data.uncertain, top: data.top || [], scan: data.scan };
+        }
+
+        // Demo only: picks a sample class from the file so the same photo gives the same result.
+        function predictDemo(file) {
+            const classes = DISEASES.map(d => d.id).concat("healthy");
+            let h = file.size;
+            for (const ch of file.name) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
+            const label = classes[h % classes.length];
+            const confidence = 0.82 + (h % 15) / 100;
+            return new Promise(r => setTimeout(() => r({ label, confidence, demo: true }), 1400));
+        }
+
+        function el(tag, cls, text) {
+            const e = document.createElement(tag);
+            if (cls) e.className = cls;
+            if (text != null) e.textContent = text;
+            return e;
+        }
+
+        function showNotLeaf() {
+            resultContent.innerHTML = "";
+            const wrap = el("div");
+            wrap.style.cssText = "display:flex;flex-direction:column;gap:14px;";
+            wrap.appendChild(el("p", "worse-alert", "⚠ " + t("up_not_leaf")));
+            resultContent.appendChild(wrap);
+            if (typeof AgriVoice !== "undefined") AgriVoice.speak(t("up_not_leaf"));
+        }
+
+        function showWaiting() {
+            resultContent.innerHTML = "";
+            const p = el("p", null, t("up_waiting"));
+            p.style.color = "var(--muted)";
+            resultContent.appendChild(p);
+        }
+
+        function renderResult() {
+            if (!lastResult) { showWaiting(); return; }
+            const info = diseaseInfo(lastResult.label);
+            const disease = info.id === "healthy" ? null : info;
+            const pct = Math.round(lastResult.confidence * 100);
+
+            resultContent.innerHTML = "";
+            const wrap = el("div");
+            wrap.style.cssText = "display:flex;flex-direction:column;gap:14px;";
+
+            wrap.appendChild(el("span", "status-pill " + (disease ? "bad" : "ok"), t(disease ? "up_disease_found" : "up_healthy_found")));
+            wrap.appendChild(el("h2", null, localText(info.name)));
+            if (disease) {
+                const sci = el("p", null, disease.sci);
+                sci.style.cssText = "color:var(--muted);font-style:italic;font-size:14px;margin-top:-8px;";
+                wrap.appendChild(sci);
+            }
+
+            const row = el("div", "conf-row");
+            row.appendChild(el("span", null, t("up_confidence")));
+            row.appendChild(el("span", null, pct + "%"));
+            wrap.appendChild(row);
+            const meter = el("div", "meter");
+            const bar = el("i");
+            bar.style.width = pct + "%";
+            meter.appendChild(bar);
+            wrap.appendChild(meter);
+
+            wrap.appendChild(el("p", null, localText(info.summary)));
+
+            // Voice read-out of the diagnosis and treatment plan, in the chosen language
+            const voiceMsg = el("p", "voice-msg");
+            const actions = el("div", "result-actions");
+            actions.appendChild(makeListenButton(() => diagnosisSpeech(info.id, pct), voiceMsg));
+            if (disease && !disease.unknown) {
+                const link = el("a", "btn btn-ghost btn-sm", t("up_view_details"));
+                link.href = "disease-library.html#" + disease.id;
+                actions.appendChild(link);
+                const shop = el("a", "btn btn-ghost btn-sm", t("up_find_shop"));
+                shop.href = "shops.html?d=" + disease.id;
+                actions.appendChild(shop);
+            }
+            wrap.appendChild(actions);
+            wrap.appendChild(voiceMsg);
+
+            // Day-by-day treatment plan (none for a disease that is not in the library)
+            const steps = TREATMENT_PLANS[info.id] || [];
+            if (!steps.length) {
+                if (lastResult.demo) wrap.insertBefore(el("p", "demo-note", "ℹ️ " + t("up_demo_note")), wrap.firstChild);
+                resultContent.appendChild(wrap);
+                return;
+            }
+            const h = el("h3", null, t("plan_title"));
+            h.style.fontSize = "18px";
+            wrap.appendChild(h);
+            const ul = el("ul", "plan-steps");
+            steps.forEach(s => {
+                const li = el("li");
+                li.appendChild(el("b", null, t("plan_day") + " " + (s.day + 1)));
+                li.appendChild(el("span", null, localText(s.text)));
+                ul.appendChild(li);
+            });
+            wrap.appendChild(ul);
+
+            // Start monitoring + alarms
+            if (lastResult.planId) {
+                const ok = el("div", "success-note");
+                ok.appendChild(el("span", null, "✓ " + t("plan_created")));
+                const go = el("a", "btn btn-primary btn-sm", t("plan_open_monitor"));
+                go.href = "monitor.html";
+                ok.appendChild(go);
+                wrap.appendChild(ok);
+            } else {
+                const form = el("form", "plan-form");
+                form.innerHTML =
+                    '<div class="field"><label for="plan-field"></label><input id="plan-field" type="text" maxlength="60"></div>' +
+                    '<div class="row">' +
+                        '<div class="field"><label for="plan-date"></label><input id="plan-date" type="date" required></div>' +
+                        '<div class="field"><label for="plan-time"></label><input id="plan-time" type="time" value="07:00" required></div>' +
+                    '</div>' +
+                    '<button type="submit" class="btn btn-primary"></button>';
+                form.querySelector("label[for=plan-field]").textContent = t("plan_field");
+                form.querySelector("#plan-field").placeholder = t("plan_field_ph");
+                form.querySelector("label[for=plan-date]").textContent = t("plan_date");
+                form.querySelector("#plan-date").value = todayISO();
+                form.querySelector("label[for=plan-time]").textContent = t("plan_time");
+                form.querySelector("button").textContent = "⏰ " + t("plan_start");
+                form.addEventListener("submit", e => {
+                    e.preventDefault();
+                    AgriAlarm.enable();
+                    const plan = AgriPlans.create({
+                        disease: info.id,
+                        field: form.querySelector("#plan-field").value.trim(),
+                        startDate: form.querySelector("#plan-date").value || todayISO(),
+                        alarmTime: form.querySelector("#plan-time").value || "07:00",
+                        confidence: lastResult.confidence,
+                        scanId: lastResult.scan ? lastResult.scan.id : null
+                    });
+                    lastResult.planId = plan.id;
+                    renderResult();
+                });
+                wrap.appendChild(form);
+            }
+
+            if (lastResult.uncertain) wrap.insertBefore(el("p", "worse-alert", "⚠ " + t("up_uncertain")), wrap.children[1] || null);
+            if (lastResult.demo) wrap.insertBefore(el("p", "demo-note", "ℹ️ " + t("up_demo_note")), wrap.firstChild);
+            resultContent.appendChild(wrap);
+        }
+
+        document.addEventListener("agricare:lang", () => {
+            if (lastResult) renderResult(); else showWaiting();
+            if (!analyzeBtn.disabled || !selectedFile) analyzeBtn.textContent = t("up_analyze");
+        });
+
+        // Safety disclaimer before any diagnosis or treatment advice
+        AgriDisclaimer.require();
+        loadDiseasesFromApi();
+
+    </script>
+
+</body>
+</html>

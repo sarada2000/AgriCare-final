@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Officer Dashboard</title>
+    <script>
+        // Security Check (safe even when the browser blocks storage)
+        (function () {
+            try { if (localStorage.getItem("isLoggedIn") !== "true") window.location.href = "login.html"; }
+            catch (e) { /* storage blocked: let the visitor in */ }
+        })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Noto+Sans:wght@400;500;600;700&family=Noto+Sans+Sinhala:wght@400;600;700&family=Noto+Sans+Tamil:wght@400;600;700&display=swap">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+    <header>
+        <a class="logo" href="../index.html">
+            AgriCare
+            <span data-i18n="logo_sub">Intelligent Solutions</span>
+        </a>
+        <div class="header-tools">
+            <select id="language-switcher" class="lang-switcher" aria-label="Language" onchange="setLanguage(this.value)">
+                <option value="en">English</option>
+                <option value="si">සිංහල</option>
+                <option value="ta">தமிழ்</option>
+            </select>
+            <button type="button" class="menu-btn" aria-expanded="false" onclick="toggleMenu()">☰ <span data-i18n="menu">Menu</span></button>
+        </div>
+        <nav>
+            <a href="../index.html" data-i18n="nav_home">Home</a>
+            <a href="upload-image.html" data-i18n="nav_scan">Scan</a>
+            <a href="disease-library.html" data-i18n="nav_diseases">Diseases</a>
+            <a href="pests.html" data-i18n="nav_pests">Pests</a>
+            <a href="weeds.html" data-i18n="nav_weeds">Weeds</a>
+            <a href="weather.html" data-i18n="nav_weather">Weather</a>
+            <a href="varieties.html" data-i18n="nav_varieties">Varieties</a>
+            <a href="my-crop.html" data-i18n="nav_crop">My Crop</a>
+            <a href="monitor.html" data-i18n="nav_monitor">Monitor</a>
+            <a href="shops.html" data-i18n="nav_shops">Shops</a>
+            <a href="learning-hub.html" data-i18n="nav_solutions">Solutions</a>
+            <a href="#" class="logout-link" onclick="handleLogout('login.html'); return false;" data-i18n="nav_logout">Log Out</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="page-hero">
+            <div class="container">
+                <span class="eyebrow">Agriculture officer</span>
+                <h1>Officer Dashboard</h1>
+                <p class="lead">Disease reports from farmers, treatment progress, and farmers who may need a visit.</p>
+                <div class="loc-panel">
+                    <label class="radius" for="adm-days">Period
+                        <select id="adm-days" class="lang-switcher">
+                            <option value="7">Last 7 days</option>
+                            <option value="30" selected>Last 30 days</option>
+                            <option value="90">Last 90 days</option>
+                            <option value="365">Last year</option>
+                        </select>
+                    </label>
+                    <span class="pill upcoming" id="adm-model">Model: …</span>
+                    <button type="button" class="btn btn-ghost btn-sm" id="adm-refresh">Refresh</button>
+                </div>
+                <p class="shop-status warn" id="adm-status" role="status"></p>
+            </div>
+        </section>
+
+        <div class="container" id="adm-body" hidden>
+            <section class="section" style="padding-top:32px;">
+                <div class="stat-row stat-row-6" id="adm-stats"></div>
+            </section>
+
+            <section class="section">
+                <div class="tracker-head"><h2 class="section-title" style="font-size:24px;">📞 Farmers asking for a call <span class="pill today" id="cb-count" hidden></span></h2>
+                    <label class="radius" for="cb-status">Show
+                        <select id="cb-status" class="lang-switcher"><option value="new" selected>Waiting</option><option value="done">Called</option><option value="all">All</option></select>
+                    </label>
+                </div>
+                <div class="table-wrap" style="margin-top:14px;"><table>
+                    <thead><tr><th>Time</th><th>Farmer</th><th>Mobile</th><th>District</th><th>Problem</th><th></th></tr></thead>
+                    <tbody id="cb-list"></tbody>
+                </table></div>
+            </section>
+
+            <section class="section">
+                <div class="two-col">
+                    <div>
+                        <h2 class="section-title" style="font-size:24px;">Scans by disease</h2>
+                        <div class="bars" id="adm-bars"></div>
+                    </div>
+                    <div>
+                        <h2 class="section-title" style="font-size:24px;">Diseases by district</h2>
+                        <div class="table-wrap"><table><thead><tr><th>District</th><th>Disease reports</th><th>Most common</th></tr></thead><tbody id="adm-districts"></tbody></table></div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2 class="section-title" style="font-size:24px;">Needs attention</h2>
+                <p class="lead" style="font-size:15px; margin-bottom:16px;">Crops reported as getting worse, and treatment steps that are late.</p>
+                <div class="two-col">
+                    <div><h3 class="sub-h">Crop getting worse</h3><ul class="att-list" id="adm-worse"></ul></div>
+                    <div><h3 class="sub-h">Late treatment steps</h3><ul class="att-list" id="adm-overdue"></ul></div>
+                </div>
+            </section>
+
+            <section class="section">
+                <div class="tracker-head"><h2 class="section-title" style="font-size:24px;">Farmers</h2>
+                    <input id="adm-q" class="search-input" style="flex:0 1 280px;" type="search" placeholder="Search name, phone or district" aria-label="Search farmers">
+                </div>
+                <div class="table-wrap" style="margin-top:14px;"><table>
+                    <thead><tr><th>Name</th><th>Mobile</th><th>District</th><th>Scans</th><th>Active plans</th><th>Late steps</th><th>Last result</th></tr></thead>
+                    <tbody id="adm-farmers"></tbody>
+                </table></div>
+                <div class="panel" id="adm-farmer" hidden style="margin-top:18px;"></div>
+            </section>
+
+            <section class="section">
+                <h2 class="section-title" style="font-size:24px;">Latest scans</h2>
+                <div class="history" id="adm-scans"></div>
+            </section>
+
+            <section class="section">
+                <h2 class="section-title" style="font-size:24px;">Verified shops</h2>
+                <p class="lead" style="font-size:15px; margin-bottom:16px;">Shops you add here appear first on the farmers' shop finder with a "Verified" badge. Only add shops you have checked.</p>
+                <div class="two-col">
+                    <form class="panel auth-form" id="shop-form" novalidate>
+                        <h3>Add a shop</h3>
+                        <div class="field"><label for="sf-name">Shop name</label><input id="sf-name" required></div>
+                        <div class="plan-form" style="border:0; padding:0;"><div class="row">
+                            <div class="field"><label for="sf-type">Type</label>
+                                <select id="sf-type" class="lang-switcher" style="margin:0; padding:11px;">
+                                    <option value="agro">Agro-chemical shop</option>
+                                    <option value="asc">Agrarian Service Centre</option>
+                                    <option value="garden">Garden &amp; farm supplies</option>
+                                </select></div>
+                            <div class="field"><label for="sf-district">District</label><select id="sf-district" class="lang-switcher" style="margin:0; padding:11px;"><option value="">–</option></select></div>
+                        </div><div class="row">
+                            <div class="field"><label for="sf-lat">Latitude</label><input id="sf-lat" inputmode="decimal" placeholder="7.9403"></div>
+                            <div class="field"><label for="sf-lng">Longitude</label><input id="sf-lng" inputmode="decimal" placeholder="81.0188"></div>
+                        </div></div>
+                        <button type="button" class="btn btn-ghost btn-sm" id="sf-here" style="align-self:flex-start;">📍 Use my current location</button>
+                        <div class="field"><label for="sf-phone">Phone</label><input id="sf-phone" type="tel"></div>
+                        <div class="field"><label for="sf-address">Address</label><input id="sf-address"></div>
+                        <div class="field"><label for="sf-hours">Opening hours</label><input id="sf-hours" placeholder="Mon–Sat 8:00–18:00"></div>
+                        <p class="form-error" id="sf-error" role="alert"></p>
+                        <button type="submit" class="btn btn-primary">Add shop</button>
+                    </form>
+                    <ol class="shop-list" id="adm-shops"></ol>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2 class="section-title" style="font-size:24px;">Contact numbers</h2>
+                <p class="lead" style="font-size:15px; margin-bottom:16px;">The numbers farmers see in "Contact us" (chat 📞 button). A district with no number uses the main line. Leave a row empty to remove it.</p>
+                <form id="ct-admin" novalidate>
+                    <div class="table-wrap"><table class="ct-table">
+                        <thead><tr><th>District</th><th>Office / person name</th><th>Call &amp; SMS number</th><th>WhatsApp</th><th>Hours</th></tr></thead>
+                        <tbody id="ct-rows"></tbody>
+                    </table></div>
+                    <div class="result-actions" style="margin-top:14px; align-items:center;">
+                        <button type="submit" class="btn btn-primary">Save numbers</button>
+                        <span class="login-note" id="ct-msg" role="status"></span>
+                    </div>
+                </form>
+            </section>
+
+            <section class="section">
+                <h2 class="section-title" style="font-size:24px;">Reminders sent</h2>
+                <p class="lead" style="font-size:15px; margin-bottom:16px;" id="adm-sms-note">SMS reminders the server sent for treatment steps.</p>
+                <div class="table-wrap"><table><thead><tr><th>Time</th><th>Farmer</th><th>Message</th><th>Status</th></tr></thead><tbody id="adm-reminders"></tbody></table></div>
+            </section>
+
+            <section class="section">
+                <h2 class="section-title" style="font-size:24px;">Disease information</h2>
+                <p class="lead" style="font-size:15px; margin-bottom:16px;">Change what farmers read about each disease. Write one point per line. The dose can never be higher than the maximum dose.</p>
+                <form class="panel auth-form" id="dz-form" novalidate>
+                    <label class="ct-field">Disease<select id="dz-id"></select></label>
+                    <div class="dz-grid">
+                        <label class="ct-field">Name (English)<input id="dz-name_en"></label>
+                        <label class="ct-field">Name (Sinhala)<input id="dz-name_si"></label>
+                        <label class="ct-field">Name (Tamil)<input id="dz-name_ta"></label>
+                    </div>
+                    <div class="dz-grid">
+                        <label class="ct-field">Chemical<input id="dz-chemical" placeholder="e.g. Tricyclazole 75% WP"></label>
+                        <label class="ct-field">Dose (ml per 10 L)<input id="dz-dose_per_10l" inputmode="decimal"></label>
+                        <label class="ct-field">Maximum dose (ml per 10 L)<input id="dz-max_dose_per_10l" inputmode="decimal"></label>
+                    </div>
+                    <div class="dz-grid">
+                        <label class="ct-field">Symptoms (English)<textarea id="dz-symptoms_en" rows="4"></textarea></label>
+                        <label class="ct-field">Symptoms (Sinhala)<textarea id="dz-symptoms_si" rows="4"></textarea></label>
+                        <label class="ct-field">Symptoms (Tamil)<textarea id="dz-symptoms_ta" rows="4"></textarea></label>
+                    </div>
+                    <div class="dz-grid">
+                        <label class="ct-field">Treatment (English)<textarea id="dz-treatment_en" rows="4"></textarea></label>
+                        <label class="ct-field">Treatment (Sinhala)<textarea id="dz-treatment_si" rows="4"></textarea></label>
+                        <label class="ct-field">Treatment (Tamil)<textarea id="dz-treatment_ta" rows="4"></textarea></label>
+                    </div>
+                    <div class="result-actions" style="align-items:center;">
+                        <button type="submit" class="btn btn-primary">Save disease</button>
+                        <span class="login-note" id="dz-msg" role="status"></span>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <span data-i18n="footer_text">AgriCare · Final Year Project</span>
+            <span class="foot-links"><a href="about.html" data-i18n="nav_about">About</a> · <a href="privacy.html" data-i18n="nav_privacy">Privacy</a> · <a href="#" onclick="AgriChat.contact(); return false;" data-i18n="nav_contact">Contact us</a></span>
+            <strong data-i18n="footer_hotline">Your digital agriculture officer</strong>
+        </div>
+    </footer>
+
+    <script src="translations.js"></script>
+    <script src="content-i18n.js"></script>
+    <script src="diseases.js"></script>
+    <script src="treatment.js"></script>
+    <script src="pests.js"></script>
+    <script src="farm-data.js"></script>
+    <script src="weedicides.js"></script>
+    <script src="local-server.js"></script>
+    <script src="api.js"></script>
+    <script src="contacts.js"></script>
+    <script src="chat-kb.js"></script>
+    <script src="chat.js"></script>
+    <script>
+        const $ = id => document.getElementById(id);
+        const statusEl = $("adm-status");
+        const DISTRICT_NAMES = ["Ampara", "Anuradhapura", "Badulla", "Batticaloa", "Colombo", "Galle", "Gampaha", "Hambantota",
+            "Jaffna", "Kalutara", "Kandy", "Kegalle", "Kilinochchi", "Kurunegala", "Mannar", "Matale", "Matara",
+            "Monaragala", "Mullaitivu", "Nuwara Eliya", "Polonnaruwa", "Puttalam", "Ratnapura", "Trincomalee", "Vavuniya"];
+        DISTRICT_NAMES.forEach(d => { const o = document.createElement("option"); o.value = d; o.textContent = d; $("sf-district").appendChild(o); });
+
+        function el(tag, cls, text) {
+            const e = document.createElement(tag);
+            if (cls) e.className = cls;
+            if (text != null) e.textContent = text;
+            return e;
+        }
+        const nameOf = id => diseaseInfo(id).name.en;
+        const when = iso => iso ? new Date(iso).toLocaleString("en-GB", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }) : "–";
+        const td = (tr, text, cls) => { const c = el("td", cls, text); tr.appendChild(c); return c; };
+
+        async function load() {
+            statusEl.textContent = "";
+            if (!(await AgriAPI.online())) {
+                statusEl.textContent = "The dashboard is not connected to the AgriCare server.";
+                return;
+            }
+            const user = AgriAPI.user;
+            if (!user || user.role !== "officer") {
+                statusEl.textContent = "Only agriculture officer accounts can open this page. Log in with an officer account.";
+                return;
+            }
+            $("adm-body").hidden = false;
+            if (AgriAPI.mode === "local") {
+                statusEl.textContent = "Demo mode: this dashboard shows the accounts and scans created in this browser.";
+            }
+            const days = $("adm-days").value;
+            try {
+                const [stats, att, scans, shops, rem] = await Promise.all([
+                    AgriAPI.get("/api/admin/stats?days=" + days), AgriAPI.get("/api/admin/overdue"),
+                    AgriAPI.get("/api/admin/scans?limit=24"), AgriAPI.get("/api/shops"), AgriAPI.get("/api/admin/reminders")
+                ]);
+                renderStats(stats);
+                renderAttention(att);
+                renderScans(scans.scans);
+                renderShops(shops.shops);
+                renderReminders(rem.reminders);
+                loadFarmers();
+                loadRequests();
+                loadContacts();
+                loadDiseaseEditor();
+            } catch (e) {
+                statusEl.textContent = e.message;
+            }
+        }
+
+        function renderStats(s) {
+            const m = s.model;
+            const pill = $("adm-model");
+            pill.textContent = m.mode === "demo" ? "Model: DEMO (no trained model loaded)" : "Model: " + m.mode + " · " + m.classes.length + " classes";
+            pill.className = "pill " + (m.mode === "demo" ? "today" : "done");
+
+            const sm = s.summary;
+            const pct = sm.scans ? Math.round(sm.diseasedScans / sm.scans * 100) : 0;
+            const tiles = [
+                [sm.farmers, "Farmers registered", sm.newFarmers ? "+" + sm.newFarmers + " new" : ""],
+                [sm.scans, "Leaf scans", sm.demoScans ? sm.demoScans + " demo" : ""],
+                [pct + "%", "Scans with disease", sm.diseasedScans + " of " + sm.scans],
+                [sm.activePlans, "Active treatment plans", ""],
+                [sm.overdueSteps, "Late treatment steps", "", sm.overdueSteps ? "warn" : ""],
+                [sm.worseReports, "“Getting worse” reports", "", sm.worseReports ? "warn" : ""]
+            ];
+            const box = $("adm-stats");
+            box.innerHTML = "";
+            tiles.forEach(([v, label, note, cls]) => {
+                const d = el("div", "stat " + (cls || ""));
+                d.append(el("b", null, String(v)), el("span", null, label));
+                if (note) { const n = el("span", "stat-note", note); d.appendChild(n); }
+                box.appendChild(d);
+            });
+
+            const bars = $("adm-bars");
+            bars.innerHTML = "";
+            const max = Math.max(1, ...s.byDisease.map(d => d.count));
+            if (!s.byDisease.length) bars.appendChild(el("p", "empty-note", "No scans in this period."));
+            s.byDisease.forEach(d => {
+                const row = el("div", "bar-row" + (d.label === "healthy" ? " healthy" : ""));
+                row.appendChild(el("span", "bar-label", nameOf(d.label)));
+                const track = el("div", "bar-track");
+                const fill = el("i");
+                fill.style.width = (d.count / max * 100) + "%";
+                track.appendChild(fill);
+                row.append(track, el("span", "bar-val", String(d.count)));
+                bars.appendChild(row);
+            });
+
+            const tb = $("adm-districts");
+            tb.innerHTML = "";
+            if (!s.byDistrict.length) { const tr = el("tr"); td(tr, "No disease reports in this period.").colSpan = 3; tb.appendChild(tr); }
+            s.byDistrict.forEach(d => {
+                const tr = el("tr");
+                const top = Object.entries(d.diseases).sort((a, b) => b[1] - a[1])[0];
+                td(tr, d.district); td(tr, String(d.total)); td(tr, top ? nameOf(top[0]) + " (" + top[1] + ")" : "–");
+                tb.appendChild(tr);
+            });
+        }
+
+        function attItem(r, extra) {
+            const li = el("li", "att");
+            const top = el("div", "shop-top");
+            top.append(el("h3", null, r.name), el("span", "shop-km", r.district || ""));
+            li.appendChild(top);
+            li.appendChild(el("p", null, r.diseaseName + (r.field_name ? " · " + r.field_name : "") + " · Day " + (r.day + 1)));
+            li.appendChild(el("p", "att-step", r.step));
+            const meta = el("div", "shop-meta");
+            meta.appendChild(el("span", "shop-phone", r.phone));
+            meta.appendChild(el("span", null, extra));
+            li.appendChild(meta);
+            li.addEventListener("click", () => openFarmer(r.user_id));
+            return li;
+        }
+        function renderAttention(a) {
+            const w = $("adm-worse"), o = $("adm-overdue");
+            w.innerHTML = ""; o.innerHTML = "";
+            if (!a.worse.length) w.appendChild(el("li", "empty-note", "No farmer has reported a crop getting worse."));
+            if (!a.overdue.length) o.appendChild(el("li", "empty-note", "No late treatment steps."));
+            a.worse.slice(0, 20).forEach(r => w.appendChild(attItem(r, "reported " + when(r.done_at))));
+            a.overdue.slice(0, 20).forEach(r => o.appendChild(attItem(r, "due " + when(r.due_at))));
+        }
+
+        function renderScans(list) {
+            const box = $("adm-scans");
+            box.innerHTML = "";
+            if (!list.length) { const p = el("p", "empty-note", "No scans yet."); p.style.gridColumn = "1/-1"; box.appendChild(p); }
+            list.forEach(s => {
+                const card = el("div", "scan-item");
+                if (s.thumb) { const img = el("img", "scan-thumb"); img.src = AgriAPI.asset(s.thumb); img.alt = s.name; img.loading = "lazy"; card.appendChild(img); }
+                else card.appendChild(el("div", "scan-thumb sw " + diseaseInfo(s.label).swatch));
+                const inf = el("div", "scan-info");
+                inf.append(el("b", null, s.name + (s.demo ? " (demo)" : "")), el("span", null, s.farmer + " · " + (s.district || "")),
+                           el("span", null, when(s.at) + " · " + Math.round(s.confidence * 100) + "%"));
+                card.appendChild(inf);
+                box.appendChild(card);
+            });
+        }
+
+        let farmerTimer;
+        async function loadFarmers() {
+            const q = $("adm-q").value.trim();
+            const res = await AgriAPI.get("/api/admin/farmers" + (q ? "?q=" + encodeURIComponent(q) : ""));
+            const tb = $("adm-farmers");
+            tb.innerHTML = "";
+            if (!res.farmers.length) { const tr = el("tr"); td(tr, "No farmers found.").colSpan = 7; tb.appendChild(tr); }
+            res.farmers.forEach(f => {
+                const tr = el("tr", "click-row");
+                td(tr, f.name + (f.is_demo ? " (demo)" : "")); td(tr, f.phone); td(tr, f.district || "–");
+                td(tr, String(f.scans)); td(tr, String(f.active_plans));
+                const late = td(tr, String(f.overdue)); if (f.overdue) late.className = "warn-text";
+                td(tr, f.last_label ? nameOf(f.last_label) : "–");
+                tr.tabIndex = 0;
+                tr.addEventListener("click", () => openFarmer(f.id));
+                tr.addEventListener("keydown", e => { if (e.key === "Enter") openFarmer(f.id); });
+                tb.appendChild(tr);
+            });
+        }
+        $("adm-q").addEventListener("input", () => { clearTimeout(farmerTimer); farmerTimer = setTimeout(loadFarmers, 300); });
+
+        async function openFarmer(id) {
+            const box = $("adm-farmer");
+            box.hidden = false;
+            box.innerHTML = "";
+            box.appendChild(el("p", null, "Loading…"));
+            box.scrollIntoView({ behavior: "smooth", block: "nearest" });
+            const r = await AgriAPI.get("/api/admin/farmers/" + id);
+            box.innerHTML = "";
+            const head = el("div", "tracker-head");
+            head.appendChild(el("h3", null, r.farmer.name));
+            const close = el("button", "btn btn-ghost btn-sm", "Close");
+            close.type = "button";
+            close.addEventListener("click", () => { box.hidden = true; });
+            head.appendChild(close);
+            box.appendChild(head);
+            box.appendChild(el("p", "plan-meta", r.farmer.phone + " · " + (r.farmer.district || "No district") + " · joined " + when(r.farmer.created_at)));
+            box.appendChild(el("h4", "sub-h", "Treatment plans"));
+            if (!r.plans.length) box.appendChild(el("p", "empty-note", "No treatment plans."));
+            r.plans.forEach(p => {
+                const done = p.tasks.filter(x => x.done).length;
+                const row = el("div", "progress-row");
+                row.appendChild(el("span", null, nameOf(p.disease) + (p.field ? " · " + p.field : "") + " · started " + p.startDate));
+                const meter = el("div", "meter"); const bar = el("i"); bar.style.width = (done / p.tasks.length * 100) + "%"; meter.appendChild(bar);
+                row.append(meter, el("span", null, done + "/" + p.tasks.length));
+                box.appendChild(row);
+                const conds = p.tasks.filter(x => x.condition).map(x => "Day " + (x.day + 1) + ": " + x.condition).join(" → ");
+                if (conds) box.appendChild(el("p", "plan-meta", "Condition: " + conds));
+            });
+            box.appendChild(el("h4", "sub-h", "Scans"));
+            const hist = el("div", "history");
+            r.scans.forEach(s => {
+                const card = el("div", "scan-item");
+                if (s.thumb) { const img = el("img", "scan-thumb"); img.src = AgriAPI.asset(s.thumb); img.alt = nameOf(s.label); card.appendChild(img); }
+                const inf = el("div", "scan-info");
+                inf.append(el("b", null, nameOf(s.label)), el("span", null, when(s.at) + " · " + Math.round(s.confidence * 100) + "%"));
+                card.appendChild(inf);
+                hist.appendChild(card);
+            });
+            if (!r.scans.length) hist.appendChild(el("p", "empty-note", "No scans."));
+            box.appendChild(hist);
+        }
+
+        function renderShops(list) {
+            const ol = $("adm-shops");
+            ol.innerHTML = "";
+            if (!list.length) ol.appendChild(el("li", "empty-note", "No verified shops yet. Add the first one with the form."));
+            list.forEach((s, i) => {
+                const li = el("li", "shop");
+                li.appendChild(el("span", "shop-num", String(i + 1)));
+                const body = el("div", "shop-body");
+                const top = el("div", "shop-top");
+                top.append(el("h3", null, s.name), el("span", "shop-km", s.district || ""));
+                body.appendChild(top);
+                body.appendChild(el("div", "shop-meta", [s.phone, s.address, s.hours].filter(Boolean).join(" · ") || s.lat.toFixed(4) + ", " + s.lng.toFixed(4)));
+                const acts = el("div", "tl-actions");
+                const del = el("button", "link-danger", "Delete");
+                del.type = "button";
+                del.addEventListener("click", () => {
+                    if (del.dataset.sure !== "1") { del.dataset.sure = "1"; del.textContent = "Tap again to delete"; return; }
+                    AgriAPI.del("/api/shops/" + s.id).then(load).catch(e => { del.textContent = e.message; });
+                });
+                acts.appendChild(del);
+                body.appendChild(acts);
+                li.appendChild(body);
+                ol.appendChild(li);
+            });
+        }
+
+        $("sf-here").addEventListener("click", () => {
+            if (!navigator.geolocation) return;
+            navigator.geolocation.getCurrentPosition(p => {
+                $("sf-lat").value = p.coords.latitude.toFixed(6);
+                $("sf-lng").value = p.coords.longitude.toFixed(6);
+            }, () => { $("sf-error").textContent = "Location is blocked. Type the latitude and longitude instead (right-click the place in Google Maps to copy them)."; });
+        });
+        $("shop-form").addEventListener("submit", async e => {
+            e.preventDefault();
+            $("sf-error").textContent = "";
+            try {
+                await AgriAPI.post("/api/shops", {
+                    name: $("sf-name").value, type: $("sf-type").value, district: $("sf-district").value || null,
+                    lat: $("sf-lat").value, lng: $("sf-lng").value, phone: $("sf-phone").value,
+                    address: $("sf-address").value, hours: $("sf-hours").value
+                });
+                e.target.reset();
+                load();
+            } catch (ex) { $("sf-error").textContent = ex.message; }
+        });
+
+        function renderReminders(list) {
+            const tb = $("adm-reminders");
+            tb.innerHTML = "";
+            if (list.length && list.every(r => r.channel === "log")) {
+                $("adm-sms-note").textContent = "SMS sending is not set up yet: reminders are recorded on the server only.";
+            }
+            if (!list.length) { const tr = el("tr"); td(tr, "No reminders yet.").colSpan = 4; tb.appendChild(tr); }
+            list.slice(0, 30).forEach(r => {
+                const tr = el("tr");
+                td(tr, when(r.created_at)); td(tr, (r.name || "") + " " + (r.phone || "")); td(tr, r.message);
+                td(tr, r.status, r.status === "failed" ? "warn-text" : "");
+                tb.appendChild(tr);
+            });
+        }
+
+        /* ---------- call-back requests ---------- */
+        async function loadRequests() {
+            const tb = $("cb-list");
+            let list = [];
+            try { list = (await AgriAPI.get("/api/admin/contact-requests?status=" + $("cb-status").value)).requests; }
+            catch (e) { tb.innerHTML = ""; const tr = el("tr"); td(tr, e.message).colSpan = 6; tb.appendChild(tr); return; }
+            if ($("cb-status").value === "new") { $("cb-count").hidden = !list.length; $("cb-count").textContent = list.length + " waiting"; }
+            tb.innerHTML = "";
+            if (!list.length) { const tr = el("tr"); td(tr, "No requests.").colSpan = 6; tb.appendChild(tr); }
+            list.forEach(r => {
+                const tr = el("tr");
+                td(tr, when(r.created_at));
+                td(tr, r.name + (r.language && r.language !== "en" ? " (" + { si: "සිංහල", ta: "தமிழ்" }[r.language] + ")" : ""));
+                const ph = td(tr, ""); const a = el("a", null, r.phone); a.href = "tel:" + r.phone; ph.appendChild(a);
+                td(tr, r.district || "–");
+                td(tr, r.message || "–");
+                const act = td(tr, "");
+                const b = el("button", "btn btn-ghost btn-sm", r.status === "new" ? "✓ Called" : "Undo");
+                b.type = "button";
+                b.addEventListener("click", async () => {
+                    b.disabled = true;
+                    try { await AgriAPI.patch("/api/admin/contact-requests/" + r.id, { status: r.status === "new" ? "done" : "new" }); loadRequests(); }
+                    catch (e) { b.disabled = false; alert(e.message); }
+                });
+                act.appendChild(b);
+                tb.appendChild(tr);
+            });
+        }
+        $("cb-status").addEventListener("change", loadRequests);
+
+        /* ---------- contact numbers ---------- */
+        async function loadContacts() {
+            await AgriContacts.load(true);
+            const data = AgriContacts.data;
+            const tb = $("ct-rows");
+            tb.innerHTML = "";
+            ["_main"].concat(DISTRICT_NAMES).forEach(d => {
+                const c = data[d] || {};
+                const tr = el("tr");
+                tr.dataset.district = d;
+                const name = td(tr, d === "_main" ? "★ Main line (all districts)" : d);
+                if (d === "_main") name.style.fontWeight = "700";
+                [["name", "text", "AgriCare " + (d === "_main" ? "help line" : d)], ["phone", "tel", "07X XXX XXXX"], ["whatsapp", "tel", "optional"], ["hours", "text", "Mon–Sat 8–5"]].forEach(([k, type, ph]) => {
+                    const cell = td(tr, "");
+                    const i = el("input", "ct-in"); i.type = type; i.name = k; i.placeholder = ph; i.value = (k === "name" && c.name && typeof c.name === "object") ? (c.name.en || "") : (c[k] || "");
+                    i.setAttribute("aria-label", (d === "_main" ? "Main line" : d) + " " + k);
+                    cell.appendChild(i);
+                });
+                tb.appendChild(tr);
+            });
+        }
+        $("ct-admin").addEventListener("submit", async e => {
+            e.preventDefault();
+            const contacts = {};
+            document.querySelectorAll("#ct-rows tr").forEach(tr => {
+                const v = k => tr.querySelector('[name="' + k + '"]').value.trim();
+                contacts[tr.dataset.district] = { name: v("name"), phone: v("phone"), whatsapp: v("whatsapp"), hours: v("hours") };
+            });
+            $("ct-msg").textContent = "Saving...";
+            $("ct-msg").className = "login-note";
+            try {
+                await AgriAPI.put("/api/admin/contacts", { contacts });
+                $("ct-msg").textContent = "✓ Saved. Farmers now see these numbers.";
+                loadContacts();
+            } catch (ex) {
+                $("ct-msg").textContent = ex.message;
+                $("ct-msg").className = "login-note warn-text";
+            }
+        });
+
+                /* ---------- disease information (diseases table) ---------- */
+                const DZ_FIELDS = ["name_en", "name_si", "name_ta", "chemical", "dose_per_10l", "max_dose_per_10l",
+                           "symptoms_en", "symptoms_si", "symptoms_ta", "treatment_en", "treatment_si", "treatment_ta"];
+        let dzList = [];
+
+        async function loadDiseaseEditor() {
+            try {
+                dzList = (await AgriAPI.get("/api/diseases")).diseases;
+            } catch (ex) {
+                $("dz-msg").textContent = ex.message;
+                return;
+            }
+            const sel = $("dz-id"), keep = sel.value;
+            sel.innerHTML = "";
+            dzList.forEach(d => { const o = el("option", null, d.name_en); o.value = d.id; sel.appendChild(o); });
+            if (keep) sel.value = keep;
+            showDisease();
+        }
+        function showDisease() {
+            const d = dzList.find(x => x.id === $("dz-id").value);
+            if (!d) return;
+            DZ_FIELDS.forEach(f => { $("dz-" + f).value = d[f] == null ? "" : d[f]; });
+        }
+        $("dz-id").addEventListener("change", () => { $("dz-msg").textContent = ""; showDisease(); });
+        $("dz-form").addEventListener("submit", async e => {
+            e.preventDefault();
+            const body = {};
+            DZ_FIELDS.forEach(f => { body[f] = $("dz-" + f).value; });
+            $("dz-msg").textContent = "Saving...";
+            $("dz-msg").className = "login-note";
+            try {
+                await AgriAPI.put("/api/diseases/" + $("dz-id").value, body);
+                $("dz-msg").textContent = "✓ Saved. Farmers now see the new information.";
+                loadDiseaseEditor();
+            } catch (ex) {
+                $("dz-msg").textContent = ex.message;
+                $("dz-msg").className = "login-note warn-text";
+            }
+        });
+
+        $("adm-days").addEventListener("change", load);
+        $("adm-refresh").addEventListener("click", load);
+        document.addEventListener("DOMContentLoaded", load);
+    </script>
+
+</body>
+</html>

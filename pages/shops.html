@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Find a Medicine Shop</title>
+    <script>
+        // Security Check (safe even when the browser blocks storage)
+        (function () {
+            try { if (localStorage.getItem("isLoggedIn") !== "true") window.location.href = "login.html"; }
+            catch (e) { /* storage blocked: let the visitor in */ }
+        })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Noto+Sans:wght@400;500;600;700&family=Noto+Sans+Sinhala:wght@400;600;700&family=Noto+Sans+Tamil:wght@400;600;700&display=swap">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+    <header>
+        <a class="logo" href="../index.html">
+            AgriCare
+            <span data-i18n="logo_sub">Intelligent Solutions</span>
+        </a>
+        <div class="header-tools">
+            <select id="language-switcher" class="lang-switcher" aria-label="Language" onchange="setLanguage(this.value)">
+                <option value="en">English</option>
+                <option value="si">සිංහල</option>
+                <option value="ta">தமிழ்</option>
+            </select>
+            <button type="button" class="menu-btn" aria-expanded="false" onclick="toggleMenu()">☰ <span data-i18n="menu">Menu</span></button>
+        </div>
+        <nav>
+            <a href="../index.html" data-i18n="nav_home">Home</a>
+            <a href="upload-image.html" data-i18n="nav_scan">Scan</a>
+            <a href="disease-library.html" data-i18n="nav_diseases">Diseases</a>
+            <a href="pests.html" data-i18n="nav_pests">Pests</a>
+            <a href="weeds.html" data-i18n="nav_weeds">Weeds</a>
+            <a href="weather.html" data-i18n="nav_weather">Weather</a>
+            <a href="varieties.html" data-i18n="nav_varieties">Varieties</a>
+            <a href="my-crop.html" data-i18n="nav_crop">My Crop</a>
+            <a href="monitor.html" data-i18n="nav_monitor">Monitor</a>
+            <a href="shops.html" class="active" data-i18n="nav_shops">Shops</a>
+            <a href="learning-hub.html" data-i18n="nav_solutions">Solutions</a>
+            <a href="#" class="logout-link" onclick="handleLogout('login.html'); return false;" data-i18n="nav_logout">Log Out</a>
+        </nav>
+    </header>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+    <main>
+        <section class="page-hero">
+            <div class="container">
+                <span class="eyebrow" data-i18n="nav_shops">Shops</span>
+                <h1 data-i18n="shop_title">Find a Medicine Shop</h1>
+                <p class="lead" data-i18n="shop_lead">Find agro-chemical shops and Agrarian Service Centres near your field, sorted by distance.</p>
+
+                <div class="need-box" id="need-box" hidden>
+                    <span class="result-label" data-i18n="shop_need">What to ask for</span>
+                    <strong id="need-disease"></strong>
+                    <span id="need-text"></span>
+                </div>
+
+                <div class="loc-panel">
+                    <button type="button" class="btn btn-primary" id="use-loc" data-i18n="shop_use_loc">📍 Use my location</button>
+                    <span class="loc-or" data-i18n="shop_or_district">or choose your district</span>
+                    <select id="district" class="lang-switcher district-select" aria-label="District">
+                        <option value="" data-i18n="shop_district_ph">Select district</option>
+                    </select>
+                    <label class="radius" for="radius"><span data-i18n="shop_radius">Search within</span>
+                        <select id="radius" class="lang-switcher">
+                            <option value="5">5 km</option>
+                            <option value="10" selected>10 km</option>
+                            <option value="25">25 km</option>
+                            <option value="50">50 km</option>
+                        </select>
+                    </label>
+                </div>
+                <p class="shop-status" id="shop-status" role="status"></p>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container shop-layout">
+                <div class="shop-map-wrap">
+                    <div id="shop-map" class="shop-map" aria-label="Map of nearby shops">
+                        <div class="map-placeholder" id="map-placeholder">
+                            <span class="drop-icon" aria-hidden="true">📍</span>
+                        </div>
+                    </div>
+                    <a class="btn btn-ghost" id="google-link" href="https://www.google.com/maps/search/agro+chemical+shop+Sri+Lanka" target="_blank" rel="noopener" data-i18n="shop_google">🔎 Search agro shops on Google Maps</a>
+                    <p class="callout" data-i18n="shop_tip">Call the shop before you travel to check they have the product.</p>
+                </div>
+                <div>
+                    <ol class="shop-list" id="shop-list"></ol>
+                    <p class="login-note" style="margin-top: 14px;" data-i18n="shop_source">Shop locations come from OpenStreetMap contributors and may be incomplete.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <span data-i18n="footer_text">AgriCare · Final Year Project</span>
+            <span class="foot-links"><a href="about.html" data-i18n="nav_about">About</a> · <a href="privacy.html" data-i18n="nav_privacy">Privacy</a> · <a href="#" onclick="AgriChat.contact(); return false;" data-i18n="nav_contact">Contact us</a></span>
+            <strong data-i18n="footer_hotline">Your digital agriculture officer</strong>
+        </div>
+    </footer>
+
+    <script src="translations.js"></script>
+    <script src="content-i18n.js"></script>
+    <script src="diseases.js"></script>
+    <script src="treatment.js"></script>
+    <script src="pests.js"></script>
+    <script src="farm-data.js"></script>
+    <script src="weedicides.js"></script>
+    <script src="local-server.js"></script>
+    <script src="api.js"></script>
+    <script src="contacts.js"></script>
+    <script src="chat-kb.js"></script>
+    <script src="chat.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+    <script src="shops.js"></script>
+    <script>
+        let origin = null;        // { lat, lng, label }
+        let shops = [];
+        let map = null, layer = null;
+        let lastStatusKey = "";
+
+        const statusEl = document.getElementById("shop-status");
+        const listEl = document.getElementById("shop-list");
+        const districtSel = document.getElementById("district");
+        const radiusSel = document.getElementById("radius");
+
+        function el(tag, cls, text) {
+            const e = document.createElement(tag);
+            if (cls) e.className = cls;
+            if (text != null) e.textContent = text;
+            return e;
+        }
+        function setStatus(key, extra) {
+            lastStatusKey = key;
+            statusEl.textContent = key ? t(key) + (extra || "") : "";
+            statusEl.classList.toggle("warn", key === "shop_loc_denied" || key === "shop_error");
+        }
+
+        /* districts */
+        DISTRICTS.forEach(([name, lat, lng]) => {
+            const o = document.createElement("option");
+            o.value = lat + "," + lng; o.textContent = name;
+            districtSel.appendChild(o);
+        });
+
+        /* what to buy, from the last scan */
+        function renderNeed() {
+            let last = null;
+            try { last = JSON.parse(AgriStore.get("agricare_last_scan") || "null"); } catch (e) {}
+            const params = new URLSearchParams(location.search);
+            const id = params.get("d") || (last && last.label);
+            const need = SHOP_NEEDS[id];
+            document.getElementById("need-box").hidden = !need;
+            if (need) {
+                document.getElementById("need-disease").textContent = localText(diseaseInfo(id).name);
+                document.getElementById("need-text").textContent = localText(need);
+            }
+        }
+
+        /* location */
+        document.getElementById("use-loc").addEventListener("click", () => {
+            if (!navigator.geolocation) { setStatus("shop_loc_denied"); return; }
+            setStatus("shop_locating");
+            navigator.geolocation.getCurrentPosition(
+                pos => search(pos.coords.latitude, pos.coords.longitude, "gps"),
+                () => { setStatus("shop_loc_denied"); districtSel.focus(); },
+                { enableHighAccuracy: true, timeout: 12000, maximumAge: 300000 }
+            );
+        });
+        districtSel.addEventListener("change", () => {
+            if (!districtSel.value) return;
+            const [lat, lng] = districtSel.value.split(",").map(Number);
+            search(lat, lng, districtSel.options[districtSel.selectedIndex].textContent);
+        });
+        radiusSel.addEventListener("change", () => { if (origin) search(origin.lat, origin.lng, origin.label); });
+
+        async function search(lat, lng, label) {
+            origin = { lat, lng, label };
+            AgriStore.set("agricare_last_location", JSON.stringify(origin));
+            document.getElementById("google-link").href = googleMapsSearchUrl(lat, lng);
+            setStatus("shop_searching");
+            listEl.innerHTML = "";
+            const radius = Number(radiusSel.value);
+
+            let found = [];
+            let failed = false;
+            try { found = await fetchShops(lat, lng, radius); }
+            catch (e) { failed = true; }
+
+            let verified = VERIFIED_SHOPS.map(s => Object.assign({ verified: true }, s));
+            // shops checked by agriculture officers, from the AgriCare server
+            if (await AgriAPI.online()) {
+                try {
+                    const res = await AgriAPI.get(`/api/shops?lat=${lat}&lng=${lng}&radius=${radius}`);
+                    verified = verified.concat(res.shops);
+                    failed = false;
+                } catch (e) { /* server shops are optional */ }
+            }
+            // drop OpenStreetMap entries that duplicate a verified shop
+            found = found.filter(f => !verified.some(v => v.name.toLowerCase() === f.name.toLowerCase() && distanceKm(v.lat, v.lng, f.lat, f.lng) < 0.3));
+            shops = verified.concat(found)
+                .map(s => Object.assign(s, { km: distanceKm(lat, lng, s.lat, s.lng) }))
+                .filter(s => s.km <= radius || s.verified && s.km <= radius * 2)
+                .sort((a, b) => a.km - b.km);
+
+            if (shops.length) {
+                setStatus("");
+                statusEl.textContent = shops.length + " " + t("shop_found");
+            } else {
+                setStatus(failed ? "shop_error" : "shop_none");
+            }
+            renderList();
+            renderMap();
+        }
+
+        function renderList() {
+            listEl.innerHTML = "";
+            shops.forEach((s, i) => {
+                const li = el("li", "shop");
+                li.dataset.i = i;
+                const num = el("span", "shop-num", String(i + 1));
+                const body = el("div", "shop-body");
+                const top = el("div", "shop-top");
+                top.appendChild(el("h3", null, s.name));
+                top.appendChild(el("span", "shop-km", s.km.toFixed(1) + " " + t("shop_away")));
+                body.appendChild(top);
+                const meta = el("div", "shop-meta");
+                meta.appendChild(el("span", "pill " + (s.type === "asc" ? "today" : s.type === "agro" ? "done" : "upcoming"), t("shop_type_" + s.type)));
+                if (s.verified) meta.appendChild(el("span", "pill done", "✓ " + t("shop_verified")));
+                if (s.address) meta.appendChild(el("span", null, s.address));
+                if (s.hours) meta.appendChild(el("span", null, "🕒 " + s.hours));
+                body.appendChild(meta);
+                const acts = el("div", "tl-actions");
+                const dir = el("a", "btn btn-primary btn-sm", t("shop_directions"));
+                dir.href = directionsUrl(s.lat, s.lng); dir.target = "_blank"; dir.rel = "noopener";
+                acts.appendChild(dir);
+                if (s.phone) {
+                    const call = el("a", "btn btn-ghost btn-sm", "📞 " + t("shop_call"));
+                    call.href = "tel:" + s.phone.replace(/\s+/g, "");
+                    acts.appendChild(call);
+                    acts.appendChild(el("span", "shop-phone", s.phone));
+                }
+                body.appendChild(acts);
+                li.append(num, body);
+                li.addEventListener("mouseenter", () => focusMarker(i));
+                listEl.appendChild(li);
+            });
+        }
+
+        /* map (Leaflet + OpenStreetMap tiles); the list works even if the map can't load */
+        let markers = [];
+        function renderMap() {
+            if (!window.L || !origin) return;
+            try {
+                if (!map) {
+                    document.getElementById("map-placeholder").hidden = true;
+                    map = L.map("shop-map", { scrollWheelZoom: false });
+                    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+                        maxZoom: 19, attribution: "&copy; OpenStreetMap contributors"
+                    }).addTo(map);
+                }
+                if (layer) layer.remove();
+                layer = L.layerGroup().addTo(map);
+                markers = [];
+                L.circleMarker([origin.lat, origin.lng], { radius: 9, color: "#e7bd52", fillColor: "#e7bd52", fillOpacity: 0.9 })
+                    .bindTooltip(t("shop_you")).addTo(layer);
+                const pts = [[origin.lat, origin.lng]];
+                shops.forEach((s, i) => {
+                    const icon = L.divIcon({ className: "shop-pin", html: "<span>" + (i + 1) + "</span>", iconSize: [28, 28], iconAnchor: [14, 14] });
+                    const m = L.marker([s.lat, s.lng], { icon }).bindPopup(s.name + " · " + s.km.toFixed(1) + " km").addTo(layer);
+                    markers.push(m);
+                    pts.push([s.lat, s.lng]);
+                });
+                if (pts.length > 1) map.fitBounds(pts, { padding: [30, 30], maxZoom: 15 });
+                else map.setView([origin.lat, origin.lng], 12);
+            } catch (e) { /* map optional */ }
+        }
+        function focusMarker(i) { if (markers[i]) markers[i].openPopup(); }
+
+        document.addEventListener("agricare:lang", () => {
+            renderNeed();
+            if (lastStatusKey) setStatus(lastStatusKey);
+            else if (shops.length) statusEl.textContent = shops.length + " " + t("shop_found");
+            if (shops.length) renderList();
+        });
+
+        /* reopen last searched place */
+        try {
+            const prev = JSON.parse(AgriStore.get("agricare_last_location") || "null");
+            if (prev && prev.lat) document.addEventListener("DOMContentLoaded", () => search(prev.lat, prev.lng, prev.label));
+        } catch (e) {}
+    </script>
+
+</body>
+</html>

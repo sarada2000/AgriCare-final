@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>AgriCare</title>
+
+    <script>
+        // Security Check (safe even when the browser blocks storage)
+        (function () {
+            try {
+                if (localStorage.getItem("isLoggedIn") !== "true") {
+                    window.location.href = "pages/login.html";
+                }
+            } catch (e) { /* storage blocked: let the visitor in */ }
+        })();
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Noto+Sans:wght@400;500;600;700&family=Noto+Sans+Sinhala:wght@400;600;700&family=Noto+Sans+Tamil:wght@400;600;700&display=swap">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <header>
+        <a class="logo" href="index.html">
+            AgriCare
+            <span data-i18n="logo_sub">Intelligent Solutions</span>
+        </a>
+
+        <div class="header-tools">
+            <select id="language-switcher" class="lang-switcher" aria-label="Language" onchange="setLanguage(this.value)">
+                <option value="en">English</option>
+                <option value="si">සිංහල</option>
+                <option value="ta">தமிழ்</option>
+            </select>
+            <button type="button" class="menu-btn" aria-expanded="false" onclick="toggleMenu()">☰ <span data-i18n="menu">Menu</span></button>
+        </div>
+        <nav>
+            <a href="index.html" class="active" data-i18n="nav_home">Home</a>
+            <a href="pages/upload-image.html" data-i18n="nav_scan">Scan</a>
+            <a href="pages/disease-library.html" data-i18n="nav_diseases">Diseases</a>
+            <a href="pages/pests.html" data-i18n="nav_pests">Pests</a>
+            <a href="pages/weeds.html" data-i18n="nav_weeds">Weeds</a>
+            <a href="pages/weather.html" data-i18n="nav_weather">Weather</a>
+            <a href="pages/varieties.html" data-i18n="nav_varieties">Varieties</a>
+            <a href="pages/my-crop.html" data-i18n="nav_crop">My Crop</a>
+            <a href="pages/monitor.html" data-i18n="nav_monitor">Monitor</a>
+            <a href="pages/shops.html" data-i18n="nav_shops">Shops</a>
+            <a href="pages/learning-hub.html" data-i18n="nav_solutions">Solutions</a>
+            <a href="#" class="logout-link" onclick="handleLogout('pages/login.html'); return false;" data-i18n="nav_logout">Log Out</a>
+        </nav>
+    </header>
+
+    <section class="home-hero">
+        <div class="hero-container">
+
+            <div class="hero-text">
+                <h1><span data-i18n="hero_title_1">Protect Your</span><br><span class="hero-accent" data-i18n="hero_title_2">Harvest with AI</span></h1>
+                <p data-i18n="hero_desc">Take a photo of a sick paddy leaf, find the disease, and get a complete treatment plan in your own language. Built by students, designed for farmers.</p>
+
+                <div class="hero-actions">
+                    <a href="pages/upload-image.html" class="btn btn-primary" data-i18n="btn_scan">📸 Scan Now</a>
+                    <a href="pages/disease-library.html" class="btn btn-ghost" data-i18n="btn_learn">📚 Learn More</a>
+                </div>
+
+                <div class="features-grid">
+                    <div class="feature-box"><h4 data-i18n="feat_1_title">🗣️ 3 languages</h4><p data-i18n="feat_1_desc">English, සිංහල and தமிழ், with voice.</p></div>
+                    <div class="feature-box"><h4 data-i18n="feat_2_title">🩺 Full treatment</h4><p data-i18n="feat_2_desc">Step-by-step plans with alarms.</p></div>
+                    <div class="feature-box"><h4 data-i18n="feat_3_title">🌱 Free to use</h4><p data-i18n="feat_3_desc">No cost for farmers.</p></div>
+                </div>
+            </div>
+
+            <div class="hero-visual">
+                <div class="css-phone">
+                    <div class="notch"></div>
+                    <div class="screen-content">
+                        <h2>AgriCare</h2>
+                        <p class="mobile-edition" data-i18n="mobile_edition">Mobile Edition</p>
+                        <div class="scanner-circle"></div>
+                        <a href="pages/upload-image.html" style="text-decoration: none;">
+                            <span class="app-btn" data-i18n="btn_scan_leaf">Scan Leaf</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <section class="section tiles-section">
+        <div class="container">
+            <h2 class="section-title" data-i18n="home_tiles">What do you need today?</h2>
+            <div class="tiles">
+                <a class="tile" href="pages/upload-image.html"><span class="tile-icon">📸</span><b data-i18n="nav_scan">Scan</b><span data-i18n="tile_scan"></span></a>
+                <a class="tile" href="pages/weather.html"><span class="tile-icon">🌦️</span><b data-i18n="nav_weather">Weather</b><span data-i18n="tile_weather"></span></a>
+                <a class="tile" href="pages/varieties.html"><span class="tile-icon">🌾</span><b data-i18n="nav_varieties">Varieties</b><span data-i18n="tile_varieties"></span></a>
+                <a class="tile" href="pages/my-crop.html"><span class="tile-icon">📅</span><b data-i18n="nav_crop">My Crop</b><span data-i18n="tile_crop"></span></a>
+                <a class="tile" href="pages/disease-library.html"><span class="tile-icon">🍂</span><b data-i18n="nav_diseases">Diseases</b><span data-i18n="tile_diseases"></span></a>
+                <a class="tile" href="pages/pests.html"><span class="tile-icon">🐛</span><b data-i18n="nav_pests">Pests</b><span data-i18n="tile_pests"></span></a>
+                <a class="tile" href="pages/weeds.html"><span class="tile-icon">🌿</span><b data-i18n="nav_weeds">Weeds</b><span data-i18n="tile_weeds"></span></a>
+                <a class="tile" href="pages/monitor.html"><span class="tile-icon">⏰</span><b data-i18n="nav_monitor">Monitor</b><span data-i18n="tile_monitor"></span></a>
+                <a class="tile" href="pages/shops.html"><span class="tile-icon">🏪</span><b data-i18n="nav_shops">Shops</b><span data-i18n="tile_shops"></span></a>
+            </div>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container">
+            <span class="eyebrow" data-i18n="how_eyebrow">How it works</span>
+            <h2 class="section-title" data-i18n="how_title">From a leaf photo to a treatment plan</h2>
+            <div class="steps">
+                <div class="step"><h3 data-i18n="how_1_t">Take a photo</h3><p data-i18n="how_1_d">Photograph one affected paddy leaf in daylight, close up and in focus.</p></div>
+                <div class="step"><h3 data-i18n="how_2_t">AI checks the leaf</h3><p data-i18n="how_2_d">Our model, trained on labelled paddy leaf photos, checks the leaf.</p></div>
+                <div class="step"><h3 data-i18n="how_3_t">Get the treatment</h3><p data-i18n="how_3_d">See the likely disease, how sure the model is, and what to do next.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <span class="eyebrow" data-i18n="diseases_eyebrow">Disease library</span>
+            <h2 class="section-title" data-i18n="diseases_title">10 common paddy diseases and pests in Sri Lanka</h2>
+            <div class="hub-nav" id="disease-chips"></div>
+            <div style="margin-top: 28px;">
+                <a href="pages/disease-library.html" class="btn btn-ghost" data-i18n="diseases_cta">Open the library</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <span data-i18n="footer_text">AgriCare · Final Year Project</span>
+            <span class="foot-links"><a href="pages/about.html" data-i18n="nav_about">About</a> · <a href="pages/privacy.html" data-i18n="nav_privacy">Privacy</a> · <a href="#" onclick="AgriChat.contact(); return false;" data-i18n="nav_contact">Contact us</a></span>
+            <strong data-i18n="footer_hotline">Your digital agriculture officer</strong>
+        </div>
+    </footer>
+
+    <script src="pages/translations.js"></script>
+    <script src="pages/content-i18n.js"></script>
+    <script src="pages/diseases.js"></script>
+    <script src="pages/treatment.js"></script>
+    <script src="pages/pests.js"></script>
+    <script src="pages/farm-data.js"></script>
+    <script src="pages/weedicides.js"></script>
+    <script src="pages/local-server.js"></script>
+    <script src="pages/api.js"></script>
+    <script src="pages/contacts.js"></script>
+    <script src="pages/chat-kb.js"></script>
+    <script src="pages/chat.js"></script>
+
+    <script>
+        // Disease name chips on the home page (re-drawn when language changes)
+        function renderDiseaseChips() {
+            const box = document.getElementById("disease-chips");
+            box.innerHTML = "";
+            DISEASES.forEach(d => {
+                const a = document.createElement("a");
+                a.href = "pages/disease-library.html#" + d.id;
+                a.textContent = localText(d.name);
+                box.appendChild(a);
+            });
+            // insect damage (also in the Disease Library)
+            ["stem_borer", "gall_midge", "leaf_folder", "paddy_bug"].forEach(id => {
+                const p = PESTS.find(x => x.id === id);
+                if (!p) return;
+                const a = document.createElement("a");
+                a.href = "pages/disease-library.html#" + id;
+                a.textContent = "🐛 " + localText(p.name);
+                box.appendChild(a);
+            });
+        }
+        document.addEventListener("agricare:lang", renderDiseaseChips);
+
+    </script>
+</body>
+</html>

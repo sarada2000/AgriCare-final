@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Weed Control</title>
+    <script>
+        // Security Check (safe even when the browser blocks storage)
+        (function () {
+            try { if (localStorage.getItem("isLoggedIn") !== "true") window.location.href = "login.html"; }
+            catch (e) { /* storage blocked: let the visitor in */ }
+        })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Noto+Sans:wght@400;500;600;700&family=Noto+Sans+Sinhala:wght@400;600;700&family=Noto+Sans+Tamil:wght@400;600;700&display=swap">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+    <header>
+        <a class="logo" href="../index.html">
+            AgriCare
+            <span data-i18n="logo_sub">Intelligent Solutions</span>
+        </a>
+        <div class="header-tools">
+            <select id="language-switcher" class="lang-switcher" aria-label="Language" onchange="setLanguage(this.value)">
+                <option value="en">English</option>
+                <option value="si">සිංහල</option>
+                <option value="ta">தமிழ்</option>
+            </select>
+            <button type="button" class="menu-btn" aria-expanded="false" onclick="toggleMenu()">☰ <span data-i18n="menu">Menu</span></button>
+        </div>
+        <nav>
+            <a href="../index.html" data-i18n="nav_home">Home</a>
+            <a href="upload-image.html" data-i18n="nav_scan">Scan</a>
+            <a href="disease-library.html" data-i18n="nav_diseases">Diseases</a>
+            <a href="pests.html" data-i18n="nav_pests">Pests</a>
+            <a href="weeds.html" class="active" data-i18n="nav_weeds">Weeds</a>
+            <a href="weather.html" data-i18n="nav_weather">Weather</a>
+            <a href="varieties.html" data-i18n="nav_varieties">Varieties</a>
+            <a href="my-crop.html" data-i18n="nav_crop">My Crop</a>
+            <a href="monitor.html" data-i18n="nav_monitor">Monitor</a>
+            <a href="shops.html" data-i18n="nav_shops">Shops</a>
+            <a href="learning-hub.html" data-i18n="nav_solutions">Solutions</a>
+            <a href="#" class="logout-link" onclick="handleLogout('login.html'); return false;" data-i18n="nav_logout">Log Out</a>
+        </nav>
+    </header>
+    <main>
+        <section class="page-hero">
+            <div class="container">
+                <span class="eyebrow" data-i18n="nav_weeds">Weeds</span>
+                <h1 data-i18n="wd_title">Weed Control</h1>
+                <p class="lead" data-i18n="wd_lead">Which weedicide to use, when to spray it, and exactly how much for your field.</p>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container wd-top">
+                <div class="panel wd-timeline">
+                    <div class="wd-head"><h2 data-i18n="wd_timeline">When to spray</h2><span class="pill today" id="wd-myday" hidden></span></div>
+                    <p class="login-note" data-i18n="wd_timeline_lead"></p>
+                    <ol class="wd-stages" id="wd-stages"></ol>
+                </div>
+                <form class="panel wd-calc" id="wd-calc" onsubmit="return false">
+                    <h2 data-i18n="wd_calc">Dose calculator</h2>
+                    <p class="login-note" data-i18n="wd_calc_lead"></p>
+                    <label class="ct-field"><span data-i18n="wd_product">Weedicide</span><select id="wd-prod"></select></label>
+                    <div class="wd-row">
+                        <label class="ct-field"><span data-i18n="wd_size">Field size</span><input id="wd-size" type="number" inputmode="decimal" min="0" step="0.25" value="1"></label>
+                        <label class="ct-field"><span>&nbsp;</span><select id="wd-unit">
+                            <option value="ac" data-i18n="wd_unit_ac">acres</option>
+                            <option value="ha" data-i18n="wd_unit_ha">hectares</option>
+                            <option value="pe" data-i18n="wd_unit_pe">perches</option>
+                        </select></label>
+                        <label class="ct-field"><span data-i18n="wd_tank">Sprayer tank</span><select id="wd-tank">
+                            <option value="10">10 L</option><option value="16" selected>16 L</option><option value="20">20 L</option>
+                        </select></label>
+                    </div>
+                    <div class="wd-out" id="wd-out"></div>
+                    <a class="btn btn-ghost btn-sm" href="weather.html" data-i18n="wd_open_weather">🌦 Check a good spray day</a>
+                </form>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title" style="font-size:24px;" data-i18n="wd_finder">Which weedicide for my weed?</h2>
+                <p class="login-note" data-i18n="wd_finder_lead"></p>
+                <div class="hub-nav wd-weeds" id="wd-weeds"></div>
+                <div class="wd-list" id="wd-list"></div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <div class="panel">
+                    <h2 style="font-size:22px; margin-top:0;" data-i18n="wd_rules_title">Rules for every weedicide</h2>
+                    <ul class="checklist" id="wd-rules"></ul>
+                    <p class="login-note" style="margin-top:12px;" data-i18n="wd_source"></p>
+                    <p class="login-note" data-i18n="wd_photo_note"></p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <span data-i18n="footer_text">AgriCare · Final Year Project</span>
+            <span class="foot-links"><a href="about.html" data-i18n="nav_about">About</a> · <a href="privacy.html" data-i18n="nav_privacy">Privacy</a> · <a href="#" onclick="AgriChat.contact(); return false;" data-i18n="nav_contact">Contact us</a></span>
+            <strong data-i18n="footer_hotline">Your digital agriculture officer</strong>
+        </div>
+    </footer>
+
+    <script src="translations.js"></script>
+    <script src="content-i18n.js"></script>
+    <script src="diseases.js"></script>
+    <script src="treatment.js"></script>
+    <script src="pests.js"></script>
+    <script src="farm-data.js"></script>
+    <script src="weedicides.js"></script>
+    <script src="local-server.js"></script>
+    <script src="api.js"></script>
+    <script src="contacts.js"></script>
+    <script src="chat-kb.js"></script>
+    <script src="chat.js"></script>
+    <script>
+        const $ = id => document.getElementById(id);
+        function el(tag, cls, text) {
+            const e = document.createElement(tag);
+            if (cls) e.className = cls;
+            if (text != null) e.textContent = text;
+            return e;
+        }
+        const L = o => localText(o);
+        const fill = (s, map) => Object.keys(map).reduce((x, k) => x.split("{" + k + "}").join(map[k]), s);
+        const r10 = n => Math.round(n / 10) * 10;
+        const fmtMl = ml => ml >= 1000 ? (Math.round(ml / 10) / 100).toLocaleString() + " L" : Math.round(ml) + " ml";
+        const pName = p => getLanguage() === "si" ? p.nameSi : p.name;
+        let weedFilter = "all";
+
+        /* the farmer's crop day (from My Crop) */
+        function cropDay() {
+            try {
+                const c = JSON.parse(AgriStore.get("agricare_crop") || "null");
+                if (!c || !c.sowed) return null;
+                const [y, m, d] = c.sowed.split("-").map(Number);
+                const n = new Date();
+                return Math.round((new Date(n.getFullYear(), n.getMonth(), n.getDate()) - new Date(y, m - 1, d)) / 86400000);
+            } catch (e) { return null; }
+        }
+
+        /* ---------- timeline ---------- */
+        function renderTimeline() {
+            const day = cropDay();
+            $("wd-myday").hidden = day == null || day > 40;
+            if (day != null) $("wd-myday").textContent = fill(t("wd_your_day"), { n: day });
+            const stages = [];
+            WEEDICIDES.forEach(p => p.uses.forEach(u => { if (u.crop === "rice" && u.dap) stages.push({ p, u }); }));
+            stages.sort((a, b) => a.u.dap[0] - b.u.dap[0]);
+            const ol = $("wd-stages");
+            ol.innerHTML = "";
+            stages.forEach(({ p, u }) => {
+                const li = el("li", "wd-stage");
+                const due = day != null && day >= u.dap[0] - 1 && day <= u.dap[1];
+                if (due) li.classList.add("due");
+                const badge = el("div", "wd-days");
+                badge.appendChild(el("b", null, u.dap[0] < 0 ? String(u.dap[0]) : u.dap[0] === u.dap[1] ? String(u.dap[0]) : u.dap[0] + "–" + u.dap[1]));
+                badge.appendChild(el("small", null, u.dap[0] < 0 ? t("wd_before") : t("wd_days")));
+                li.appendChild(badge);
+                const body = el("div", "wd-stage-body");
+                const top = el("div", "wd-stage-top");
+                const a = el("a", "wd-pname", pName(p)); a.href = "#wd-" + p.id;
+                top.appendChild(a);
+                top.appendChild(el("span", "wd-code", p.code)).style.background = p.color;
+                if (due) top.appendChild(el("span", "pill today", t("wd_due")));
+                body.appendChild(top);
+                body.appendChild(el("div", "wd-stage-what", (u.label ? L(u.label) + " · " : "") + L(p.type)));
+                li.appendChild(body);
+                ol.appendChild(li);
+            });
+        }
+
+        /* ---------- calculator ---------- */
+        function fillProducts() {
+            const sel = $("wd-prod"), keep = sel.value;
+            sel.innerHTML = "";
+            WEEDICIDES.forEach(p => p.uses.forEach((u, i) => {
+                const o = el("option", null, pName(p) + (u.label ? " – " + L(u.label) : "") + (u.crop === "pineapple" ? " – " + t("wd_crop_pineapple") : ""));
+                o.value = p.id + ":" + i;
+                sel.appendChild(o);
+            }));
+            if (keep) sel.value = keep;
+        }
+        function calc() {
+            const [pid, ui] = $("wd-prod").value.split(":");
+            const p = WEEDICIDES.find(x => x.id === pid), u = p.uses[Number(ui)];
+            const size = Math.max(0, parseFloat($("wd-size").value) || 0);
+            const ha = $("wd-unit").value === "ha" ? size : $("wd-unit").value === "pe" ? size * 0.0025293 : size * 0.404686;
+            const tank = Number($("wd-tank").value);
+            const product = u.perHa * ha;
+            const per10 = u.per10.split("–").map(Number);
+            const spray = u.sprayHa || [u.perHa / per10[per10.length - 1] * 10, u.perHa / per10[0] * 10];
+            const wLo = spray[0] * ha, wHi = spray[1] * ha;
+            const tLo = Math.max(1, Math.ceil(wLo / tank)), tHi = Math.max(1, Math.ceil(wHi / tank));
+            const out = $("wd-out");
+            out.innerHTML = "";
+            // Safeguard 1: field size must be real and realistic (a typo like 100 ha would give a huge dose)
+            if (!(size > 0)) { out.appendChild(el("p", "worse-alert", "⚠ " + t("wd_size_bad"))); return; }
+            if (ha > 50) { out.appendChild(el("p", "worse-alert", "⚠ " + t("wd_size_big"))); return; }
+            const tile = (label, value, big) => {
+                const d = el("div", "wd-tile" + (big ? " big" : ""));
+                d.appendChild(el("b", null, value));
+                d.appendChild(el("span", null, label));
+                out.appendChild(d);
+            };
+            tile(t("wd_need_product"), fmtMl(product), true);
+            tile(t("wd_need_water"), Math.round(wLo) === Math.round(wHi) ? Math.round(wLo) + " L" : Math.round(wLo) + "–" + Math.round(wHi) + " L");
+            tile(t("wd_need_tanks"), tLo === tHi ? String(tLo) : tLo + "–" + tHi);
+            // per tank straight from the label's mix rate (ml per 10 L), scaled to the tank size
+            const ptLo = per10[0] * tank / 10, ptHi = per10[per10.length - 1] * tank / 10;
+            tile(t("wd_per_tank"), Math.round(ptLo) === Math.round(ptHi) ? Math.round(ptHi) + " ml" : Math.round(ptLo) + "–" + Math.round(ptHi) + " ml");
+            const when = el("p", "wd-calc-when", "🗓 " + L(u.when) + (u.water ? " · 💧 " + L(u.water) : ""));
+            out.appendChild(when);
+            // Safeguard 2: the amount is always the label dose – the farmer cannot type a bigger dose
+            out.appendChild(el("p", "wd-label-max", "🛡 " + t("wd_label_max")));
+            // Safeguard 3: warn when the farmer's crop is outside this product's application window
+            const day = cropDay();
+            if (u.crop === "rice" && u.dap && day != null && (day < u.dap[0] - 1 || day > u.dap[1] + 1)) {
+                out.appendChild(el("p", "worse-alert", "⚠ " + fill(t("wd_wrong_time"), { n: day, a: u.dap[0], b: u.dap[1] })));
+            }
+        }
+        ["wd-prod", "wd-size", "wd-unit", "wd-tank"].forEach(id => { $(id).addEventListener("input", calc); $(id).addEventListener("change", calc); });
+
+        /* ---------- weed finder + product cards ---------- */
+        function renderWeeds() {
+            const box = $("wd-weeds");
+            box.innerHTML = "";
+            const chip = (id, label) => {
+                const b = el("button", "chip", label);
+                b.type = "button";
+                b.setAttribute("aria-pressed", String(weedFilter === id));
+                b.addEventListener("click", () => { weedFilter = id; renderWeeds(); renderList(); });
+                box.appendChild(b);
+            };
+            chip("all", t("wd_all"));
+            Object.keys(WEEDS).forEach(id => chip(id, L(WEEDS[id])));
+        }
+        function weedLabel(id) {
+            const w = WEEDS[id];
+            return L(w) + " (" + L(WEED_KIND[w.kind]) + ")";
+        }
+        function useBlock(p, u) {
+            const box = el("div", "wd-use");
+            if (u.label || u.crop !== "rice") box.appendChild(el("h4", "wd-use-h", u.label ? L(u.label) : t("wd_crop_" + u.crop)));
+            const dl = el("dl", "wd-dl");
+            const row = (k, v) => { if (!v) return; dl.appendChild(el("dt", null, k)); dl.appendChild(el("dd", null, v)); };
+            row(t("wd_when"), L(u.when));
+            row(t("wd_mix"), fill(t("wd_mix_val"), { ml: u.per10 }) + (u.per16 ? fill(t("wd_mix16"), { ml: u.per16 }) : ""));
+            row(t("wd_rate"), fill(t("wd_rate_val"), { ha: u.perHa.toLocaleString(), ac: Math.round(u.perHa * 0.4).toLocaleString() }) +
+                (u.sprayHa ? ". " + fill(t("wd_spray_val"), { lo: u.sprayHa[0], hi: u.sprayHa[1], alo: r10(u.sprayHa[0] * 0.4), ahi: r10(u.sprayHa[1] * 0.4) }) : ""));
+            if (u.water) row(t("wd_water"), L(u.water));
+            box.appendChild(dl);
+            if (u.weeds && u.weeds.length) {
+                const ws = el("div", "wd-chips");
+                u.weeds.forEach(id => ws.appendChild(el("span", "wd-weed" + (weedFilter === id ? " on" : ""), weedLabel(id))));
+                box.appendChild(ws);
+            }
+            return box;
+        }
+        function renderList() {
+            const list = $("wd-list");
+            list.innerHTML = "";
+            WEEDICIDES.forEach(p => {
+                if (weedFilter !== "all" && !p.uses.some(u => (u.weeds || []).includes(weedFilter))) return;
+                const card = el("article", "wd-card" + (p.notPaddy ? " other" : ""));
+                card.id = "wd-" + p.id;
+                card.style.setProperty("--wd", p.color);
+                const head = el("div", "wd-card-head");
+                const pic = el("div", "wd-pic");
+                pic.appendChild(el("span", "wd-bottle", p.code));
+                const img = new Image();
+                img.onload = () => { img.className = "wd-photo"; img.alt = p.name + " bottle"; pic.innerHTML = ""; pic.appendChild(img); pic.classList.add("has-photo"); };
+                img.src = "../img/weedicides/" + p.id + ".jpg";
+                head.appendChild(pic);
+                const hb = el("div");
+                const h = el("h3", null, pName(p));
+                if (getLanguage() === "si") h.appendChild(el("small", null, p.name));
+                hb.appendChild(h);
+                hb.appendChild(el("div", "wd-ai", L(p.ai)));
+                const tags = el("div", "wd-tags");
+                tags.appendChild(el("span", "wd-code", t("wd_code") + " " + p.code)).style.background = p.color;
+                tags.appendChild(el("span", "wd-type", L(p.type)));
+                if (p.notPaddy) tags.appendChild(el("span", "pill today", t("wd_not_paddy")));
+                hb.appendChild(tags);
+                head.appendChild(hb);
+                card.appendChild(head);
+                card.appendChild(el("p", "wd-about", L(p.about)));
+                p.uses.forEach(u => card.appendChild(useBlock(p, u)));
+                if (p.notes.length) {
+                    const n = el("div", "wd-notes");
+                    n.appendChild(el("h4", null, "⚠️ " + t("wd_notes")));
+                    const ul = el("ul");
+                    p.notes.forEach(x => ul.appendChild(el("li", null, L(x))));
+                    n.appendChild(ul);
+                    card.appendChild(n);
+                }
+                list.appendChild(card);
+            });
+        }
+        function renderRules() {
+            const ul = $("wd-rules");
+            ul.innerHTML = "";
+            ["wd_rule1", "wd_rule2", "wd_rule3", "wd_rule4", "wd_rule5"].forEach(k => ul.appendChild(el("li", null, t(k))));
+        }
+
+        document.addEventListener("agricare:lang", () => {
+            renderTimeline(); fillProducts(); calc(); renderWeeds(); renderList(); renderRules();
+            if (location.hash && !window.__wdJumped) { window.__wdJumped = true; const tg = document.querySelector(location.hash); if (tg) tg.scrollIntoView(); }
+        });
+
+        // Safety disclaimer before chemical advice
+        AgriDisclaimer.require();
+
+    </script>
+
+</body>
+</html>

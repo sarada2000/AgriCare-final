@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Paddy Disease Library</title>
+    <script>
+        // Security Check (safe even when the browser blocks storage)
+        (function () {
+            try { if (localStorage.getItem("isLoggedIn") !== "true") window.location.href = "login.html"; }
+            catch (e) { /* storage blocked: let the visitor in */ }
+        })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Noto+Sans:wght@400;500;600;700&family=Noto+Sans+Sinhala:wght@400;600;700&family=Noto+Sans+Tamil:wght@400;600;700&display=swap">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+    <header>
+        <a class="logo" href="../index.html">
+            AgriCare
+            <span data-i18n="logo_sub">Intelligent Solutions</span>
+        </a>
+        <div class="header-tools">
+            <select id="language-switcher" class="lang-switcher" aria-label="Language" onchange="setLanguage(this.value)">
+                <option value="en">English</option>
+                <option value="si">සිංහල</option>
+                <option value="ta">தமிழ்</option>
+            </select>
+            <button type="button" class="menu-btn" aria-expanded="false" onclick="toggleMenu()">☰ <span data-i18n="menu">Menu</span></button>
+        </div>
+        <nav>
+            <a href="../index.html" data-i18n="nav_home">Home</a>
+            <a href="upload-image.html" data-i18n="nav_scan">Scan</a>
+            <a href="disease-library.html" class="active" data-i18n="nav_diseases">Diseases</a>
+            <a href="pests.html" data-i18n="nav_pests">Pests</a>
+            <a href="weeds.html" data-i18n="nav_weeds">Weeds</a>
+            <a href="weather.html" data-i18n="nav_weather">Weather</a>
+            <a href="varieties.html" data-i18n="nav_varieties">Varieties</a>
+            <a href="my-crop.html" data-i18n="nav_crop">My Crop</a>
+            <a href="monitor.html" data-i18n="nav_monitor">Monitor</a>
+            <a href="shops.html" data-i18n="nav_shops">Shops</a>
+            <a href="learning-hub.html" data-i18n="nav_solutions">Solutions</a>
+            <a href="#" class="logout-link" onclick="handleLogout('login.html'); return false;" data-i18n="nav_logout">Log Out</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="page-hero">
+            <div class="container">
+                <span class="eyebrow" data-i18n="nav_diseases">Diseases</span>
+                <h1 data-i18n="lib_title">Paddy Disease Library</h1>
+                <p class="lead" data-i18n="lib_lead">Symptoms, causes and control measures for the most common paddy diseases in Sri Lanka.</p>
+                <div class="lib-tools">
+                    <input id="lib-search" class="search-input" type="search" data-i18n-placeholder="lib_search_ph" placeholder="Search diseases or symptoms..." aria-label="Search">
+                    <button class="chip" type="button" data-filter="all" aria-pressed="true" data-i18n="filter_all">All</button>
+                    <button class="chip" type="button" data-filter="fungal" aria-pressed="false" data-i18n="filter_fungal">Fungal</button>
+                    <button class="chip" type="button" data-filter="bacterial" aria-pressed="false" data-i18n="filter_bacterial">Bacterial</button>
+                    <button class="chip" type="button" data-filter="viral" aria-pressed="false" data-i18n="filter_viral">Viral</button>
+                    <button class="chip" type="button" data-filter="insect" aria-pressed="false" data-i18n="filter_insect">Insect damage</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <div class="disease-list" id="disease-list"></div>
+                <p class="empty-note" id="lib-empty" hidden data-i18n="lib_empty">No diseases match your search.</p>
+                <p class="callout" style="margin-top: 28px;" data-i18n="lib_chem_note">Chemical names are examples only.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <span data-i18n="footer_text">AgriCare · Final Year Project</span>
+            <span class="foot-links"><a href="about.html" data-i18n="nav_about">About</a> · <a href="privacy.html" data-i18n="nav_privacy">Privacy</a> · <a href="#" onclick="AgriChat.contact(); return false;" data-i18n="nav_contact">Contact us</a></span>
+            <strong data-i18n="footer_hotline">Your digital agriculture officer</strong>
+        </div>
+    </footer>
+
+    <script src="translations.js"></script>
+    <script src="content-i18n.js"></script>
+    <script src="diseases.js"></script>
+    <script src="treatment.js"></script>
+    <script src="pests.js"></script>
+    <script src="farm-data.js"></script>
+    <script src="weedicides.js"></script>
+    <script src="local-server.js"></script>
+    <script src="api.js"></script>
+    <script src="contacts.js"></script>
+    <script src="chat-kb.js"></script>
+    <script src="chat.js"></script>
+    <script>
+        let currentFilter = "all";
+        // insect damage shown in the library too (each also has its plan on the Pests page)
+        const LIB_PESTS = ["stem_borer", "gall_midge", "leaf_folder", "paddy_bug"];
+
+        function el(tag, cls, text) {
+            const e = document.createElement(tag);
+            if (cls) e.className = cls;
+            if (text != null) e.textContent = text;
+            return e;
+        }
+
+        function factBlock(labelKey, items) {
+            if (!items || !items.length) return document.createTextNode("");   // nothing to show yet
+            const box = el("div");
+            box.appendChild(el("h4", null, t(labelKey)));
+            const ul = el("ul");
+            items.forEach(i => ul.appendChild(el("li", null, i)));
+            box.appendChild(ul);
+            return box;
+        }
+
+        function renderLibrary() {
+            const list = document.getElementById("disease-list");
+            const q = document.getElementById("lib-search").value.trim().toLowerCase();
+            list.innerHTML = "";
+            let shown = 0;
+
+            DISEASES.forEach(d => {
+                const haystack = [d.name.en, d.name.si, d.name.ta, d.sci, localText(d.summary), d.summary.en, ...d.symptoms, ...localList(d.id, "symptoms", [])].join(" ").toLowerCase();
+                if (currentFilter !== "all" && d.type !== currentFilter) return;
+                if (q && !haystack.includes(q)) return;
+                shown++;
+
+                const art = el("article", "disease");
+                art.id = d.id;
+
+                const sw = el("div", "disease-swatch " + d.swatch);
+                sw.setAttribute("aria-hidden", "true");
+                sw.appendChild(el("span", "type-tag", t("filter_" + d.type)));
+                addDiseasePhoto(sw, d.id, d.name.en);
+                art.appendChild(sw);
+
+                const body = el("div", "disease-body");
+                const head = el("div", "disease-head");
+                const local = localText(d.name);
+                head.appendChild(el("h2", null, local));
+                if (local !== d.name.en) head.appendChild(el("span", "local", d.name.en));
+                head.appendChild(el("span", "sci", d.sci));
+                body.appendChild(head);
+                body.appendChild(el("p", "disease-summary", localText(d.summary)));
+
+                const facts = el("div", "facts");
+                facts.appendChild(factBlock("lbl_symptoms", localList(d.id, "symptoms", d.symptoms)));
+                facts.appendChild(factBlock("lbl_conditions", localList(d.id, "conditions", d.conditions)));
+                facts.appendChild(factBlock("lbl_manage", localList(d.id, "manage", d.manage)));
+                facts.appendChild(factBlock("lbl_prevent", localList(d.id, "prevent", d.prevent)));
+                body.appendChild(facts);
+                if (d.chemical || d.dose != null) {
+                    const dose = el("p", "disease-dose");
+                    dose.textContent = localText({ en: "Recommended", si: "නිර්දේශිත", ta: "பரிந்துரை" }) + ": " +
+                        (d.chemical || "") +
+                        (d.dose != null ? " · " + d.dose + " ml / 10 L" : "") +
+                        (d.maxDose != null ? " (" + localText({ en: "max", si: "උපරිම", ta: "அதிகபட்சம்" }) + " " + d.maxDose + ")" : "");
+                    body.appendChild(dose);
+                }
+
+                art.appendChild(body);
+                list.appendChild(art);
+            });
+
+            // insect damage (full details and alarms on the Pests page)
+            LIB_PESTS.forEach(id => {
+                const p = (typeof PESTS !== "undefined") && PESTS.find(x => x.id === id);
+                if (!p || (currentFilter !== "all" && currentFilter !== "insect")) return;
+                const haystack = [p.name.en, p.name.si, p.name.ta, p.sci, localText(p.summary), p.summary.en, ...p.signs, ...localList(p.id, "signs", [])].join(" ").toLowerCase();
+                if (q && !haystack.includes(q)) return;
+                shown++;
+                const art = el("article", "disease");
+                art.id = p.id;
+                const sw = el("div", "disease-swatch swatch-art");
+                sw.innerHTML = PEST_ART[p.id]();
+                sw.querySelector("svg").setAttribute("aria-hidden", "true");
+                sw.appendChild(el("span", "type-tag", t("filter_insect")));
+                addDiseasePhoto(sw, p.id, p.name.en);
+                art.appendChild(sw);
+                const body = el("div", "disease-body");
+                const head = el("div", "disease-head");
+                const local = localText(p.name);
+                head.appendChild(el("h2", null, local));
+                if (local !== p.name.en) head.appendChild(el("span", "local", p.name.en));
+                head.appendChild(el("span", "sci", p.sci));
+                body.appendChild(head);
+                body.appendChild(el("p", "disease-summary", localText(p.summary)));
+                const facts = el("div", "facts");
+                facts.appendChild(factBlock("pest_signs", localList(p.id, "signs", p.signs)));
+                facts.appendChild(factBlock("pest_attack", localList(p.id, "attack", p.attack)));
+                facts.appendChild(factBlock("lbl_manage", localList(p.id, "manage", p.manage)));
+                facts.appendChild(factBlock("lbl_prevent", localList(p.id, "prevent", p.prevent)));
+                body.appendChild(facts);
+                const go = el("a", "btn btn-ghost btn-sm lib-plan-link", t("lib_pest_plan"));
+                go.href = "pests.html#" + p.id;
+                body.appendChild(go);
+                art.appendChild(body);
+                list.appendChild(art);
+            });
+
+            document.getElementById("lib-empty").hidden = shown > 0;
+        }
+
+        document.getElementById("lib-search").addEventListener("input", renderLibrary);
+        document.querySelectorAll("[data-filter]").forEach(btn => {
+            btn.addEventListener("click", () => {
+                currentFilter = btn.dataset.filter;
+                document.querySelectorAll("[data-filter]").forEach(b => b.setAttribute("aria-pressed", String(b === btn)));
+                renderLibrary();
+            });
+        });
+
+        let firstRender = true;
+        document.addEventListener("agricare:lang", () => {
+            renderLibrary();
+            if (firstRender && location.hash) {
+                const target = document.getElementById(location.hash.slice(1));
+                if (target) target.scrollIntoView();
+            }
+            firstRender = false;
+        });
+        loadDiseasesFromApi().then(ok => { if (ok) renderLibrary(); });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Treatment Monitor</title>
+    <script>
+        // Security Check (safe even when the browser blocks storage)
+        (function () {
+            try { if (localStorage.getItem("isLoggedIn") !== "true") window.location.href = "login.html"; }
+            catch (e) { /* storage blocked: let the visitor in */ }
+        })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Noto+Sans:wght@400;500;600;700&family=Noto+Sans+Sinhala:wght@400;600;700&family=Noto+Sans+Tamil:wght@400;600;700&display=swap">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+    <header>
+        <a class="logo" href="../index.html">
+            AgriCare
+            <span data-i18n="logo_sub">Intelligent Solutions</span>
+        </a>
+        <div class="header-tools">
+            <select id="language-switcher" class="lang-switcher" aria-label="Language" onchange="setLanguage(this.value)">
+                <option value="en">English</option>
+                <option value="si">සිංහල</option>
+                <option value="ta">தமிழ்</option>
+            </select>
+            <button type="button" class="menu-btn" aria-expanded="false" onclick="toggleMenu()">☰ <span data-i18n="menu">Menu</span></button>
+        </div>
+        <nav>
+            <a href="../index.html" data-i18n="nav_home">Home</a>
+            <a href="upload-image.html" data-i18n="nav_scan">Scan</a>
+            <a href="disease-library.html" data-i18n="nav_diseases">Diseases</a>
+            <a href="pests.html" data-i18n="nav_pests">Pests</a>
+            <a href="weeds.html" data-i18n="nav_weeds">Weeds</a>
+            <a href="weather.html" data-i18n="nav_weather">Weather</a>
+            <a href="varieties.html" data-i18n="nav_varieties">Varieties</a>
+            <a href="my-crop.html" data-i18n="nav_crop">My Crop</a>
+            <a href="monitor.html" class="active" data-i18n="nav_monitor">Monitor</a>
+            <a href="shops.html" data-i18n="nav_shops">Shops</a>
+            <a href="learning-hub.html" data-i18n="nav_solutions">Solutions</a>
+            <a href="#" class="logout-link" onclick="handleLogout('login.html'); return false;" data-i18n="nav_logout">Log Out</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="page-hero">
+            <div class="container">
+                <span class="eyebrow" data-i18n="nav_monitor">Monitor</span>
+                <h1 data-i18n="mon_title">Treatment Monitor</h1>
+                <p class="lead" data-i18n="mon_lead">Follow each treatment step, record how the crop is doing, and get an alarm when a task is due.</p>
+
+                <div class="alarm-bar" id="alarm-bar">
+                    <div class="alarm-bar-main">
+                        <p id="alarm-status" data-i18n="alarm_off">Turn on alarms so AgriCare can ring and show a notification when a step is due.</p>
+                        <p class="alarm-next" id="alarm-next"></p>
+                    </div>
+                    <div class="btns">
+                        <button type="button" class="btn btn-primary btn-sm" id="alarm-enable" data-i18n="alarm_enable">🔔 Turn on alarms</button>
+                        <button type="button" class="btn btn-ghost btn-sm" id="alarm-test" data-i18n="alarm_test">Test alarm (10 s)</button>
+                    </div>
+                    <ul class="alarm-checks" id="alarm-checks"></ul>
+                    <p class="alarm-keep" data-i18n="alarm_keep_open">Keep AgriCare open in a tab for these alarms. To be reminded even when the site is closed, add the steps to your calendar.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <div class="tracker" id="tracker">
+                    <div class="tracker-head"><h2 data-i18n="trk_title">Treatment Tracker</h2></div>
+                    <div class="stat-row">
+                        <div class="stat"><b id="st-active">0</b><span data-i18n="trk_active">Active plans</span></div>
+                        <div class="stat good"><b id="st-steps">0 / 0</b><span data-i18n="trk_steps">Steps done</span></div>
+                        <div class="stat" id="st-overdue-box"><b id="st-overdue">0</b><span data-i18n="trk_overdue">Overdue steps</span></div>
+                        <div class="stat"><b id="st-scans">0</b><span data-i18n="trk_scans">Leaf scans</span></div>
+                    </div>
+                    <div class="tracker-head"><h2 data-i18n="trk_history">Scan history</h2></div>
+                    <div class="history" id="history"></div>
+                </div>
+                <div class="plans" id="plans"></div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <span data-i18n="footer_text">AgriCare · Final Year Project</span>
+            <span class="foot-links"><a href="about.html" data-i18n="nav_about">About</a> · <a href="privacy.html" data-i18n="nav_privacy">Privacy</a> · <a href="#" onclick="AgriChat.contact(); return false;" data-i18n="nav_contact">Contact us</a></span>
+            <strong data-i18n="footer_hotline">Your digital agriculture officer</strong>
+        </div>
+    </footer>
+
+    <script src="translations.js"></script>
+    <script src="content-i18n.js"></script>
+    <script src="diseases.js"></script>
+    <script src="treatment.js"></script>
+    <script src="pests.js"></script>
+    <script src="farm-data.js"></script>
+    <script src="weedicides.js"></script>
+    <script src="local-server.js"></script>
+    <script src="api.js"></script>
+    <script src="contacts.js"></script>
+    <script src="chat-kb.js"></script>
+    <script src="chat.js"></script>
+    <script>
+        const plansBox = document.getElementById("plans");
+        const pendingDelete = new Set();
+
+        function el(tag, cls, text) {
+            const e = document.createElement(tag);
+            if (cls) e.className = cls;
+            if (text != null) e.textContent = text;
+            return e;
+        }
+
+        /* ---- alarm bar ---- */
+        function renderAlarmBar() {
+            const on = AgriAlarm.isOn();
+            document.getElementById("alarm-bar").classList.toggle("on", on);
+            const status = document.getElementById("alarm-status");
+            status.setAttribute("data-i18n", on ? "alarm_on" : "alarm_off");
+            status.textContent = t(on ? "alarm_on" : "alarm_off");
+
+            // next alarm
+            const next = AgriAlarm.nextAlarm();
+            const nextEl = document.getElementById("alarm-next");
+            if (next) {
+                nextEl.textContent = "⏰ " + t("alarm_next") + ": " + formatDate(next.at) + " · " +
+                    localText(diseaseInfo(next.plan.disease).name) + (next.plan.field ? " · " + next.plan.field : "");
+            } else {
+                nextEl.textContent = t("alarm_none");
+            }
+
+            // readiness checks: sound, notifications, voice
+            const sound = AgriAlarm.soundReady() ? "ok" : (on ? "tap" : "off");
+            const ns = AgriAlarm.notifyState();
+            const notify = ns === "granted" ? "ok" : ns === "denied" ? "blocked" : ns === "unsupported" ? "unsupported" : "off";
+            const voice = AgriAlarm.voiceState();
+            const rows = [
+                ["chk_sound", sound, { ok: "chk_ok", tap: "chk_tap", off: "chk_off" }],
+                ["chk_notify", notify, { ok: "chk_ok", blocked: "chk_blocked", unsupported: "chk_unsupported", off: "chk_off" }],
+                ["chk_voice", voice === "ok" ? "ok" : voice === "online" ? "warn" : "unsupported", { ok: "chk_ok", warn: "chk_online", unsupported: "chk_unsupported" }]
+            ];
+            const ul = document.getElementById("alarm-checks");
+            ul.innerHTML = "";
+            rows.forEach(([label, state, msgs]) => {
+                const li = el("li", "chk " + (state === "ok" ? "ok" : state === "blocked" || state === "unsupported" ? "bad" : "warn"));
+                li.appendChild(el("b", null, (state === "ok" ? "✓ " : "! ") + t(label)));
+                li.appendChild(el("span", null, t(msgs[state])));
+                ul.appendChild(li);
+            });
+
+            // the enable button stays visible until everything that can be switched on is on
+            document.getElementById("alarm-enable").hidden = on && sound === "ok" && notify !== "off";
+        }
+        document.addEventListener("agricare:autosnooze", () => {
+            document.getElementById("alarm-status").textContent = t("alarm_auto_snoozed");
+        });
+        setInterval(renderAlarmBar, 30000);
+        document.getElementById("alarm-enable").addEventListener("click", async () => {
+            await AgriAlarm.enable();
+            renderAlarmBar();
+        });
+        document.getElementById("alarm-test").addEventListener("click", () => {
+            AgriAlarm.testIn(10);
+            const s = document.getElementById("alarm-status");
+            s.textContent = t("alarm_test_set");
+        });
+        document.addEventListener("agricare:alarmstate", renderAlarmBar);
+
+        /* ---- sample plan for demos ---- */
+        function loadSample() {
+            AgriAlarm.unlockAudio();
+            const d = new Date(); d.setDate(d.getDate() - 4);
+            const start = d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+            const plan = AgriPlans.create({ disease: "blast", field: "Sample field · Yaya 2", startDate: start, alarmTime: "07:00", confidence: 0.93 });
+            AgriPlans.update(plan.id, p => {
+                p.tasks[0].done = true; p.tasks[0].doneAt = new Date().toISOString(); p.tasks[0].alarmedAt = p.tasks[0].doneAt;
+                p.tasks[1].done = true; p.tasks[1].doneAt = new Date().toISOString(); p.tasks[1].alarmedAt = p.tasks[1].doneAt;
+            });
+        }
+
+        /* ---- tracker summary + scan history ---- */
+        function renderTracker() {
+            const plans = AgriPlans.all();
+            const now = new Date();
+            let total = 0, done = 0, overdue = 0, active = 0;
+            plans.forEach(p => {
+                total += p.tasks.length;
+                const d = p.tasks.filter(x => x.done).length;
+                done += d;
+                if (d < p.tasks.length) active++;
+                overdue += p.tasks.filter(x => taskState(p, x, now) === "overdue").length;
+            });
+            document.getElementById("st-active").textContent = active;
+            document.getElementById("st-steps").textContent = done + " / " + total;
+            document.getElementById("st-overdue").textContent = overdue;
+            document.getElementById("st-overdue-box").classList.toggle("warn", overdue > 0);
+            const scans = AgriScans.all();
+            document.getElementById("st-scans").textContent = scans.length;
+
+            const hist = document.getElementById("history");
+            hist.innerHTML = "";
+            if (!scans.length) {
+                const p = el("p", "empty-note", t("trk_no_scans"));
+                p.style.gridColumn = "1 / -1";
+                hist.appendChild(p);
+                return;
+            }
+            scans.forEach(sc => {
+                const info = diseaseInfo(sc.label);
+                const card = el("div", "scan-item");
+                if (sc.thumb) {
+                    const img = el("img", "scan-thumb");
+                    img.src = sc.thumb; img.alt = localText(info.name);
+                    card.appendChild(img);
+                } else {
+                    card.appendChild(el("div", "scan-thumb sw " + info.swatch));
+                }
+                const inf = el("div", "scan-info");
+                inf.appendChild(el("b", null, localText(info.name)));
+                inf.appendChild(el("span", null, formatDate(new Date(sc.at)) + " · " + Math.round(sc.confidence * 100) + "%"));
+                card.appendChild(inf);
+                hist.appendChild(card);
+            });
+        }
+
+        /* ---- render plans ---- */
+        function renderPlans() {
+            renderTracker();
+            const plans = AgriPlans.all();
+            plansBox.innerHTML = "";
+
+            if (!plans.length) {
+                const empty = el("div", "empty-state");
+                empty.appendChild(el("h2", "section-title", t("mon_empty_t")));
+                empty.appendChild(el("p", null, t("mon_empty_d")));
+                const btns = el("div", "result-actions");
+                const scan = el("a", "btn btn-primary", t("mon_scan"));
+                scan.href = "upload-image.html";
+                const sample = el("button", "btn btn-ghost", t("mon_sample"));
+                sample.type = "button";
+                sample.addEventListener("click", loadSample);
+                btns.append(scan, sample);
+                empty.appendChild(btns);
+                plansBox.appendChild(empty);
+                return;
+            }
+
+            const now = new Date();
+            plans.forEach(plan => {
+                const info = diseaseInfo(plan.disease);
+                const card = el("article", "plan-card");
+
+                /* head */
+                const head = el("div", "plan-head");
+                const sw = el("div", "disease-swatch " + info.swatch);
+                sw.setAttribute("aria-hidden", "true");
+                if (typeof PEST_ART !== "undefined" && PEST_ART[plan.disease]) {
+                    sw.innerHTML = PEST_ART[plan.disease]();
+                    sw.classList.add("swatch-art");
+                }
+                if (typeof addDiseasePhoto === "function") addDiseasePhoto(sw, plan.disease, info.name.en);
+                head.appendChild(sw);
+                const hb = el("div", "plan-head-body");
+                hb.appendChild(el("h2", null, localText(info.name)));
+                const meta = el("div", "plan-meta");
+                if (plan.field) meta.appendChild(el("span", null, plan.field));
+                const [y, m, d] = plan.startDate.split("-").map(Number);
+                meta.appendChild(el("span", null, t("mon_started") + ": " + formatDate(new Date(y, m - 1, d, ...plan.alarmTime.split(":").map(Number))).split(" · ")[0]));
+                meta.appendChild(el("span", null, "⏰ " + plan.alarmTime));
+                hb.appendChild(meta);
+
+                const done = plan.tasks.filter(x => x.done).length;
+                const pr = el("div", "progress-row");
+                const meter = el("div", "meter");
+                const bar = el("i");
+                bar.style.width = Math.round(done / plan.tasks.length * 100) + "%";
+                meter.appendChild(bar);
+                pr.append(el("span", null, done + " / " + plan.tasks.length + " " + t("mon_progress")), meter);
+                hb.appendChild(pr);
+
+                const next = plan.tasks.find(x => !x.done);
+                const nb = el("div", "next-box");
+                if (next) {
+                    nb.appendChild(el("span", "result-label", t("mon_next") + " · " + formatDate(taskDue(plan, next))));
+                    nb.appendChild(el("span", null, localText(taskStep(plan, next).text)));
+                } else {
+                    nb.appendChild(el("span", null, "✓ " + t("mon_all_done")));
+                }
+                hb.appendChild(nb);
+
+                const checks = plan.tasks.filter(x => x.check);
+                if (checks.length) {
+                    const tr = el("div", "trend");
+                    tr.appendChild(el("span", null, t("trk_trend") + ":"));
+                    const recorded = checks.filter(x => x.condition);
+                    if (!recorded.length) tr.appendChild(el("span", null, t("trk_no_trend")));
+                    recorded.forEach((x, i) => {
+                        if (i) tr.appendChild(el("span", "arrow", "→"));
+                        tr.appendChild(el("span", "pill " + ({ better: "done", same: "today", worse: "overdue" })[x.condition], t("plan_day") + " " + (x.day + 1) + ": " + t("cond_" + x.condition)));
+                    });
+                    hb.appendChild(tr);
+                }
+                head.appendChild(hb);
+                card.appendChild(head);
+
+                /* timeline */
+                const tl = el("ol", "timeline");
+                plan.tasks.forEach(task => {
+                    const state = taskState(plan, task, now);
+                    const li = el("li", "tl-item " + state);
+                    li.appendChild(el("span", "tl-dot", task.done ? "✓" : ""));
+
+                    const body = el("div", "tl-body");
+                    const top = el("div", "tl-top");
+                    top.appendChild(el("b", null, t("plan_day") + " " + (task.day + 1)));
+                    top.appendChild(el("span", null, formatDate(taskDue(plan, task))));
+                    top.appendChild(el("span", "pill " + state, t("st_" + state)));
+                    body.appendChild(top);
+
+                    const stepText = localText(taskStep(plan, task).text);
+                    body.appendChild(el("p", "tl-text", stepText));
+
+                    const actions = el("div", "tl-actions");
+                    const toggle = el("button", "btn " + (task.done ? "btn-ghost" : "btn-primary") + " btn-sm", task.done ? t("mon_undo") : "✓ " + t("mon_mark_done"));
+                    toggle.type = "button";
+                    toggle.addEventListener("click", () => AgriPlans.update(plan.id, p => {
+                        const tk = p.tasks.find(x => x.id === task.id);
+                        tk.done = !tk.done; tk.doneAt = tk.done ? new Date().toISOString() : null;
+                        if (tk.done) tk.alarmedAt = tk.alarmedAt || tk.doneAt;
+                    }));
+                    const msg = el("span", "voice-msg");
+                    actions.append(toggle, makeListenButton(() => [VP.day(task.day + 1), VP.step(plan.disease, Number(task.id.slice(1)))], msg));
+                    if (!task.done && state !== "overdue") {
+                        const gc = el("a", "btn btn-ghost btn-sm", t("gcal_add"));
+                        gc.href = googleCalendarUrl(plan, task); gc.target = "_blank"; gc.rel = "noopener";
+                        actions.appendChild(gc);
+                    }
+                    if (task.check && !info.pest) {
+                        const rescan = el("a", "btn btn-ghost btn-sm", t("mon_rescan"));
+                        rescan.href = "upload-image.html";
+                        actions.appendChild(rescan);
+                    }
+                    body.appendChild(actions);
+                    body.appendChild(msg);
+
+                    if (task.check && (task.done || state !== "upcoming")) {
+                        const cond = el("div", "cond");
+                        cond.appendChild(el("span", null, t("cond_q")));
+                        ["better", "same", "worse"].forEach(c => {
+                            const b = el("button", null, t("cond_" + c));
+                            b.type = "button";
+                            b.dataset.c = c;
+                            b.setAttribute("aria-pressed", String(task.condition === c));
+                            b.addEventListener("click", () => AgriPlans.update(plan.id, p => {
+                                const tk = p.tasks.find(x => x.id === task.id);
+                                tk.condition = c;
+                                if (!tk.done) { tk.done = true; tk.doneAt = new Date().toISOString(); tk.alarmedAt = tk.alarmedAt || tk.doneAt; }
+                            }));
+                            cond.appendChild(b);
+                        });
+                        body.appendChild(cond);
+                        if (task.condition === "worse") body.appendChild(el("p", "worse-alert", "⚠ " + t("worse_alert")));
+                    }
+
+                    li.appendChild(body);
+                    tl.appendChild(li);
+                });
+                card.appendChild(tl);
+
+                /* footer */
+                const foot = el("div", "plan-foot");
+                const left = el("div", "btns");
+                const cal = el("button", "btn btn-ghost btn-sm", t("mon_calendar"));
+                cal.type = "button";
+                cal.addEventListener("click", () => downloadICS(plan));
+                left.append(cal, el("small", null, t("mon_calendar_note")));
+                const right = el("div", "btns");
+                if (pendingDelete.has(plan.id)) {
+                    right.appendChild(el("small", null, t("mon_delete_q")));
+                    const yes = el("button", "btn btn-sm", t("mon_delete_yes"));
+                    yes.type = "button";
+                    yes.style.cssText = "background:var(--danger);color:var(--accent-ink);";
+                    yes.addEventListener("click", () => { pendingDelete.delete(plan.id); AgriPlans.remove(plan.id); });
+                    const no = el("button", "btn btn-ghost btn-sm", t("mon_cancel"));
+                    no.type = "button";
+                    no.addEventListener("click", () => { pendingDelete.delete(plan.id); renderPlans(); });
+                    right.append(yes, no);
+                } else {
+                    const del = el("button", "link-danger", t("mon_delete"));
+                    del.type = "button";
+                    del.addEventListener("click", () => { pendingDelete.add(plan.id); renderPlans(); });
+                    right.appendChild(del);
+                }
+                foot.append(left, right);
+                card.appendChild(foot);
+
+                plansBox.appendChild(card);
+            });
+        }
+
+        document.addEventListener("agricare:plans", () => { renderPlans(); renderAlarmBar(); });
+        document.addEventListener("agricare:lang", () => { renderAlarmBar(); renderPlans(); });
+        // refresh "today / overdue" labels every minute
+        setInterval(renderPlans, 60000);
+    </script>
+
+</body>
+</html>

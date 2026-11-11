@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>AgriCare Voice Test</title>
+    <script>
+        // Security Check (safe even when the browser blocks storage)
+        (function () {
+            try { if (localStorage.getItem("isLoggedIn") !== "true") window.location.href = "login.html"; }
+            catch (e) { /* storage blocked: let the visitor in */ }
+        })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Noto+Sans:wght@400;500;600;700&family=Noto+Sans+Sinhala:wght@400;600;700&family=Noto+Sans+Tamil:wght@400;600;700&display=swap">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+    <header>
+        <a class="logo" href="../index.html">
+            AgriCare
+            <span data-i18n="logo_sub">Intelligent Solutions</span>
+        </a>
+        <div class="header-tools">
+            <select id="language-switcher" class="lang-switcher" aria-label="Language" onchange="setLanguage(this.value)">
+                <option value="en">English</option>
+                <option value="si">සිංහල</option>
+                <option value="ta">தமிழ்</option>
+            </select>
+            <button type="button" class="menu-btn" aria-expanded="false" onclick="toggleMenu()">☰ <span data-i18n="menu">Menu</span></button>
+        </div>
+        <nav>
+            <a href="../index.html" data-i18n="nav_home">Home</a>
+            <a href="upload-image.html" data-i18n="nav_scan">Scan</a>
+            <a href="disease-library.html" data-i18n="nav_diseases">Diseases</a>
+            <a href="pests.html" data-i18n="nav_pests">Pests</a>
+            <a href="weeds.html" data-i18n="nav_weeds">Weeds</a>
+            <a href="weather.html" data-i18n="nav_weather">Weather</a>
+            <a href="varieties.html" data-i18n="nav_varieties">Varieties</a>
+            <a href="my-crop.html" data-i18n="nav_crop">My Crop</a>
+            <a href="monitor.html" data-i18n="nav_monitor">Monitor</a>
+            <a href="shops.html" data-i18n="nav_shops">Shops</a>
+            <a href="learning-hub.html" data-i18n="nav_solutions">Solutions</a>
+            <a href="#" class="logout-link" onclick="handleLogout('login.html'); return false;" data-i18n="nav_logout">Log Out</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="page-hero">
+            <div class="container">
+                <span class="eyebrow">AgriCare</span>
+                <h1>Voice Test</h1>
+                <p class="lead">Shows every voice this browser has, and lets you try and choose the Sinhala and Tamil voice.</p>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container" style="display:flex; flex-direction:column; gap:24px;">
+                <div class="panel">
+                    <h3>This browser</h3>
+                    <ul class="checklist" id="vt-summary"></ul>
+                    <div class="result-actions" style="margin-top:14px;">
+                        <button type="button" class="btn btn-ghost btn-sm" id="vt-refresh">Check again</button>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <h3>English voices</h3>
+                    <div id="vt-en" class="vt-list"></div>
+                    <div class="result-actions" style="margin-top:14px;">
+                        <button type="button" class="btn btn-primary btn-sm" id="vt-site-en">Test the website voice (English)</button>
+                    </div>
+                    <p class="voice-msg" id="vt-msg-en"></p>
+                </div>
+                <div class="two-col">
+                    <div class="panel">
+                        <h3>සිංහල voices</h3>
+                        <div id="vt-si" class="vt-list"></div>
+                        <div class="result-actions" style="margin-top:14px;">
+                            <button type="button" class="btn btn-primary btn-sm" id="vt-site-si">Test the website voice (Sinhala)</button>
+                        </div>
+                        <p class="voice-msg" id="vt-msg-si"></p>
+                    </div>
+                    <div class="panel">
+                        <h3>தமிழ் voices</h3>
+                        <div id="vt-ta" class="vt-list"></div>
+                        <div class="result-actions" style="margin-top:14px;">
+                            <button type="button" class="btn btn-primary btn-sm" id="vt-site-ta">Test the website voice (Tamil)</button>
+                        </div>
+                        <p class="voice-msg" id="vt-msg-ta"></p>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <h3>All voices (<span id="vt-count">0</span>)</h3>
+                    <div class="table-wrap"><table><thead><tr><th>Name</th><th>Language</th><th>Type</th></tr></thead><tbody id="vt-all"></tbody></table></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <span data-i18n="footer_text">AgriCare · Final Year Project</span>
+            <span class="foot-links"><a href="about.html" data-i18n="nav_about">About</a> · <a href="privacy.html" data-i18n="nav_privacy">Privacy</a> · <a href="#" onclick="AgriChat.contact(); return false;" data-i18n="nav_contact">Contact us</a></span>
+            <strong data-i18n="footer_hotline">Your digital agriculture officer</strong>
+        </div>
+    </footer>
+
+    <script src="translations.js"></script>
+    <script src="content-i18n.js"></script>
+    <script src="diseases.js"></script>
+    <script src="treatment.js"></script>
+    <script src="pests.js"></script>
+    <script src="farm-data.js"></script>
+    <script src="weedicides.js"></script>
+    <script src="local-server.js"></script>
+    <script src="api.js"></script>
+    <script src="contacts.js"></script>
+    <script src="chat-kb.js"></script>
+    <script src="chat.js"></script>
+    <script>
+        const SAMPLE = {
+            en: "Hello. This is the AgriCare voice test. Rice blast was found on your paddy leaf.",
+            si: "ආයුබෝවන්. මෙය AgriCare හඬ පරීක්ෂණයයි. ඔබේ වී කොළයේ පාළුව රෝගය හමු විය.",
+            ta: "வணக்கம். இது AgriCare குரல் சோதனை. உங்கள் நெல் இலையில் குலை நோய் கண்டறியப்பட்டது."
+        };
+
+        function el(tag, cls, text) {
+            const e = document.createElement(tag);
+            if (cls) e.className = cls;
+            if (text != null) e.textContent = text;
+            return e;
+        }
+        function norm(c) { return (c || "").toLowerCase().replace(/_/g, "-"); }
+
+        function browserName() {
+            const ua = navigator.userAgent;
+            if (/Edg\//.test(ua)) return "Microsoft Edge";
+            if (/OPR\//.test(ua)) return "Opera";
+            if (/Chrome\//.test(ua)) return "Google Chrome";
+            if (/Firefox\//.test(ua)) return "Firefox";
+            if (/Safari\//.test(ua)) return "Safari";
+            return "Unknown browser";
+        }
+        function deviceName() {
+            const ua = navigator.userAgent;
+            if (/Android/.test(ua)) return "Android phone/tablet";
+            if (/iPhone|iPad/.test(ua)) return "iPhone/iPad";
+            if (/Windows/.test(ua)) return "Windows computer";
+            if (/Mac OS/.test(ua)) return "Mac";
+            return "Other device";
+        }
+
+        function speakWith(voice, text) {
+            AgriVoice.stop();
+            const u = new SpeechSynthesisUtterance(text);
+            u.voice = voice; u.lang = voice.lang; u.rate = 0.95;
+            speechSynthesis.speak(u);
+        }
+
+        function render() {
+            const voices = ("speechSynthesis" in window) ? speechSynthesis.getVoices() : [];
+            const sum = document.getElementById("vt-summary");
+            sum.innerHTML = "";
+            const si = voices.filter(v => norm(v.lang).startsWith("si"));
+            const ta = voices.filter(v => norm(v.lang).startsWith("ta"));
+            const en = voices.filter(v => norm(v.lang).startsWith("en"));
+            [
+                "Browser: " + browserName() + " on " + deviceName(),
+                "Text-to-speech: " + (("speechSynthesis" in window) ? "supported" : "NOT supported"),
+                "Voices found: " + voices.length + " (Sinhala: " + si.length + ", Tamil: " + ta.length + ")",
+                "Recorded clips: English " + AgriClips.count("en") + ", Sinhala " + AgriClips.count("si") + ", Tamil " + AgriClips.count("ta"),
+                "Opened from: " + (location.protocol === "file:" ? "a file on this computer" : location.host || "preview"),
+                "Inside a frame: " + (window.self !== window.top ? "yes" : "no")
+            ].forEach(x => sum.appendChild(el("li", null, x)));
+
+            [["en", en], ["si", si], ["ta", ta]].forEach(([lang, list]) => {
+                const box = document.getElementById("vt-" + lang);
+                box.innerHTML = "";
+                if (!list.length) {
+                    box.appendChild(el("p", "worse-alert", "No " + ({ en: "English", si: "Sinhala", ta: "Tamil" })[lang] + " voice in this browser."));
+                    return;
+                }
+                const chosen = AgriStore.get("agricare_voice_" + lang);
+                list.forEach(v => {
+                    const row = el("div", "vt-row");
+                    row.appendChild(el("span", null, v.name + (v.localService ? "" : " (online)")));
+                    const play = el("button", "btn btn-ghost btn-sm", "▶ Try");
+                    play.type = "button";
+                    play.addEventListener("click", () => speakWith(v, SAMPLE[lang]));
+                    const use = el("button", "btn btn-sm " + (chosen === v.name ? "btn-primary" : "btn-ghost"), chosen === v.name ? "✓ Using" : "Use this");
+                    use.type = "button";
+                    use.addEventListener("click", () => { AgriStore.set("agricare_voice_" + lang, v.name); render(); });
+                    row.append(play, use);
+                    box.appendChild(row);
+                });
+            });
+
+            document.getElementById("vt-count").textContent = voices.length;
+            const tb = document.getElementById("vt-all");
+            tb.innerHTML = "";
+            voices.forEach(v => {
+                const tr = el("tr");
+                tr.append(el("td", null, v.name), el("td", null, v.lang), el("td", null, v.localService ? "on device" : "online"));
+                tb.appendChild(tr);
+            });
+        }
+
+        ["en", "si", "ta"].forEach(lang => {
+            document.getElementById("vt-site-" + lang).addEventListener("click", () => {
+                const keep = window.__agriLang;
+                window.__agriLang = lang;
+                const msg = document.getElementById("vt-msg-" + lang);
+                msg.textContent = "";
+                AgriVoice.speak(diagnosisSpeech("blast", 91), null, m => { msg.textContent = m; });
+                window.__agriLang = keep;
+            });
+        });
+
+        document.getElementById("vt-refresh").addEventListener("click", render);
+        if ("speechSynthesis" in window) speechSynthesis.addEventListener("voiceschanged", render);
+        document.addEventListener("agricare:alarmstate", render);
+        render();
+        setTimeout(render, 1500);
+    </script>
+
+</body>
+</html>

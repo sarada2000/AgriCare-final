@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Paddy Weather</title>
+    <script>
+        // Security Check (safe even when the browser blocks storage)
+        (function () {
+            try { if (localStorage.getItem("isLoggedIn") !== "true") window.location.href = "login.html"; }
+            catch (e) { /* storage blocked: let the visitor in */ }
+        })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Noto+Sans:wght@400;500;600;700&family=Noto+Sans+Sinhala:wght@400;600;700&family=Noto+Sans+Tamil:wght@400;600;700&display=swap">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+    <header>
+        <a class="logo" href="../index.html">
+            AgriCare
+            <span data-i18n="logo_sub">Intelligent Solutions</span>
+        </a>
+        <div class="header-tools">
+            <select id="language-switcher" class="lang-switcher" aria-label="Language" onchange="setLanguage(this.value)">
+                <option value="en">English</option>
+                <option value="si">සිංහල</option>
+                <option value="ta">தமிழ்</option>
+            </select>
+            <button type="button" class="menu-btn" aria-expanded="false" onclick="toggleMenu()">☰ <span data-i18n="menu">Menu</span></button>
+        </div>
+        <nav>
+            <a href="../index.html" data-i18n="nav_home">Home</a>
+            <a href="upload-image.html" data-i18n="nav_scan">Scan</a>
+            <a href="disease-library.html" data-i18n="nav_diseases">Diseases</a>
+            <a href="pests.html" data-i18n="nav_pests">Pests</a>
+            <a href="weeds.html" data-i18n="nav_weeds">Weeds</a>
+            <a href="weather.html" class="active" data-i18n="nav_weather">Weather</a>
+            <a href="varieties.html" data-i18n="nav_varieties">Varieties</a>
+            <a href="my-crop.html" data-i18n="nav_crop">My Crop</a>
+            <a href="monitor.html" data-i18n="nav_monitor">Monitor</a>
+            <a href="shops.html" data-i18n="nav_shops">Shops</a>
+            <a href="learning-hub.html" data-i18n="nav_solutions">Solutions</a>
+            <a href="#" class="logout-link" onclick="handleLogout('login.html'); return false;" data-i18n="nav_logout">Log Out</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="page-hero">
+            <div class="container">
+                <span class="eyebrow" data-i18n="nav_weather">Weather</span>
+                <h1 data-i18n="w_title">Weather &amp; Climate</h1>
+                <p class="lead" data-i18n="w_lead">7-day forecast for your field, with farming advice for each day.</p>
+                <div class="loc-panel">
+                    <button type="button" class="btn btn-primary" id="w-loc" data-i18n="w_use_loc">📍 My location</button>
+                    <label class="radius" for="w-district"><span data-i18n="w_district">District</span>
+                        <select id="w-district" class="lang-switcher district-select"></select>
+                    </label>
+                </div>
+                <p class="shop-status" id="w-status" role="status"></p>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container weather-layout">
+                <div class="weather-main">
+                    <div class="now-card" id="w-now" hidden></div>
+                    <div class="panel off-card" id="w-off" hidden>
+                        <h3 data-i18n="w_off_title">Live forecast not available right now</h3>
+                        <p data-i18n="w_off_text"></p>
+                        <h4 class="sub-h" data-i18n="w_off_now">What to do this month</h4>
+                        <ul class="advice-list" id="w-off-list"></ul>
+                        <div><button type="button" class="btn btn-primary btn-sm" id="w-retry" data-i18n="w_retry">↻ Try again</button></div>
+                    </div>
+                    <div id="w-advice-box">
+                        <h2 class="section-title" style="font-size:24px;" data-i18n="w_advice">Farm advice</h2>
+                        <ul class="advice-list" id="w-advice"></ul>
+                    </div>
+                    <div id="w-week-box">
+                        <h2 class="section-title" style="font-size:24px;" data-i18n="w_week">Next 7 days</h2>
+                        <div class="days" id="w-days"></div>
+                    </div>
+                    <p class="login-note" id="w-updated"></p>
+                </div>
+                <aside class="panel climate" id="w-climate"></aside>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <span data-i18n="footer_text">AgriCare · Final Year Project</span>
+            <span class="foot-links"><a href="about.html" data-i18n="nav_about">About</a> · <a href="privacy.html" data-i18n="nav_privacy">Privacy</a> · <a href="#" onclick="AgriChat.contact(); return false;" data-i18n="nav_contact">Contact us</a></span>
+            <strong data-i18n="footer_hotline">Your digital agriculture officer</strong>
+        </div>
+    </footer>
+
+    <script src="translations.js"></script>
+    <script src="content-i18n.js"></script>
+    <script src="diseases.js"></script>
+    <script src="treatment.js"></script>
+    <script src="pests.js"></script>
+    <script src="farm-data.js"></script>
+    <script src="weedicides.js"></script>
+    <script src="local-server.js"></script>
+    <script src="api.js"></script>
+    <script src="contacts.js"></script>
+    <script src="chat-kb.js"></script>
+    <script src="chat.js"></script>
+    <script>
+        const $ = id => document.getElementById(id);
+        const WCODE = [
+            [[0], "☀️", { en: "Clear", si: "පැහැදිලි", ta: "தெளிவு" }],
+            [[1, 2, 3], "⛅", { en: "Partly cloudy", si: "අර්ධ වලාකුළු", ta: "பகுதி மேகமூட்டம்" }],
+            [[45, 48], "🌫️", { en: "Fog", si: "මීදුම", ta: "மூடுபனி" }],
+            [[51, 53, 55, 56, 57], "🌦️", { en: "Drizzle", si: "පොද වැසි", ta: "தூறல்" }],
+            [[61, 63, 65, 66, 67], "🌧️", { en: "Rain", si: "වැසි", ta: "மழை" }],
+            [[80, 81, 82], "🌦️", { en: "Showers", si: "වැසි ඇද හැලීම්", ta: "மழைப் பொழிவு" }],
+            [[95, 96, 99], "⛈️", { en: "Thunderstorm", si: "ගිගුරුම් සහිත වැසි", ta: "இடியுடன் மழை" }]
+        ];
+        function wInfo(code) {
+            const f = WCODE.find(([codes]) => codes.includes(code));
+            return f ? { icon: f[1], label: localText(f[2]) } : { icon: "☁️", label: localText({ en: "Cloudy", si: "වලාකුළු", ta: "மேகமூட்டம்" }) };
+        }
+        function el(tag, cls, text) {
+            const e = document.createElement(tag);
+            if (cls) e.className = cls;
+            if (text != null) e.textContent = text;
+            return e;
+        }
+        const locale = () => ({ si: "si-LK", ta: "ta-LK" })[getLanguage()] || "en-GB";
+        const round = n => Math.round(n);
+
+        let place = null;     // { lat, lng, district }
+        let data = null;
+
+        function weatherUrl(lat, lng) {
+            return "https://api.open-meteo.com/v1/forecast?latitude=" + lat.toFixed(4) + "&longitude=" + lng.toFixed(4) +
+                "&current=temperature_2m,relative_humidity_2m,precipitation,weather_code,wind_speed_10m" +
+                "&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max,wind_speed_10m_max,relative_humidity_2m_mean" +
+                "&timezone=Asia%2FColombo&forecast_days=7";
+        }
+
+        async function loadWeather() {
+            $("w-status").textContent = t("w_loading");
+            $("w-status").classList.remove("warn");
+            renderClimate();
+            const key = "agricare_wx_" + place.district.id;
+            let fresh = null;
+            try {
+                const ctl = new AbortController();
+                const timer = setTimeout(() => ctl.abort(), 8000);
+                const r = await fetch(weatherUrl(place.lat, place.lng), { signal: ctl.signal });
+                clearTimeout(timer);
+                if (r.ok) fresh = await r.json();
+            } catch (e) { /* try the AgriCare server next */ }
+            if (!fresh && AgriAPI.mode === "server") {
+                try { fresh = await AgriAPI.get("/api/weather?lat=" + place.lat + "&lng=" + place.lng); } catch (e) {}
+            }
+            if (fresh && fresh.daily) {
+                fresh._at = Date.now();
+                data = fresh;
+                AgriStore.set(key, JSON.stringify(fresh));
+                $("w-status").textContent = "";
+            } else {
+                try { data = JSON.parse(AgriStore.get(key) || "null"); } catch (e) { data = null; }
+                $("w-status").textContent = t("w_error");
+                $("w-status").classList.add("warn");
+            }
+            renderWeather();
+        }
+
+        /* Turn the forecast into farm advice for one day (i) */
+        function adviceFor(i) {
+            const d = data.daily, out = [];
+            const rain = d.precipitation_sum[i] || 0, prob = d.precipitation_probability_max[i] || 0;
+            const tmax = d.temperature_2m_max[i], tmin = d.temperature_2m_min[i];
+            const rh = d.relative_humidity_2m_mean ? d.relative_humidity_2m_mean[i] : null;
+            const wind = d.wind_speed_10m_max[i] || 0;
+            if (rain >= 50) out.push(["danger", "adv_heavy"]);
+            else if (prob >= 60 || rain >= 5) out.push(["warn", "adv_rain_spray"]);
+            if (wind >= 30) out.push(["warn", "adv_wind"]);
+            if (rh != null && rh >= 85 && tmin <= 22) out.push(["warn", "adv_blast"]);
+            if (tmax >= 35) out.push(["warn", "adv_hot"]);
+            if (rh != null && rh >= 80 && tmax >= 30 && rain >= 2 && i === 0) out.push(["info", "adv_bph"]);
+            if (i === 0) {
+                const next5 = d.precipitation_sum.slice(0, 5).reduce((a, b) => a + (b || 0), 0);
+                if (next5 < 3) out.push(["info", "adv_dry"]);
+            }
+            if (!out.some(a => a[0] !== "info") && prob < 30 && wind < 20) out.push(["good", "adv_spray_ok"]);
+            return out;
+        }
+
+        /* Season advice from the calendar month and zone – works with no internet */
+        function seasonKey() {
+            const n = new Date(), m = n.getMonth() + 1, d = n.getDate();
+            if (m === 10 || m === 11 || (m === 9 && d >= 15)) return "off_sow_maha";
+            if (m === 12 || m === 1) return "off_grow_maha";
+            if (m === 2 || m === 3) return "off_harv_maha";
+            if (m === 4 || m === 5) return "off_sow_yala";
+            if (m === 6 || m === 7) return "off_grow_yala";
+            return "off_harv_yala";
+        }
+        function renderOffline() {
+            const list = $("w-off-list");
+            list.innerHTML = "";
+            list.appendChild(el("li", "advice good", "🌾 " + t(seasonKey())));
+            list.appendChild(el("li", "advice info", "🗺️ " + t("off_zone_" + place.district.zone)));
+        }
+
+        function renderWeather() {
+            ["w-now", "w-advice", "w-days"].forEach(id => { $(id).innerHTML = ""; });
+            $("w-now").hidden = !data;
+            $("w-off").hidden = !!data;
+            $("w-advice-box").hidden = !data;
+            $("w-week-box").hidden = !data;
+            if (!data) { $("w-updated").textContent = ""; renderOffline(); return; }
+            const c = data.current || {};
+            const wi = wInfo(c.weather_code);
+            const now = $("w-now");
+            const big = el("div", "now-big");
+            big.append(el("span", "now-icon", wi.icon), el("span", "now-temp", round(c.temperature_2m) + "°C"));
+            const meta = el("div", "now-meta");
+            meta.append(el("b", null, t("w_now") + " · " + districtName(place.district)), el("span", null, wi.label),
+                        el("span", null, "💧 " + t("w_humidity") + " " + round(c.relative_humidity_2m) + "%  ·  🌬 " + t("w_wind") + " " + round(c.wind_speed_10m) + " km/h"));
+            now.append(big, meta);
+
+            adviceFor(0).forEach(([level, key]) => {
+                const li = el("li", "advice " + level, t(key));
+                $("w-advice").appendChild(li);
+            });
+
+            data.daily.time.forEach((day, i) => {
+                const card = el("div", "day-card");
+                const date = new Date(day + "T00:00:00");
+                card.appendChild(el("b", null, i === 0 ? t("w_today") : date.toLocaleDateString(locale(), { weekday: "short", day: "numeric" })));
+                const info = wInfo(data.daily.weather_code[i]);
+                card.appendChild(el("span", "day-icon", info.icon));
+                card.appendChild(el("span", "day-temp", round(data.daily.temperature_2m_max[i]) + "° / " + round(data.daily.temperature_2m_min[i]) + "°"));
+                card.appendChild(el("span", "day-rain", "🌧 " + (data.daily.precipitation_sum[i] || 0).toFixed(0) + " mm · " + (data.daily.precipitation_probability_max[i] || 0) + "%"));
+                const dots = el("div", "day-adv");
+                adviceFor(i).forEach(([level, key]) => {
+                    const s = el("span", "adv-dot " + level, t(key).split(/[–.]/)[0].trim());
+                    s.title = t(key);
+                    dots.appendChild(s);
+                });
+                card.appendChild(dots);
+                $("w-days").appendChild(card);
+            });
+            if (data._at) $("w-updated").textContent = t("w_updated") + ": " + new Date(data._at).toLocaleString(locale(), { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }) + " · Open-Meteo";
+        }
+
+        function renderClimate() {
+            const d = place.district, box = $("w-climate");
+            box.innerHTML = "";
+            box.appendChild(el("h3", null, t("w_climate")));
+            const dl = el("dl", "facts-dl");
+            const zi = ZONE_INFO[d.zone];
+            const lang = getLanguage();
+            [[t("w_district"), districtName(d)],
+             [t("w_zone"), t("zone_" + d.zone) + (d.hill ? " (" + t("w_hill") + ")" : "")],
+             [t("w_annual_rain"), lang === "si" ? zi.rainSi : lang === "ta" ? zi.rainTa : zi.rain]].forEach(([k, v]) => {
+                dl.append(el("dt", null, k), el("dd", null, v));
+            });
+            box.appendChild(dl);
+            box.appendChild(el("h4", "sub-h", t("w_seasons")));
+            box.appendChild(el("p", null, t("w_maha")));
+            box.appendChild(el("p", null, t("w_yala")));
+            const link = el("a", "btn btn-ghost btn-sm", "🌾 " + t("nav_varieties"));
+            link.href = "varieties.html";
+            box.appendChild(link);
+        }
+
+        function useDistrict(id) {
+            const d = findDistrict(id);
+            AgriStore.set("agricare_district", d.id);
+            place = { lat: d.lat, lng: d.lng, district: d };
+            loadWeather();
+        }
+
+        $("w-retry").addEventListener("click", () => loadWeather());
+        $("w-district").addEventListener("change", e => useDistrict(e.target.value));
+        $("w-loc").addEventListener("click", () => {
+            if (!navigator.geolocation) return;
+            navigator.geolocation.getCurrentPosition(p => {
+                const d = nearestDistrict(p.coords.latitude, p.coords.longitude);
+                $("w-district").value = d.id;
+                AgriStore.set("agricare_district", d.id);
+                place = { lat: p.coords.latitude, lng: p.coords.longitude, district: d };
+                loadWeather();
+            }, () => { $("w-status").textContent = t("w_loc_denied"); });
+        });
+
+        let started = false;
+        document.addEventListener("agricare:lang", () => {
+            fillDistrictSelect($("w-district"), place ? place.district.id : myDistrictId());
+            if (!started) { started = true; useDistrict(myDistrictId()); }
+            else { renderClimate(); renderWeather(); }
+        });
+    </script>
+
+</body>
+</html>
