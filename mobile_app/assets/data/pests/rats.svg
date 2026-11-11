@@ -1,0 +1,16 @@
+<svg viewBox="0 0 200 140" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" role="img"><rect width="200" height="140" fill="#c8dab3"/><rect width="200" height="77" fill="#e3ecd6"/><rect y="112" width="200" height="28" fill="#8a6a45"/><rect y="112" width="200" height="4" fill="#9c7a52"/><path d="M33 114 Q26.4 67.2 20 36" stroke="#4f8a2a" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M34.5 114 Q31.2 72.816 28 45.36" stroke="#4f8a2a" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M36 114 Q36 67.2 36 36" stroke="#4f8a2a" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M37.5 114 Q40.8 72.816 44 45.36" stroke="#4f8a2a" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M39 114 Q45.6 67.2 52 36" stroke="#4f8a2a" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M70 114 L72 84" stroke="#4f8a2a" stroke-width="3"/>
+                 <path d="M68 86 l8 -5" stroke="#4f8a2a" stroke-width="2.4"/>
+                 <path d="M76 116 l18 -5" stroke="#9fb36a" stroke-width="2.4"/><path d="M84 114 L86 90" stroke="#4f8a2a" stroke-width="3"/>
+                 <path d="M82 92 l8 -5" stroke="#4f8a2a" stroke-width="2.4"/>
+                 <path d="M90 116 l18 -5" stroke="#9fb36a" stroke-width="2.4"/><path d="M160 114 L162 84" stroke="#4f8a2a" stroke-width="3"/>
+                 <path d="M158 86 l8 -5" stroke="#4f8a2a" stroke-width="2.4"/>
+                 <path d="M166 116 l18 -5" stroke="#9fb36a" stroke-width="2.4"/><path d="M174 114 L176 90" stroke="#4f8a2a" stroke-width="3"/>
+                 <path d="M172 92 l8 -5" stroke="#4f8a2a" stroke-width="2.4"/>
+                 <path d="M180 116 l18 -5" stroke="#9fb36a" stroke-width="2.4"/><ellipse cx="190" cy="122" rx="12" ry="6" fill="#3a2a1a"/>
+             <path d="M96 108 Q70 112 56 126 Q48 132 40 130" stroke="#8f8579" stroke-width="3" fill="none" stroke-linecap="round"/>
+             <ellipse cx="118" cy="104" rx="26" ry="14" fill="#7d7468"/>
+             <ellipse cx="146" cy="99" rx="13" ry="8.5" fill="#857b6e" transform="rotate(-12 146 99)"/>
+             <circle cx="139" cy="89" r="6" fill="#9a8f82"/><circle cx="139" cy="89" r="3.5" fill="#d9a7a0"/>
+             <circle cx="150" cy="96" r="1.8" fill="#111"/><circle cx="159" cy="98" r="2" fill="#d98a80"/>
+             <path d="M157 99 l10 -2 M157 100 l10 2" stroke="#5a524a" stroke-width=".8"/>
+             <path d="M104 116 l-3 6 M126 117 l2 6 M138 108 l5 8" stroke="#6a6258" stroke-width="3" stroke-linecap="round"/></svg>

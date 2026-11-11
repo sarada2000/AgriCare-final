@@ -126,3 +126,38 @@ Farmers press 📞 in the chat (or "Contact us" in the footer), pick their distr
 Put the numbers in ONE of these places:
 - **Officer Dashboard → Contact numbers** (easiest; saved in the database), or
 - `pages/contacts.js` – type each district's number between the quotes.
+
+## Mobile app (mobile_app/)
+Android app built with Flutter. It uses the same server, model and database as the website,
+so a farmer's account, scans and treatment plans are the same on the phone and on the web.
+
+Features
+- Scan a leaf with the camera or gallery: disease, confidence, top 3, listen to the result
+- Start a treatment plan, tick daily steps, reminders on the home screen
+- Disease library, pests, weed control with dose calculator, rice varieties, my crop calendar,
+  learning hub, weather with spraying advice
+- Ask AgriCare chat that works offline (English, Sinhala, Tamil)
+- Agro shops near a district (OpenStreetMap) with call and directions
+- Officer dashboard (only for officer accounts): overview, call requests, late steps,
+  farmers, latest scans, edit disease information, verified shops
+- English, Sinhala and Tamil, with recorded voice
+- Farm content works without internet (bundled in assets/data)
+
+Technology
+- Flutter 3.47, Dart 3.13, Material 3
+- Packages: http, image_picker, shared_preferences, audioplayers, url_launcher, flutter_svg
+- Tested on an Android 15 emulator (Pixel 6 Pro) and a Samsung Galaxy A32 (Android 13)
+
+Build and install
+    cd mobile_app
+    flutter pub get
+    python patch_android.py
+    flutter build apk --release
+    flutter install
+The APK is in build/app/outputs/flutter-apk/app-release.apk.
+
+Connect to the server
+1. Start the website server on the laptop (python app.py, port 8000).
+2. Put the phone and laptop on the same Wi-Fi or hotspot.
+3. Find the laptop address with ipconfig, e.g. 172.20.10.8.
+4. In the app, enter http://172.20.10.8:8000 (Android emulator: http://10.0.2.2:8000).

@@ -1,0 +1,28 @@
+name: agricare_app
+description: AgriCare mobile app - paddy disease detection for Sri Lankan farmers.
+publish_to: 'none'
+version: 1.1.0+2
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  http: ^1.2.0
+  image_picker: ^1.1.2
+  shared_preferences: ^2.3.0
+  audioplayers: ^6.1.0
+  url_launcher: ^6.3.0
+  flutter_svg: ^2.0.10
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/data/
+    - assets/data/pests/
